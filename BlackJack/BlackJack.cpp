@@ -1,6 +1,5 @@
 #include "BlackJack.h"
 
-//aaaa
 
 BlackJack::BlackJack(int Numberofdeck) {
 	deck = Deck(Numberofdeck, 0);
