@@ -1,9 +1,12 @@
 #pragma once
 #include "BlackJack.h"
-class BlackJackCulculator :
-    public BlackJack
-{
-protected:
-public:
-};
+
+namespace nagisakuya {
+    class BlackJackCulculator :
+        public BlackJack
+    {
+    protected:
+    public:
+    };
+}
 

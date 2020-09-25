@@ -1,5 +1,5 @@
 #include "BlackJack.h"
-
+using namespace nagisakuya;
 
 BlackJack::BlackJack(int Numberofdeck) {
 	deck = Deck(Numberofdeck, 0);
@@ -12,7 +12,7 @@ void BlackJack::Play() {
 	player.begin(deck.DrowRandom(), deck.DrowRandom());
 	player.act(&deck);
 	dealer.hituntil17(&deck, Soft17Hit);
-	player.Judge(dealer);
+	player.judge(dealer);
 }
 BlackJack::Option BlackJack::AskOption(bool Split_enable, bool DoubleDown_enable, bool Surrender_enable) {
 	string temp;
@@ -97,9 +97,11 @@ int BlackJack::Deck::size() {
 }
 
 
-BlackJack::Hand::Hand(string input) {
-	this->name = input;
-};
+BlackJack::Hand::Hand(string name, vector<int> input) {
+	this->name = name;
+	hand = input;
+}
+;
 void BlackJack::Hand::print() {
 	int sum = 0;
 	int AceCount = 0;
@@ -170,10 +172,11 @@ void BlackJack::PlayerHand::hit(BlackJack::Deck* deck)
 		if (std::get<0>(CheckHand()) >= 21 || AskOption(false, false) == Option::Stand) break;
 	}
 }
-BlackJack::PlayerHand::PlayerHand(string input) :BlackJack::Hand(input) {
+BlackJack::PlayerHand::PlayerHand(string name, vector<int> input) :BlackJack::Hand(name , input) {
 }
 BlackJack::PlayerHand BlackJack::PlayerHand::split()
 {
+	splitted = true;
 	name = "Primal" + name;
 	PlayerHand r = PlayerHand("Splitted" + name);
 	r.add(hand[1]);
@@ -181,7 +184,7 @@ BlackJack::PlayerHand BlackJack::PlayerHand::split()
 	return r;
 }
 bool BlackJack::PlayerHand::splittable() {
-	if (hand.size() == 2 && (hand[0] == hand[1] || hand[0] >= 9 && hand[1] >= 9))return true;
+	if (splitted == false && hand.size() == 2 && (hand[0] == hand[1] || hand[0] >= 9 && hand[1] >= 9))return true;
 	else return false;
 }
 
@@ -220,6 +223,11 @@ const std::map < string, BlackJack::Option> BlackJack::Abblist = {
 };
 
 
+bool BlackJack::Player::issplitted()
+{
+	return firsthand.get_splitted();
+}
+
 void BlackJack::Player::act(BlackJack::Deck* deck)
 {
 	switch (std::get<0>(firsthand.CheckHand()) >= 21 ? Option::Stand : AskOption(firsthand.splittable(), true)) {
@@ -235,7 +243,6 @@ void BlackJack::Player::act(BlackJack::Deck* deck)
 		break;
 	case Option::Split:
 		secondhand = firsthand.split();
-		splitted = true;
 		firsthand.hit(deck);
 		secondhand.hit(deck);
 		break;
@@ -257,12 +264,12 @@ void BlackJack::Player::begin(int first, int second)
 	firsthand.print();
 }
 
-void BlackJack::Player::Judge(BlackJack::Hand dealer)
+void BlackJack::Player::judge(BlackJack::Hand dealer)
 {
 	if (firsthand.get_result() != Result::undefined) return;
 	firsthand.set_result(BlackJack::Judge(firsthand, dealer));
 	cout << this->name << " Result:" << Rate.at(firsthand.get_result()).second << endl;
-	if (splitted == true) {
+	if (firsthand.get_splitted() == true) {
 		secondhand.set_result(BlackJack::Judge(secondhand, dealer));
 		cout << this->name << " Result:" << Rate.at(secondhand.get_result()).second << "(split)" << endl;
 	}

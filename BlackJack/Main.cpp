@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 #include "BlackJackCulculator.h"
+using namespace nagisakuya;
 
 int main()
 {
