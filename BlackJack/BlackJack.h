@@ -4,13 +4,15 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <nlohmann/json.hpp>
+
 using std::string;
 using std::vector;
 using std::cout;
 using std::cin;
 using std::endl;
-
 using std::tuple;
+using json = nlohmann::json;
 
 
 
@@ -52,6 +54,15 @@ protected:
 		bool get_doubled() { return doubled; }
 		void set_doubled(bool i) { doubled = i; }
 	};
+	Deck deck;
+	bool Soft17Hit = false;
+	bool SurrenderFlag = false;
+	bool DoubleAfterSplit = false;
+	const static std::map<Result, std::pair<double, string>>Rate;
+	const static std::map< string, BlackJack::Option> Abblist;
+
+	static BlackJack::Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
+public:
 	class Player {
 	protected:
 		bool splitted = false;
@@ -66,13 +77,6 @@ protected:
 		PlayerHand get_secondhand() { return secondhand; }
 		void Judge(BlackJack::Hand dealer);
 	};
-	Deck deck;
-	bool Soft17Hit = false;
-	bool SurrenderFlag = false;
-	const static std::map<Result, std::pair<double, string>>Rate;
-	const static std::map< string, BlackJack::Option> Abblist;
-	static BlackJack::Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
-public:
 	BlackJack(int Numberofdeck = 8);
 	void Play();
 	static BlackJack::Result Judge(PlayerHand player, Hand dealer);

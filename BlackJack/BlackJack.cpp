@@ -19,8 +19,8 @@ BlackJack::Option BlackJack::AskOption(bool Split_enable, bool DoubleDown_enable
 	for (;;) {
 		cout << "Hit(H) or Stand(S)";
 		if (DoubleDown_enable) cout << " or DoubleDown(D)";
-		if (Split_enable) cout << " or Split(SP)";
-		if (Surrender_enable) cout << " or Surrender(SU)";
+		if (Split_enable) cout << " or Split(P)";
+		if (Surrender_enable) cout << " or Surrender(R)";
 		cout << endl;
 		cin >> temp;
 		if (Abblist.count(temp) == 0 || (Split_enable == false && temp == "SP") || (DoubleDown_enable == false && temp == "D") || (Surrender_enable == false && temp == "SU")) {
@@ -170,7 +170,6 @@ void BlackJack::PlayerHand::hit(BlackJack::Deck* deck)
 		if (std::get<0>(CheckHand()) >= 21 || AskOption(false, false) == Option::Stand) break;
 	}
 }
-
 BlackJack::PlayerHand::PlayerHand(string input) :BlackJack::Hand(input) {
 }
 BlackJack::PlayerHand BlackJack::PlayerHand::split()
@@ -216,8 +215,8 @@ const std::map < string, BlackJack::Option> BlackJack::Abblist = {
 	{"H"	,Option::Hit},
 	{"S"	,Option::Stand},
 	{"D"	,Option::DoubleDown},
-	{"SP"	,Option::Split},
-	{"SU"	,Option::Surrender}
+	{"P"	,Option::Split},
+	{"R"	,Option::Surrender}
 };
 
 
