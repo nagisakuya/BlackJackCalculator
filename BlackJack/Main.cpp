@@ -4,14 +4,16 @@
 #include <ctime>
 #include <iostream>
 #include "BlackJackCulculator.h"
-using namespace nagisakuya;
+using namespace nagisakuya::BlackJack;
+using namespace std;
 
 int main()
 {
     srand((unsigned int)time(NULL));
-    BlackJack test;
+    Table test;
 
 	string temp_s;
+	//test.addplayer(Player(1));
 	for (size_t i = 0; ; i++)
 	{
 		test.Play();

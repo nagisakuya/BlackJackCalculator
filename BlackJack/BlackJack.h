@@ -6,20 +6,11 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-using std::string;
-using std::vector;
-using std::cout;
-using std::cin;
-using std::endl;
-using std::tuple;
-using json = nlohmann::json;
-
 
 namespace nagisakuya {
-	class BlackJack {
-	protected:
-		enum class Option { Hit, Stand, DoubleDown, Split, Surrender };
+	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
+		enum class Option { Hit, Stand, DoubleDown, Split, Surrender };
 		class Deck {
 		private:
 			int content[14];
@@ -31,23 +22,23 @@ namespace nagisakuya {
 		};
 		class Hand {
 		protected:
-			vector<int> hand;
-			string name;
+			std::vector<int> hand;
+			std::string name;
 		public:
+			Hand(std::string name = "hand", std::vector<int> input = {});
 			void add(int i);
 			void print();
-			Hand(string name, vector<int> input = {});
-			tuple<int, bool, bool> CheckHand();
-			void hituntil17(BlackJack::Deck* deck, bool Soft17Hit = false);
+			std::tuple<int, bool, bool> CheckHand();
+			void hituntil17(Deck* deck, bool Soft17Hit = false);
 		};
-		class PlayerHand :public BlackJack::Hand {
+		class PlayerHand :public Hand {
 		protected:
 			Result result = Result::undefined;
 			bool splitted = false;
 			bool doubled = false;
 		public:
-			PlayerHand(string name = "Player's hand", vector<int> input = {});
-			void hit(BlackJack::Deck* deck);
+			PlayerHand(std::string name = "Player's hand", std::vector<int> input = {});
+			void hit(Deck* deck);
 			PlayerHand split();
 			bool splittable();
 			void set_result(Result r) { result = r; }
@@ -55,31 +46,39 @@ namespace nagisakuya {
 			bool get_splitted() { return splitted; }
 			bool get_doubled() { return doubled; }
 			void set_doubled(bool i) { doubled = i; }
+			std::string get_name() { return name; }
 		};
-		Deck deck;
-		bool Soft17Hit = false;
-		bool SurrenderFlag = false;
-		bool DoubleAfterSplit = false;
-		const static std::map<Result, std::pair<double, string>>Rate;
-		const static std::map< string, BlackJack::Option> Abblist;
-		static BlackJack::Result Judge(PlayerHand player, Hand dealer);
-		static string Translate(int input);
-		static BlackJack::Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
-	public:
 		class Player {
 		protected:
-			string name;
-			BlackJack::PlayerHand firsthand, secondhand;
+			std::string name;
+			int ID;
 		public:
+			PlayerHand firsthand, secondhand;
+			Player(int ID, std::string name = "Player");
 			bool issplitted();
-			void act(BlackJack::Deck* deck);
-			Player(string name = "Player");
+			void act(Deck* deck);
 			void begin(int first, int second);
-			BlackJack::PlayerHand get_firsthand() { return firsthand; }
-			BlackJack::PlayerHand get_secondhand() { return secondhand; }
-			void judge(BlackJack::Hand dealer);
+			int get_ID() { return ID; }
+			std::string get_name() { return name; }
 		};
-		BlackJack(int Numberofdeck = 8);
-		void Play();
-	};
+		class Table {
+		protected:
+			Deck deck;
+			Hand dealer;
+			std::map<int, Player> PlayerList;
+			bool Soft17Hit = false;
+			bool SurrenderFlag = false;
+			bool DoubleAfterSplit = false;
+			std::map<Result, double>Rate;
+			const static std::map< Result, std::string> ResulttoString;
+		public:
+			void addplayer(Player input);
+			static Result Judge(PlayerHand player, Hand dealer);
+			Table(int Numberofdeck = 8, double BlackJackrate = 2.5);
+			void Play();
+		};
+		std::string Translate(int input);
+		Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
+	}
+	
 }
