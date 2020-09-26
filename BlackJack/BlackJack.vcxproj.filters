@@ -30,10 +30,10 @@
     <ClCompile Include="BlackJack_Deck.cpp">
       <Filter>ソース ファイル\BlackJack</Filter>
     </ClCompile>
-    <ClCompile Include="BlackJack_hand.cpp">
+    <ClCompile Include="BlackJack_table.cpp">
       <Filter>ソース ファイル\BlackJack</Filter>
     </ClCompile>
-    <ClCompile Include="BlackJack_table.cpp">
+    <ClCompile Include="BlackJack_Hand.cpp">
       <Filter>ソース ファイル\BlackJack</Filter>
     </ClCompile>
   </ItemGroup>
