@@ -1,14 +1,7 @@
 #include "BlackJack.h"
 
 using namespace nagisakuya::BlackJack;
-using std::string;
-using std::vector;
-using std::cout;
-using std::cin;
-using std::endl;
-using std::tuple;
-using std::pair;
-using std::map;
+using namespace std;
 using json = nlohmann::json;
 
 Table::Table(int Numberofdeck, double BlackJackrate) {
@@ -32,32 +25,31 @@ void Table::Play() {
 	dealer.add(deck.DrowRandom());
 	dealer.print();
 	//関数ポインタでplayereach関数をを作ろうと思った
-	for (auto i = PlayerList.begin(); i != PlayerList.end(); ++i)
+	for (Player& i : PlayerList)
 	{
-		i->second.begin(deck.DrowRandom(), deck.DrowRandom());
+		i.hand.first.add(deck.DrowRandom());
+		i.hand.first.add(deck.DrowRandom());
+		i.hand.first.print();
 	}
-	for (auto i = PlayerList.begin(); i != PlayerList.end(); ++i)
+	for (Player& i : PlayerList)
 	{
-		i->second.act(&deck);
+		i.play(&deck, SurrenderFlag);
 	}
 	dealer.hituntil17(&deck, Soft17Hit);
-	for (auto i = PlayerList.begin(); i != PlayerList.end(); ++i)
+	for (Player& i : PlayerList)
 	{
-		i->second.act(&deck);
+		i.play(&deck, SurrenderFlag);
 	}
-	for (auto i = PlayerList.begin(); i != PlayerList.end(); ++i)
+	for (Player& i : PlayerList)
 	{
-		i->second.firsthand.set_result(Table::Judge(i->second.firsthand, dealer));
-		cout << i->second.firsthand.get_name() << " Result:" << ResulttoString.at(i->second.firsthand.get_result()) << endl;
-		if (i->second.firsthand.get_splitted() == true) {
-			i->second.secondhand.set_result(Table::Judge(i->second.secondhand, dealer));
-			cout << i->second.secondhand.get_name() << " Result:" << ResulttoString.at(i->second.secondhand.get_result()) << endl;
-		}
+		i.hand.first.judge(dealer);
+		if(i.hand.first.get_splitted()==true)i.hand.second.judge(dealer);
 	}
 }
-Option nagisakuya::BlackJack::AskOption(bool Split_enable, bool DoubleDown_enable, bool Surrender_enable) {
+void Table::Test() {}
+Option PlayerHand::AskOption(bool Split_enable, bool DoubleDown_enable, bool Surrender_enable) {
 	string temp;
-	for (;;) {
+	while (true) {
 		cout << "Hit(H) or Stand(S)";
 		if (DoubleDown_enable) cout << " or DoubleDown(D)";
 		if (Split_enable) cout << " or Split(P)";
@@ -72,11 +64,19 @@ Option nagisakuya::BlackJack::AskOption(bool Split_enable, bool DoubleDown_enabl
 		else cout << "error " << temp << " is out of option" << endl;;
 	}
 }
-void nagisakuya::BlackJack::Table::addplayer(Player input)
+bool Table::addplayer(Player input)
 {
-	PlayerList.emplace(input.get_ID(), input);
+	int input_id = input.get_ID();
+	for (auto i : PlayerList) {
+		if (i.get_ID() == input_id) {
+			cout << "The player is already on This table" << endl;
+			return false;
+		}
+	}
+	PlayerList.push_back(input);
+	return true;
 }
-Result Table::Judge(PlayerHand playerhand, Hand dealer) {
+Result nagisakuya::BlackJack::Judge(PlayerHand playerhand, Hand dealer) {
 	if (playerhand.get_result() != Result::undefined)return playerhand.get_result();
 	int dealer_sum, player_sum;
 	bool playerBJ, dealerBJ;
@@ -136,9 +136,9 @@ int Deck::DrowRandom() {
 }
 int Deck::size() {
 	int sum = 0;
-	for (size_t i = 0; i < 14; i++)
+	for (int i : content)
 	{
-		sum += content[i];
+		sum += i;
 	}
 	return sum;
 }
@@ -234,6 +234,37 @@ bool PlayerHand::splittable() {
 	else return false;
 }
 
+void PlayerHand::judge(Hand dealer)
+{
+	if (result == Result::undefined) {
+		result = Judge(*this, dealer);
+		cout << name << " Result:" << ResulttoString.at(get_result()) << endl;
+	}
+}
+
+Option PlayerHand::play(Deck* deck,bool Split_enable, bool DoubleDown_enable, bool Surrender_enable)
+{
+	switch (std::get<0>(CheckHand()) >= 21 ? Option::Stand : AskOption(Split_enable, DoubleDown_enable,Surrender_enable)) {
+	case Option::Hit:
+		add(deck->DrowRandom());
+		print();
+		play(deck);
+		return Option::Hit;
+	case Option::Stand:
+		return Option::Stand;
+	case Option::DoubleDown:
+		doubled = true;
+		add(deck->DrowRandom());
+		print();
+		return Option::DoubleDown;
+	case Option::Split:
+		return Option::Split;
+	case Option::Surrender:
+		result = Result::Surrender;
+		return Option::Surrender;
+	}
+}
+
 string nagisakuya::BlackJack::Translate(int input) {
 	switch (input) {
 	case 0:
@@ -250,7 +281,7 @@ string nagisakuya::BlackJack::Translate(int input) {
 		return std::to_string(input + 1);
 	}
 }
-const map< Result, string> Table::ResulttoString = {
+const map< Result, string> PlayerHand::ResulttoString = {
 	{Result::Win		,"Win"},
 	{Result::Lose		,"Lose"},
 	{Result::Tie		,"Tie"},
@@ -260,46 +291,24 @@ const map< Result, string> Table::ResulttoString = {
 	{Result::DoubledLose,"DoubledLose"}
 };
 
-
-bool Player::issplitted()
-{
-	return firsthand.get_splitted();
-}
-
-void Player::act(Deck* deck)
-{
-
-	switch (std::get<0>(firsthand.CheckHand()) >= 21 ? Option::Stand : AskOption(firsthand.splittable(), true)) {
-	case Option::Hit:
-		firsthand.hit(deck);
-		break;
-	case Option::Stand:
-		break;
-	case Option::DoubleDown:
-		firsthand.set_doubled(true);
-		firsthand.add(deck->DrowRandom());
-		firsthand.print();
-		break;
-	case Option::Split:
-		secondhand = firsthand.split();
-		firsthand.hit(deck);
-		secondhand.hit(deck);
-		break;
-	case Option::Surrender:
-		firsthand.set_result(Result::Surrender);
-		break;
-	}
-}
-
 Player::Player(int ID, string name)
 {
 	this->name = name;
 	this->ID = ID;
-	firsthand = PlayerHand(name + "'s hand");
+	hand.first = PlayerHand(name + "'s hand");
 }
-void Player::begin(int first, int second)
+
+bool Player::issplitted()
 {
-	firsthand.add(first);
-	firsthand.add(second);
-	firsthand.print();
+	return hand.first.get_splitted();
+}
+
+void Player::play(Deck* deck,bool Surrender_enable)
+{
+	if (hand.first.play(deck, hand.first.splittable(), true, Surrender_enable) == Option::Split) {
+		hand.second = hand.first.split();
+		hand.first.play(deck);
+		hand.second.play(deck);
+	}
+	
 }
