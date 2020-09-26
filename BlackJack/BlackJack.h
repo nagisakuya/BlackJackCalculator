@@ -29,7 +29,8 @@ namespace nagisakuya {
 			void add(int i);
 			void print();
 			std::tuple<int, bool, bool> CheckHand();
-			void hituntil17(Deck* deck, bool Soft17Hit = false);
+			void hituntil17(Deck* deck, std::map<std::string, bool> rule);
+			void print_upcard();
 		};
 		class PlayerHand :public Hand {
 		protected:
@@ -41,10 +42,10 @@ namespace nagisakuya {
 		public:
 			PlayerHand(std::string name = "Player's hand", std::vector<int> input = {});
 			void hit(Deck* deck);
-			PlayerHand split();
+			PlayerHand split(Deck* deck);
 			bool splittable();
 			void judge(Hand dealer);
-			Option play(Deck* deck, bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
+			Option play(Deck* deck, std::map<std::string, bool> rule, bool IsTheFirst);
 			Result get_result() { return result; }
 			bool get_splitted() { return splitted; }
 			bool get_doubled() { return doubled; }
@@ -53,13 +54,13 @@ namespace nagisakuya {
 		class Player {
 		protected:
 			std::string name;
-			int ID;
+			int id;
 		public:
 			std::pair<PlayerHand, PlayerHand> hand;
 			Player(int ID, std::string name = "Player");
 			bool issplitted();
-			void play(Deck* deck, bool Surrender_enable);
-			int get_ID() { return ID; }
+			void play(Deck* deck, std::map<std::string, bool> rule);
+			int get_ID() { return id; }
 			std::string get_name() { return name; }
 		};
 		class Table {
@@ -67,9 +68,7 @@ namespace nagisakuya {
 			Deck deck;
 			Hand dealer;
 			std::vector< Player> PlayerList;
-			bool Soft17Hit = false;
-			bool SurrenderFlag = false;
-			bool DoubleAfterSplit = false;
+			std::map<std::string, bool> Rule;
 			std::map<Result, double>Rate;
 		public:
 			void Test();
@@ -80,5 +79,5 @@ namespace nagisakuya {
 		Result Judge(PlayerHand player, Hand dealer);
 		std::string Translate(int input);
 	}
-	
+
 }

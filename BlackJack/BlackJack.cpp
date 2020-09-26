@@ -15,31 +15,35 @@ Table::Table(int Numberofdeck, double BlackJackrate) {
 	{Result::DoubledWin	,4},
 	{Result::DoubledLose,-1}
 	};
+	Rule = {
+	{"Soft17Hit",false},
+	{"Surrender",false},
+	{"DoubleAfterSplit",false}
+	};
 }
 void Table::Play() {
 	if (PlayerList.size() == 0) {
 		cout << "there is no player" << endl;
 		return;
 	}
-	Hand dealer = Hand("Dealer's hand");
+	Hand dealer = Hand("Dealer hand");
+	for (Player& i : PlayerList)
+	{
+		i.hand.first = PlayerHand(i.get_name() + " hand");
+	}
 	dealer.add(deck.DrowRandom());
-	dealer.print();
+	dealer.print_upcard();
 	//関数ポインタでplayereach関数をを作ろうと思った
 	for (Player& i : PlayerList)
 	{
 		i.hand.first.add(deck.DrowRandom());
 		i.hand.first.add(deck.DrowRandom());
-		i.hand.first.print();
 	}
 	for (Player& i : PlayerList)
 	{
-		i.play(&deck, SurrenderFlag);
+		i.play(&deck, Rule);
 	}
-	dealer.hituntil17(&deck, Soft17Hit);
-	for (Player& i : PlayerList)
-	{
-		i.play(&deck, SurrenderFlag);
-	}
+	dealer.hituntil17(&deck, Rule);
 	for (Player& i : PlayerList)
 	{
 		i.hand.first.judge(dealer);
@@ -195,16 +199,20 @@ tuple<int, bool, bool> Hand::CheckHand() {
 	}
 	return { sum ,AceCount == 0 ? false : true ,(size == 2 && sum == 21) ? true : false };
 }
-void Hand::hituntil17(Deck* deck, bool Soft17Hit)
+void Hand::hituntil17(Deck* deck, std::map<std::string, bool> rule)
 {
 	int sum;
 	bool soft;
 	for (;;) {
 		this->add(deck->DrowRandom());
 		std::tie(sum, soft, std::ignore) = this->CheckHand();
-		if (sum >= 17 && !(soft == true && sum == 17 && Soft17Hit == true)) break;
+		if (sum >= 17 && !(soft == true && sum == 17 && rule.at("Soft17Hit") == true)) break;
 	}
 	this->print();
+}
+void nagisakuya::BlackJack::Hand::print_upcard()
+{
+	cout << name << " up card is " << Translate(hand[0]) << endl;
 }
 void Hand::add(int i) {
 	hand.push_back(i);
@@ -220,13 +228,13 @@ void PlayerHand::hit(Deck* deck)
 }
 PlayerHand::PlayerHand(string name, vector<int> input) :Hand(name, input) {
 }
-PlayerHand PlayerHand::split()
+PlayerHand PlayerHand::split(Deck* deck)
 {
 	splitted = true;
 	name = "Primal" + name;
-	PlayerHand r = PlayerHand("Splitted" + name);
-	r.add(hand[1]);
+	PlayerHand r = PlayerHand("Splitted" + name, { hand[1] ,deck->DrowRandom()});
 	hand.pop_back();
+	add(deck->DrowRandom());
 	return r;
 }
 bool PlayerHand::splittable() {
@@ -242,13 +250,13 @@ void PlayerHand::judge(Hand dealer)
 	}
 }
 
-Option PlayerHand::play(Deck* deck,bool Split_enable, bool DoubleDown_enable, bool Surrender_enable)
+Option PlayerHand::play(Deck* deck, map<string, bool> rule, bool IsTheFirst)
 {
-	switch (std::get<0>(CheckHand()) >= 21 ? Option::Stand : AskOption(Split_enable, DoubleDown_enable,Surrender_enable)) {
+	print();
+	switch (std::get<0>(CheckHand()) >= 21 ? Option::Stand : AskOption(IsTheFirst && splittable(),IsTheFirst,rule.at("Surrender"))) {
 	case Option::Hit:
 		add(deck->DrowRandom());
-		print();
-		play(deck);
+		play(deck, rule, false);
 		return Option::Hit;
 	case Option::Stand:
 		return Option::Stand;
@@ -263,6 +271,7 @@ Option PlayerHand::play(Deck* deck,bool Split_enable, bool DoubleDown_enable, bo
 		result = Result::Surrender;
 		return Option::Surrender;
 	}
+	return Option();
 }
 
 string nagisakuya::BlackJack::Translate(int input) {
@@ -294,7 +303,7 @@ const map< Result, string> PlayerHand::ResulttoString = {
 Player::Player(int ID, string name)
 {
 	this->name = name;
-	this->ID = ID;
+	this->id = ID;
 	hand.first = PlayerHand(name + "'s hand");
 }
 
@@ -303,12 +312,12 @@ bool Player::issplitted()
 	return hand.first.get_splitted();
 }
 
-void Player::play(Deck* deck,bool Surrender_enable)
+void Player::play(Deck* deck, map<string, bool> rule)
 {
-	if (hand.first.play(deck, hand.first.splittable(), true, Surrender_enable) == Option::Split) {
-		hand.second = hand.first.split();
-		hand.first.play(deck);
-		hand.second.play(deck);
+	if (hand.first.play(deck, rule,true) == Option::Split) {
+		hand.second = hand.first.split(deck);
+		hand.first.play(deck,rule,false);
+		hand.second.play(deck, rule,false);
 	}
 	
 }
