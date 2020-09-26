@@ -20,6 +20,7 @@ namespace nagisakuya {
 		class Deck {
 		private:
 			int content[14];
+			int first_size;
 		public:
 			Deck(int NumberofDeck = 1, int Joker = 2);
 			void print();
@@ -32,15 +33,15 @@ namespace nagisakuya {
 			std::string name;
 		public:
 			Hand(std::string name = "hand", std::vector<int> input = {});
-			void add(int i);
+			void add(int input);
 			virtual void print();
 			std::tuple<int, bool, bool> CheckHand();
 		};
 		class DealerHand :public Hand{
 		public:
 			DealerHand(std::string name = "Dealer hand", std::vector<int> input = {});
-			void hituntil17(Deck* deck, Rule rule);
 			void print();
+			void hituntil17(Deck* deck, Rule rule);
 		};
 		class PlayerHand :public Hand {
 		protected:
@@ -51,15 +52,13 @@ namespace nagisakuya {
 			static Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
 		public:
 			PlayerHand(std::string name = "Player's hand", std::vector<int> input = {});
-			void hit(Deck* deck);
-			PlayerHand split(Deck* deck);
 			bool splittable();
-			void judge(DealerHand dealer);
+			PlayerHand split(Deck* deck);
 			Option play(Deck* deck, Rule rule, bool IsTheFirst);
-			Result get_result() { return result; }
+			void judge(DealerHand dealer);
 			bool get_splitted() { return splitted; }
 			bool get_doubled() { return doubled; }
-			std::string get_name() { return name; }
+			Result get_result() { return result; }
 		};
 		class Player {
 		protected:
@@ -68,7 +67,6 @@ namespace nagisakuya {
 		public:
 			std::pair<PlayerHand, PlayerHand> hand;
 			Player(int ID, std::string name = "Player");
-			bool issplitted();
 			void play(Deck* deck,Rule rule);
 			int get_ID() { return id; }
 			std::string get_name() { return name; }
@@ -82,7 +80,6 @@ namespace nagisakuya {
 			std::map<Result, double>Rate;
 		public:
 			Table(int Numberofdeck = 8, Rule rule = Rule() ,double BlackJackRate = 2.5);
-			void Test();
 			bool addplayer(Player input);
 			void play();
 		};
