@@ -11,6 +11,12 @@ namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
 		enum class Option { Hit, Stand, DoubleDown, Split, Surrender };
+		class Rule {
+			std::map<std::string, bool> list;
+		public:
+			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
+			bool get(std::string input) { return list.at(input); }
+		};
 		class Deck {
 		private:
 			int content[14];
@@ -27,10 +33,14 @@ namespace nagisakuya {
 		public:
 			Hand(std::string name = "hand", std::vector<int> input = {});
 			void add(int i);
-			void print();
+			virtual void print();
 			std::tuple<int, bool, bool> CheckHand();
-			void hituntil17(Deck* deck, std::map<std::string, bool> rule);
-			void print_upcard();
+		};
+		class DealerHand :public Hand{
+		public:
+			DealerHand(std::string name = "Dealer hand", std::vector<int> input = {});
+			void hituntil17(Deck* deck, Rule rule);
+			void print();
 		};
 		class PlayerHand :public Hand {
 		protected:
@@ -44,8 +54,8 @@ namespace nagisakuya {
 			void hit(Deck* deck);
 			PlayerHand split(Deck* deck);
 			bool splittable();
-			void judge(Hand dealer);
-			Option play(Deck* deck, std::map<std::string, bool> rule, bool IsTheFirst);
+			void judge(DealerHand dealer);
+			Option play(Deck* deck, Rule rule, bool IsTheFirst);
 			Result get_result() { return result; }
 			bool get_splitted() { return splitted; }
 			bool get_doubled() { return doubled; }
@@ -59,24 +69,24 @@ namespace nagisakuya {
 			std::pair<PlayerHand, PlayerHand> hand;
 			Player(int ID, std::string name = "Player");
 			bool issplitted();
-			void play(Deck* deck, std::map<std::string, bool> rule);
+			void play(Deck* deck,Rule rule);
 			int get_ID() { return id; }
 			std::string get_name() { return name; }
 		};
 		class Table {
 		protected:
 			Deck deck;
-			Hand dealer;
+			DealerHand dealer;
 			std::vector< Player> PlayerList;
-			std::map<std::string, bool> Rule;
+			Rule rule;
 			std::map<Result, double>Rate;
 		public:
+			Table(int Numberofdeck = 8, Rule rule = Rule() ,double BlackJackRate = 2.5);
 			void Test();
 			bool addplayer(Player input);
-			Table(int Numberofdeck = 8, double BlackJackrate = 2.5);
-			void Play();
+			void play();
 		};
-		Result Judge(PlayerHand player, Hand dealer);
+		Result Judge(PlayerHand player, DealerHand dealer);
 		std::string Translate(int input);
 	}
 
