@@ -4,18 +4,16 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <nlohmann/json.hpp>
 
 
 namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
 		enum class Option { Hit, Stand, DoubleDown, Split, Surrender };
-		class Rule {
-			std::map<std::string, bool> list;
+		class Rule : std::map<std::string, bool> {
 		public:
 			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
-			bool get(std::string input) { return list.at(input); }
+			bool get(std::string input) { return at(input); }
 		};
 		class Deck {
 		private:

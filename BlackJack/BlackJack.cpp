@@ -6,9 +6,9 @@ namespace nagisakuya {
 	namespace BlackJack {
 		Rule::Rule(bool Soft17Hit, bool Surrender, bool DoubleAfterSplit)
 		{
-			list.emplace("Soft17Hit", Soft17Hit);
-			list.emplace("Surrender", Surrender);
-			list.emplace("DoubleAfterSplit", DoubleAfterSplit);
+			emplace("Soft17Hit", Soft17Hit);
+			emplace("Surrender", Surrender);
+			emplace("DoubleAfterSplit", DoubleAfterSplit);
 		}
 
 
