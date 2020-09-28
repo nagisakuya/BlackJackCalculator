@@ -6,6 +6,7 @@ namespace nagisakuya {
 	namespace BlackJack {
 		Table::Table(int Numberofdeck, Rule rule, double BlackJackRate) {
 			deck = Deck(Numberofdeck, 0);
+			this->rule = rule;
 			Rate = {
 			{Result::Win		,2},
 			{Result::Lose		,0},
@@ -24,7 +25,7 @@ namespace nagisakuya {
 			}
 			DealerHand dealer = DealerHand("Dealer hand", { deck.DrowRandom() });
 			dealer.print();
-			//関数ポインタでplayereach関数をを作ろうと思った
+			//関数ポインタでplayereach関数をを作ろうと思ったが、内部で1関数以上処理したりするししなくていいか？
 			for (Player& i : PlayerList)
 			{
 				i.hand.first = PlayerHand(i.get_name() + " hand", { deck.DrowRandom() ,deck.DrowRandom() });
@@ -33,7 +34,7 @@ namespace nagisakuya {
 			{
 				i.play(&deck, rule);
 			}
-			dealer.hituntil17(&deck, rule);
+			dealer.hituntil17(deck, rule);
 			for (Player& i : PlayerList)
 			{
 				i.hand.first.judge(dealer);

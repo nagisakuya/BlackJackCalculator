@@ -29,7 +29,7 @@ namespace nagisakuya {
 			hand.push_back(input);
 		}
 
-		void Hand::print() {
+		void Hand::print() const {
 			int sum = 0;
 			int AceCount = 0;
 			cout << name << " is ";
@@ -54,7 +54,12 @@ namespace nagisakuya {
 			cout << " sum is " << sum << endl;
 		}
 
-		tuple<int, bool, bool> Hand::CheckHand() {
+		size_t Hand::size() const
+		{
+			return hand.size();
+		}
+
+		tuple<int, bool, bool> Hand::CheckHand() const {
 			int sum = 0;
 			int AceCount = 0;
 			size_t size = hand.size();
@@ -82,7 +87,7 @@ namespace nagisakuya {
 		DealerHand::DealerHand(string name, vector<int> input) :Hand(name, input) {
 		}
 
-		void DealerHand::print()
+		void DealerHand::print() const
 		{
 			if (hand.size() == 1) {
 				cout << name << " up card is " << Translate(hand[0]) << endl;
@@ -90,16 +95,16 @@ namespace nagisakuya {
 			else Hand::print();
 		}
 
-		void DealerHand::hituntil17(Deck* deck, Rule rule)
+		void DealerHand::hituntil17(Deck& deck, Rule const& rule)
 		{
 			int sum;
 			bool soft;
 			for (;;) {
-				this->add(deck->DrowRandom());
-				std::tie(sum, soft, std::ignore) = this->CheckHand();
-				if (sum >= 17 && !(soft == true && sum == 17 && rule.get("Soft17Hit") == true)) break;
+				add(deck.DrowRandom());
+				std::tie(sum, soft, std::ignore) = CheckHand();
+				if (sum >= 17 && !(soft == true && sum == 17 && rule.at(RuleList::Soft17Hit) == true)) break;
 			}
-			this->print();
+			print();
 		}
 
 
@@ -113,10 +118,11 @@ namespace nagisakuya {
 			{Result::DoubledLose,"DoubledLose"}
 		};
 
-		PlayerHand::PlayerHand(string name, vector<int> input) :Hand(name, input) {
+		PlayerHand::PlayerHand(string name, vector<int> input, bool splitted) :Hand(name, input) {
+			this->splitted = splitted;
 		}
 
-		bool PlayerHand::splittable() {
+		bool PlayerHand::splittable() const {
 			if (splitted == false && hand.size() == 2 && (hand[0] == hand[1] || hand[0] >= 9 && hand[1] >= 9))return true;
 			else return false;
 		}
@@ -125,19 +131,24 @@ namespace nagisakuya {
 		{
 			splitted = true;
 			name = "Primal" + name;
-			PlayerHand r = PlayerHand("Splitted" + name, { hand[1] ,deck->DrowRandom() });
+			PlayerHand r = PlayerHand("Splitted" + name, { hand[1] ,deck->DrowRandom() }, true);
 			hand.pop_back();
 			add(deck->DrowRandom());
 			return r;
 		}
 
-		Option PlayerHand::play(Deck* deck, Rule rule, bool IsTheFirst)
+		Option PlayerHand::play(Deck* deck, Rule const& rule)
 		{
+			bool IsTheFirst = (size() == 2);
 			print();
-			switch (std::get<0>(CheckHand()) >= 21 ? Option::Stand : AskOption(IsTheFirst && splittable(), IsTheFirst, rule.get("Surrender"))) {
+			switch (std::get<0>(CheckHand()) >= 21 ? Option::Stand : AskOption(
+				IsTheFirst && splittable(),
+				splitted == true ? IsTheFirst && rule.at(RuleList::DoubleAfterSplit) : IsTheFirst,
+				rule.at(RuleList::Surrender) && IsTheFirst && splitted == false)
+				) {
 			case Option::Hit:
 				add(deck->DrowRandom());
-				play(deck, rule, false);
+				play(deck, rule);
 				return Option::Hit;
 			case Option::Stand:
 				return Option::Stand;
@@ -155,12 +166,12 @@ namespace nagisakuya {
 			return Option();
 		}
 
-		void PlayerHand::judge(DealerHand dealer)
+		void PlayerHand::judge(DealerHand const& dealer)
 		{
 			if (result == Result::undefined) {
 				result = Judge(*this, dealer);
-				cout << name << " Result:" << ResulttoString.at(get_result()) << endl;
 			}
+			cout << name << " Result:" << ResulttoString.at(get_result()) << endl;
 		}
 
 	}

@@ -1,14 +1,13 @@
 ﻿#include <ctime>
 #include <iostream>
-#include "BlackJackCulculator.h"
+#include "BlackJack.h"
 using namespace nagisakuya::BlackJack;
 using namespace std;
 
 int main()
 {
     srand((unsigned int)time(NULL));
-    Table test;
-
+	Table test(8, Rule(false, true, true));
 	string temp_s;
 	test.addplayer(Player(1));
 	for (size_t i = 0; ; i++)

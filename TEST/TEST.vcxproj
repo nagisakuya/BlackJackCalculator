@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{96993d12-1cef-4df1-bae1-28908dc7a540}</ProjectGuid>
-    <RootNamespace>BlackJack</RootNamespace>
+    <ProjectGuid>{3d58f0c7-32b6-4d84-b374-e4430e80b0a9}</ProjectGuid>
+    <RootNamespace>TEST</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -88,7 +88,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,24 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BlackJack.cpp" />
-    <ClCompile Include="BlackJack_Deck.cpp" />
-    <ClCompile Include="BlackJack_Hand.cpp" />
-    <ClCompile Include="BlackJack_Table.cpp" />
-    <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BlackJack.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BlackJackStrategy.json" />
+    <ClCompile Include="TEST.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

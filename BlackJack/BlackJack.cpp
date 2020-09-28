@@ -6,11 +6,10 @@ namespace nagisakuya {
 	namespace BlackJack {
 		Rule::Rule(bool Soft17Hit, bool Surrender, bool DoubleAfterSplit)
 		{
-			emplace("Soft17Hit", Soft17Hit);
-			emplace("Surrender", Surrender);
-			emplace("DoubleAfterSplit", DoubleAfterSplit);
+			emplace(RuleList::Soft17Hit, Soft17Hit);
+			emplace(RuleList::Surrender, Surrender);
+			emplace(RuleList::DoubleAfterSplit, DoubleAfterSplit);
 		}
-
 
 		Player::Player(int ID, string name)
 		{
@@ -18,19 +17,17 @@ namespace nagisakuya {
 			this->id = ID;
 			hand.first = PlayerHand(name + "'s hand");
 		}
-
-		void Player::play(Deck* deck, Rule rule)
+		void Player::play(Deck* deck, Rule const& rule)
 		{
-			if (hand.first.play(deck, rule, true) == Option::Split) {
+			if (hand.first.play(deck, rule) == Option::Split) {
 				hand.second = hand.first.split(deck);
-				hand.first.play(deck, rule, false);
-				hand.second.play(deck, rule, false);
+				hand.first.play(deck, rule);
+				hand.second.play(deck, rule);
 			}
 
 		}
 
-
-		Result Judge(PlayerHand playerhand, DealerHand dealer) {
+		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer) {
 			if (playerhand.get_result() != Result::undefined)return playerhand.get_result();
 			int dealer_sum, player_sum;
 			bool playerBJ, dealerBJ;
@@ -61,7 +58,7 @@ namespace nagisakuya {
 				}
 			}
 		}
-
+		
 		string Translate(int input) {
 			switch (input) {
 			case 0:
