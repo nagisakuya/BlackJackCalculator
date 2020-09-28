@@ -16,7 +16,7 @@ namespace nagisakuya {
 					for (int k = 10; k-- > 0; )
 					{
 						temp = WhattoDo(((Deck(1) - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }));
-						sum += temp.second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)deck.count(j) * (double)deck.count(k));
+						sum += temp.second * (i == j ? 1 : 2) * ((double)deck.count(i) * ((double)deck.count(j) - (i == j ? 1 : 0)) * ((double)deck.count(k) - (j == k ? 1 : 0) - (i == k ? 1 : 0)));
 					}
 				}
 			}
@@ -92,7 +92,7 @@ namespace nagisakuya {
 			bool BJ;
 			tie(sum, ignore, BJ) = player.CheckHand();
 			if (BJ == true) {
-				file << "Stand:" << 2.5 << "\t";
+				file << "Stand:" << (1 - DealerExpection(deck, dealer)[6]) * Rate.at(Result::BlackJack) << "\t";
 				file << "Hit:undefined" << "\t";
 				file << "Double:undefined" << "\t";
 				file << "Split:undefined" << "\t";
