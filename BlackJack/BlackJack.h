@@ -10,7 +10,7 @@
 namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
-		enum class Option { Hit, Stand, DoubleDown, Split, Surrender };
+		enum class Option { Hit, Stand, DoubleDown, Split, Surrender, Best };
 		const std::map<Option, std::string> OptiontoString{
 			{Option::Hit	,"Hit   "},
 			{Option::Stand	,"Stand "},

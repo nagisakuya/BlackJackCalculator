@@ -4,7 +4,7 @@ using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
 		Calculator::Calculator(int NumberofDeck) :Table(NumberofDeck, Rule(),2.5) {}
-		double Calculator::Calc_Expection()
+		double Calculator::Calculate_Expection()
 		{
 			pair<Option, double> temp;
 			double sum = 0;
@@ -52,7 +52,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					temp += deck.count(i) * WhattoDo(deck - i, player + i, dealer).second;
+					temp += deck.count(i) * WhattoDo_speed(deck - i, player + i, dealer);
 				}
 			}
 			temp /= deck.size();
@@ -63,7 +63,7 @@ namespace nagisakuya {
 				for (size_t i = 0; i < 10; i++)
 				{
 					if (deck.count(i) != 0) {
-						temp += deck.count(i) * (WhattoDo(deck - i, player * i, dealer).second * 2 - 1);
+						temp += deck.count(i) * (WhattoDo_speed(deck - i, player * i, dealer) * 2 - 1);
 					}
 				}
 				temp /= deck.size();
@@ -75,11 +75,156 @@ namespace nagisakuya {
 				for (size_t i = 0; i < 10; i++)
 				{
 					if (deck.count(i) != 0) {
-						temp += deck.count(i) * (WhattoDo(deck - i, player / i, dealer).second * 2 - 1);
+						temp += deck.count(i) * (WhattoDo_speed(deck - i, player / i, dealer) * 2 - 1);
 					}
 				}
 				temp /= deck.size();
 				if (temp > best.second) best = { Option::Split,temp };
+				temp = 0;
+			}
+			return best;
+
+		}
+		std::pair<Option, double> Calculator::WhattoDo_writedown(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)
+		{
+			int sum;
+			bool BJ;
+			tie(sum, ignore, BJ) = player.CheckHand();
+			if (BJ == true) {
+				file << "Stand:" << 2.5 << "\t";
+				file << "Hit:undefined" << "\t";
+				file << "Double:undefined" << "\t";
+				file << "Split:undefined" << "\t";
+				return { Option::Stand, (1 - DealerExpection(deck,dealer)[6]) * Rate.at(Result::BlackJack) };
+			}
+			pair<Option, double> best;
+			double temp = 0;
+			//if stand
+			valarray<double> temp_d = DealerExpection(deck, dealer);
+			if (21 >= sum && sum >= 17) {
+				for (int i = 0; i < sum - 16; i++)
+				{
+					temp += Rate.at(Result::Win) * temp_d[i];
+				}
+				temp += Rate.at(Result::Tie) * temp_d[sum - 16];
+				if (sum == 21)temp += Rate.at(Result::Tie) * temp_d[6];
+			}
+			else {
+				temp += Rate.at(Result::Win) * temp_d[0];
+			}
+			best = { Option::Stand,temp };
+			file << "Stand:" << temp << "\t";
+			if (sum >= 21 || player.get_doubled() == true) {
+				file << "Hit:undefined" << "\t";
+				file << "Double:undefined" << "\t";
+				file << "Split:undefined" << "\t";
+				return best;
+			}
+
+			bool IsTheFirst = (player.size() == 2);
+
+			//if hit
+			temp = 0;
+			for (size_t i = 0; i < 10; i++)
+			{
+				if (deck.count(i) != 0) {
+					temp += deck.count(i) * WhattoDo_speed(deck - i, player + i, dealer);
+				}
+			}
+			temp /= deck.size();
+			file << "Hit:" << temp << "  \t";
+			if (temp > best.second) best = { Option::Hit,temp };
+			//if doubledown
+			if (IsTheFirst == true && player.get_splitted() == false) {
+				temp = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						temp += deck.count(i) * (WhattoDo_speed(deck - i, player * i, dealer) * 2 - 1);
+					}
+				}
+				temp /= deck.size();
+				file << "Doule:" << temp << "\t";
+				if (temp > best.second) best = { Option::DoubleDown,temp };
+			}else
+				file << "Double:undefined" << "\t";
+			//if split
+			if (IsTheFirst == true && player.splittable()) {
+				temp = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						temp += deck.count(i) * (WhattoDo_speed(deck - i, player / i, dealer) * 2 - 1);
+					}
+				}
+				temp /= deck.size();
+				file << "Split:" << temp << "\t";
+				if (temp > best.second) best = { Option::Split,temp };
+				temp = 0;
+			}else 
+				file << "Split:undefined" << "\t";
+			return best;
+
+		}
+		double Calculator::WhattoDo_speed(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
+		{
+			int sum;
+			bool BJ;
+			tie(sum, ignore, BJ) = player.CheckHand();
+			if (BJ == true) return  (1 - DealerExpection(deck, dealer)[6]) * Rate.at(Result::BlackJack);
+			double best;
+			double temp = 0;
+			//if stand
+			valarray<double> temp_d = DealerExpection(deck, dealer);
+			if (21 >= sum && sum >= 17) {
+				for (int i = 0; i < sum - 16; i++)
+				{
+					temp += Rate.at(Result::Win) * temp_d[i];
+				}
+				temp += Rate.at(Result::Tie) * temp_d[sum - 16];
+				if (sum == 21)temp += Rate.at(Result::Tie) * temp_d[6];
+			}
+			else {
+				temp += Rate.at(Result::Win) * temp_d[0];
+			}
+			best = temp;
+			if (sum >= 21 || player.get_doubled() == true) return best;
+
+			bool IsTheFirst = (player.size() == 2);
+
+			//if hit
+			temp = 0;
+			for (size_t i = 0; i < 10; i++)
+			{
+				if (deck.count(i) != 0) {
+					temp += deck.count(i) * WhattoDo_speed(deck - i, player + i, dealer);
+				}
+			}
+			temp /= deck.size();
+			if (temp > best) best = temp;
+			//if doubledown
+			if (IsTheFirst == true && player.get_splitted() == false) {
+				temp = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						temp += deck.count(i) * (WhattoDo_speed(deck - i, player * i, dealer)* 2 - 1);
+					}
+				}
+				temp /= deck.size();
+				if (temp > best) best = temp;
+			}
+			//if split
+			if (IsTheFirst == true && player.splittable()) {
+				temp = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						temp += deck.count(i) * (WhattoDo_speed(deck - i, player / i, dealer) * 2 - 1);
+					}
+				}
+				temp /= deck.size();
+				if (temp > best) best = temp ;
 				temp = 0;
 			}
 			return best;
