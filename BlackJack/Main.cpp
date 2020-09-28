@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     srand((unsigned int)time(NULL));
-	Table test(8, Rule(false, true, true));
+	Table test(8, Rule());
 	string temp_s;
 	test.addplayer(Player(1));
 	for (size_t i = 0; ; i++)

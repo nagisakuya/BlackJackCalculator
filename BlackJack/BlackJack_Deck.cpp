@@ -2,13 +2,16 @@
 using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
-		Deck::Deck(int NumberofDeck, int Joker) {
-			for (size_t i = 0; i < 13; i++)
+		Deck::Deck(int NumberofDeck) {
+			for (size_t i = 0; i < 9; i++)
 			{
-				content[i] = 4 * NumberofDeck;
+				content[i] = NumberofDeck * 4;
 			}
-			content[13] = Joker;
-			first_size = size();
+			content[9] = NumberofDeck * 16;
+		}
+		Deck::Deck(array<int, 10> input)
+		{
+			content = input;
 		}
 		void Deck::print() const{
 			for (int i = 0; i < 14; i++)

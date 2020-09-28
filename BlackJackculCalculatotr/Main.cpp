@@ -2,11 +2,18 @@
 //
 
 #include <iostream>
-#include "../BlackJack/BlackJack.h"
+#include "BlackJackCalculator.h"
+using namespace std;
+using namespace nagisakuya::BlackJack;
 
 int main()
 {
-    std::cout << "Hello World!" << std::endl;
+	Calculator test;
+	valarray<double> temp = test.DealerExpection(Deck(), Hand({ 0 }));
+	for (auto i:temp)
+	{
+		cout << i << endl;
+	}
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー

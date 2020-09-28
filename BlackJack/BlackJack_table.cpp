@@ -5,7 +5,7 @@ using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
 		Table::Table(int Numberofdeck, Rule rule, double BlackJackRate) {
-			deck = Deck(Numberofdeck, 0);
+			deck = Deck(Numberofdeck);
 			this->rule = rule;
 			Rate = {
 			{Result::Win		,2},
@@ -23,7 +23,7 @@ namespace nagisakuya {
 				cout << "there is no player" << endl;
 				return;
 			}
-			DealerHand dealer = DealerHand("Dealer hand", { deck.DrowRandom() });
+			DealerHand dealer = DealerHand({ deck.DrowRandom() });
 			dealer.print();
 			//関数ポインタでplayereach関数をを作ろうと思ったが、内部で1関数以上処理したりするししなくていいか？
 			for (Player& i : PlayerList)

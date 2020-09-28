@@ -2,9 +2,8 @@
 using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
-		Hand::Hand(string name, vector<int> input) {
-			this->name = name;
-			hand = input;
+		Hand::Hand(vector<int> input) {
+			content = input;
 		}
 
 		Option PlayerHand::AskOption(bool Split_enable, bool DoubleDown_enable, bool Surrender_enable) {
@@ -26,25 +25,24 @@ namespace nagisakuya {
 		}
 
 		void Hand::add(int input) {
-			hand.push_back(input);
+			content.push_back(input);
 		}
 
 		void Hand::print() const {
 			int sum = 0;
 			int AceCount = 0;
-			cout << name << " is ";
-			for (size_t i = 0; i < hand.size(); i++)
+			for (size_t i = 0; i < content.size(); i++)
 			{
-				cout << Translate(hand[i]) << " ";
-				if (hand[i] == 0) {
+				cout << Translate(content[i]) << " ";
+				if (content[i] == 0) {
 					sum += 11;
 					AceCount++;
 				}
-				else if (hand[i] >= 9) {
+				else if (content[i] >= 9) {
 					sum += 10;
 				}
 				else {
-					sum += hand[i] + 1;
+					sum += content[i] + 1;
 				}
 				if (AceCount > 0 && sum > 21) {
 					sum -= 10;
@@ -56,24 +54,24 @@ namespace nagisakuya {
 
 		size_t Hand::size() const
 		{
-			return hand.size();
+			return content.size();
 		}
 
 		tuple<int, bool, bool> Hand::CheckHand() const {
 			int sum = 0;
 			int AceCount = 0;
-			size_t size = hand.size();
+			size_t size = content.size();
 			for (size_t i = 0; i < size; i++)
 			{
-				if (hand[i] == 0) {
+				if (content[i] == 0) {
 					sum += 11;
 					AceCount++;
 				}
-				else if (hand[i] >= 9) {
+				else if (content[i] >= 9) {
 					sum += 10;
 				}
 				else {
-					sum += hand[i] + 1;
+					sum += content[i] + 1;
 				}
 				if (AceCount > 0 && sum > 21) {
 					sum -= 10;
@@ -84,15 +82,18 @@ namespace nagisakuya {
 		}
 
 
-		DealerHand::DealerHand(string name, vector<int> input) :Hand(name, input) {
+		DealerHand::DealerHand(vector<int> input) :Hand(input) {
 		}
 
 		void DealerHand::print() const
 		{
-			if (hand.size() == 1) {
-				cout << name << " up card is " << Translate(hand[0]) << endl;
+			if (content.size() == 1) {
+				cout << "Dealer up card is " << Translate(content[0]) << endl;
 			}
-			else Hand::print();
+			else {
+				cout << "Dealer hand is ";
+				Hand::print();
+			}
 		}
 
 		void DealerHand::hituntil17(Deck& deck, Rule const& rule)
@@ -118,12 +119,19 @@ namespace nagisakuya {
 			{Result::DoubledLose,"DoubledLose"}
 		};
 
-		PlayerHand::PlayerHand(string name, vector<int> input, bool splitted) :Hand(name, input) {
+		PlayerHand::PlayerHand(string name, vector<int> input, bool splitted) :Hand(input) {
+			this->name = name;
 			this->splitted = splitted;
 		}
 
+		void PlayerHand::print()
+		{
+			cout << name << " is ";
+			Hand::print();
+		}
+
 		bool PlayerHand::splittable() const {
-			if (splitted == false && hand.size() == 2 && (hand[0] == hand[1] || hand[0] >= 9 && hand[1] >= 9))return true;
+			if (splitted == false && content.size() == 2 && (content[0] == content[1] || content[0] >= 9 && content[1] >= 9))return true;
 			else return false;
 		}
 
@@ -131,8 +139,8 @@ namespace nagisakuya {
 		{
 			splitted = true;
 			name = "Primal" + name;
-			PlayerHand r = PlayerHand("Splitted" + name, { hand[1] ,deck->DrowRandom() }, true);
-			hand.pop_back();
+			PlayerHand r = PlayerHand("Splitted" + name, { content[1] ,deck->DrowRandom() }, true);
+			content.pop_back();
 			add(deck->DrowRandom());
 			return r;
 		}
