@@ -47,11 +47,3 @@ Player:8 9 	Dealer:6	Stand:0.988589	Hit:1.05995  	Doule:1.11991	Split:undefined	
 Player:8 9 	Dealer:5	Stand:0.955606	Hit:1.06282  	Doule:1.12564	Split:undefined	WhattoDo:Double	ExpectedValue:1.12564
 Player:8 9 	Dealer:4	Stand:0.915586	Hit:0.996632  	Doule:0.993264	Split:undefined	WhattoDo:Hit   	ExpectedValue:0.996632
 Player:8 9 	Dealer:3	Stand:0.879336	Hit:0.979512  	Doule:0.959024	Split:undefined	WhattoDo:Hit   	ExpectedValue:0.979512
-Player:8 9 	Dealer:2	Stand:0.863479	Hit:0.968312  	Doule:0.936624	Split:undefined	WhattoDo:Hit   	ExpectedValue:0.968312
-Player:8 9 	Dealer:A	Stand:0.369145	Hit:0.497973  	Doule:-0.00405453	Split:undefined	WhattoDo:Hit   	ExpectedValue:0.497973
-Player:8 8 	Dealer:T	Stand:0.442386	Hit:0.729699  	Doule:0.435529	Split:0.459397	WhattoDo:Hit   	ExpectedValue:0.729699
-Player:8 8 	Dealer:9	Stand:0.483574	Hit:0.816632  	Doule:0.59715	Split:0.633264	WhattoDo:Hit   	ExpectedValue:0.816632
-Player:8 8 	Dealer:8	Stand:0.448724	Hit:0.857973  	Doule:0.677471	Split:0.715946	WhattoDo:Hit   	ExpectedValue:0.857973
-Player:8 8 	Dealer:7	Stand:0.497486	Hit:0.918694  	Doule:0.837388	Split:0.837388	WhattoDo:Hit   	ExpectedValue:0.918694
-Player:8 8 	Dealer:6	Stand:0.821829	Hit:1.08752  	Doule:1.16199	Split:1.17504	WhattoDo:Split 	ExpectedValue:1.17504
-Player:8 8 	Dealer:5	Stand:0.834557	Hit:1.05954  	Doule:1.10208	Split:1.11908	WhattoDo:Split 	ExpectedValue:1.11908

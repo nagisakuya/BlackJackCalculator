@@ -8,7 +8,7 @@ namespace nagisakuya {
 		{
 			pair<Option, double> temp;
 			double sum = 0;
-			int size = deck.size();
+			double size = deck.size();
 			for (int i = 10; i-- > 0;)
 			{
 				for (int j = 10; j-- > i;)
@@ -16,7 +16,7 @@ namespace nagisakuya {
 					for (int k = 10; k-- > 0; )
 					{
 						temp = WhattoDo(((Deck(1) - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }));
-						sum += temp.second * (i == j ? 1 : 2) * (((double)deck.count(i) * (double)deck.count(j) * (double)deck.count(k)) / (size * (size - 1) * (size - 2)));
+						sum += temp.second * (i == j ? 1 : 2) * (((double)deck.count(i) * (deck.count(j) * (double)deck.count(k)) / (size * (size - 1) * (size - 2))));
 					}
 				}
 			}
