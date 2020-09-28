@@ -39,12 +39,12 @@ int main()
 				cout << "WhattoDo:" << OptiontoString.at(temp.first);
 				cout << "\tExpectedValue:" << temp.second << endl;
 				outputfile << "WhattoDo:" << OptiontoString.at(temp.first) << "\t" << "ExpectedValue:" << temp.second << endl;
-				sum += temp.second * (i == j ? 1 : 2) * (((double)deck.count(i) * (double)deck.count(j) * (double)deck.count(k)) / (size * (size - 1) * (size - 2)));
+				sum += temp.second * (i == j ? 1 : 2) * (deck.count(i) * deck.count(j) * deck.count(k));
 			}
 		}
 	}
 	clock_t end = clock();
-	cout << "TotalExpectedValue:" << sum / 1000 << endl;
+	cout << "TotalExpectedValue:" << sum / (size * (size - 1) * (size - 2)) << endl;
 	cout << " Time:" << (end - start) / CLOCKS_PER_SEC << endl;
-	outputfile << "TotalExpectedValue:" << sum / 1000 << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+	outputfile << "TotalExpectedValue:" << sum / (size * (size - 1) * (size - 2)) << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
 }

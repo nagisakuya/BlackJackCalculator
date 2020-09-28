@@ -16,11 +16,11 @@ namespace nagisakuya {
 					for (int k = 10; k-- > 0; )
 					{
 						temp = WhattoDo(((Deck(1) - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }));
-						sum += temp.second * (i == j ? 1 : 2) * (((double)deck.count(i) * (deck.count(j) * (double)deck.count(k)) / (size * (size - 1) * (size - 2))));
+						sum += temp.second * (i == j ? 1 : 2) * (deck.count(i) * deck.count(j) * deck.count(k));
 					}
 				}
 			}
-			return sum / 1000;
+			return sum / (size * (size - 1) * (size - 2));
 		}
 		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
 		{
