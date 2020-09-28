@@ -4,6 +4,7 @@ using namespace std;
 
 namespace nagisakuya {
 	namespace BlackJack {
+
 		Rule::Rule(bool Soft17Hit, bool Surrender, bool DoubleAfterSplit)
 		{
 			emplace(RuleList::Soft17Hit, Soft17Hit);
@@ -63,6 +64,8 @@ namespace nagisakuya {
 			switch (input) {
 			case 0:
 				return "A";
+			case 9:
+				return "T";
 			case 10:
 				return "J";
 			case 11:

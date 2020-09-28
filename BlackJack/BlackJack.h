@@ -11,6 +11,13 @@ namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
 		enum class Option { Hit, Stand, DoubleDown, Split, Surrender };
+		const std::map<Option, std::string> OptiontoString{
+			{Option::Hit	,"Hit   "},
+			{Option::Stand	,"Stand "},
+			{Option::DoubleDown,"Double"},
+			{Option::Split,"Split "},
+			{Option::Surrender,"Surrender"}
+		};
 		enum class RuleList { Soft17Hit, Surrender, DoubleAfterSplit };
 		class Rule :public std::map<RuleList, bool> {
 		public:
@@ -47,7 +54,7 @@ namespace nagisakuya {
 			int get_upcard() const { return content[0]; }
 		};
 		class PlayerHand :public Hand {
-		protected:
+		private:
 			Result result = Result::undefined;
 			bool splitted = false;
 			bool doubled = false;
@@ -55,7 +62,7 @@ namespace nagisakuya {
 			const static std::map< Result, std::string> ResulttoString;
 			static Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
 		public:
-			PlayerHand(std::string name = "Player's hand", std::vector<int> input = {}, bool splitted = false);
+			PlayerHand(std::string name = "Player's hand", std::vector<int> input = {}, bool splitted = false, bool doubled = false);
 			void print();
 			bool splittable() const;
 			PlayerHand split(Deck* deck);
@@ -64,6 +71,9 @@ namespace nagisakuya {
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }
+			PlayerHand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, doubled); }
+			PlayerHand operator * (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, true); }
+			PlayerHand operator / (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, true, false); }
 		};
 		class Player {
 		protected:
@@ -88,6 +98,7 @@ namespace nagisakuya {
 			Table(int Numberofdeck = 8, Rule rule = Rule(), double BlackJackRate = 2.5);
 			bool addplayer(Player input);
 			void play();
+			void replay();
 		};
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
 		std::string Translate(int input);

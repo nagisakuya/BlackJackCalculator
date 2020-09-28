@@ -13,26 +13,35 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\BlackJack">
+      <UniqueIdentifier>{5d8d45d2-ae12-4ee2-94ff-14bf0ed48378}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BlackJack.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\BlackJack</Filter>
     </ClCompile>
     <ClCompile Include="BlackJack_Deck.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackJack_Hand.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\BlackJack</Filter>
     </ClCompile>
     <ClCompile Include="BlackJack_Table.cpp">
+      <Filter>ソース ファイル\BlackJack</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackJack_Hand.cpp">
+      <Filter>ソース ファイル\BlackJack</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackJackCalculator.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackJack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackJackCalculator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

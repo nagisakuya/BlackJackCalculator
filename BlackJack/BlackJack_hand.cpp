@@ -119,14 +119,15 @@ namespace nagisakuya {
 			{Result::DoubledLose,"DoubledLose"}
 		};
 
-		PlayerHand::PlayerHand(string name, vector<int> input, bool splitted) :Hand(input) {
+		PlayerHand::PlayerHand(std::string name,vector<int> input, bool splitted , bool doubled) :Hand(input) {
 			this->name = name;
 			this->splitted = splitted;
+			this->doubled = doubled;
 		}
 
 		void PlayerHand::print()
 		{
-			cout << name << " is ";
+			cout << name <<" is ";
 			Hand::print();
 		}
 

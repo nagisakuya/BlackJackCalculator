@@ -2,12 +2,32 @@
 //
 
 #include <iostream>
+#include <valarray>
+#include <time.h>
 using namespace std;
 
 
 
 int main()
 {
+	valarray<double> r;
+	clock_t start = clock();
+	for (size_t i = 0; i < 100000000; i++)
+	{
+		r = { 0,0,0,0,0,0,0 };
+	}
+	clock_t end = clock();
+	cout << (end - start) << endl;
+	start = clock();
+	for (size_t i = 0; i < 100000000; i++)
+	{
+		for (size_t j = 0; j < 7; j++)
+		{
+			r[j] = 0;
+		}
+	}
+	end = clock();
+	cout << (end - start)<< endl;
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー

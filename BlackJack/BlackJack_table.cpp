@@ -42,6 +42,18 @@ namespace nagisakuya {
 			}
 		}
 
+		void Table::replay()
+		{
+			for (size_t i = 0; ; i++)
+			{
+				string temp_s;
+				play();
+				cout << "Press c to continue. press e to exit." << endl;
+				cin >> temp_s;
+				if (temp_s == "e") break;
+			}
+		}
+
 		bool Table::addplayer(Player input)
 		{
 			int input_id = input.get_ID();

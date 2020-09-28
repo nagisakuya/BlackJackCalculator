@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackJack.cpp" />
+    <ClCompile Include="BlackJackCalculator.cpp" />
     <ClCompile Include="BlackJack_Deck.cpp" />
     <ClCompile Include="BlackJack_Hand.cpp" />
     <ClCompile Include="BlackJack_Table.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackJack.h" />
+    <ClInclude Include="BlackJackCalculator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlackJackStrategy.json" />
