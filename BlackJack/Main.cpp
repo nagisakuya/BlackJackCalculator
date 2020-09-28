@@ -39,7 +39,7 @@ int main()
 				cout << "WhattoDo:" << OptiontoString.at(temp.first);
 				cout << "\tExpectedValue:" << temp.second << endl;
 				outputfile << "WhattoDo:" << OptiontoString.at(temp.first) << "\t" << "ExpectedValue:" << temp.second << endl;
-				sum += temp.second * (i == j ? 1 : 2) * ((deck.count(i) * deck.count(j) * deck.count(k)) / (size * (size - 1) * (size - 2)));
+				sum += temp.second * (i == j ? 1 : 2) * (((double)deck.count(i) * (double)deck.count(j) * (double)deck.count(k)) / (size * (size - 1) * (size - 2)));
 			}
 		}
 	}
