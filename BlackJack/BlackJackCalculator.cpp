@@ -14,7 +14,7 @@ namespace nagisakuya {
 				{
 					for (int k = 10; k-- > 0; )
 					{
-						temp = WhattoDo(Deck(1), PlayerHand("", { i,j }), DealerHand({ k }));
+						temp = WhattoDo(Deck(1), PlayerHand({ i,j }), DealerHand({ k }));
 						sum += temp.second * (i == j ? 1 : 2);
 					}
 				}

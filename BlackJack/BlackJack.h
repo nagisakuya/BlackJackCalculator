@@ -59,12 +59,10 @@ namespace nagisakuya {
 			Result result = Result::undefined;
 			bool splitted = false;
 			bool doubled = false;
-			std::string name;
 			const static std::map< Result, std::string> ResulttoString;
 			static Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
 		public:
-			PlayerHand(std::string name = "Player's hand", std::vector<int> input = {}, bool splitted = false, bool doubled = false);
-			void print();
+			PlayerHand(std::vector<int> input = {}, bool splitted = false, bool doubled = false);
 			bool splittable() const;
 			PlayerHand split(Deck* deck);
 			Option play(Deck* deck, Rule const& rule);
@@ -72,9 +70,9 @@ namespace nagisakuya {
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }
-			PlayerHand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, doubled); }//i‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
-			PlayerHand operator * (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, true); }//Double‚µ‚Äi‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
-			PlayerHand operator / (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, true, false); }//Split‚µ‚½‚ ‚Æi‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
+			PlayerHand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(r, splitted, doubled); }//i‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
+			PlayerHand operator * (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(r, splitted, true); }//Double‚µ‚Äi‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
+			PlayerHand operator / (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(r, true, false); }//Split‚µ‚½‚ ‚Æi‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
 		};
 		class Player {
 		protected:

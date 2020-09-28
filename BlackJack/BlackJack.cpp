@@ -16,7 +16,7 @@ namespace nagisakuya {
 		{
 			this->name = name;
 			this->id = ID;
-			hand.first = PlayerHand(name + "'s hand");
+			hand.first = PlayerHand();
 		}
 		void Player::play(Deck* deck, Rule const& rule)
 		{

@@ -28,7 +28,7 @@ namespace nagisakuya {
 			//関数ポインタでplayereach関数をを作ろうと思ったが、内部で1関数以上処理したりするししなくていいか？
 			for (Player& i : PlayerList)
 			{
-				i.hand.first = PlayerHand(i.get_name() + " hand", { deck.DrowRandom() ,deck.DrowRandom() });
+				i.hand.first = PlayerHand({ deck.DrowRandom() ,deck.DrowRandom() });
 			}
 			for (Player& i : PlayerList)
 			{

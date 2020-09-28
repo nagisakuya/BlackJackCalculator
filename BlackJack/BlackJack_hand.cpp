@@ -144,16 +144,9 @@ namespace nagisakuya {
 			{Result::DoubledLose,"DoubledLose"}
 		};
 
-		PlayerHand::PlayerHand(std::string name,vector<int> input, bool splitted , bool doubled) :Hand(input) {
-			this->name = name;
+		PlayerHand::PlayerHand(vector<int> input, bool splitted , bool doubled) :Hand(input) {
 			this->splitted = splitted;
 			this->doubled = doubled;
-		}
-
-		void PlayerHand::print()
-		{
-			cout << name <<" is ";
-			Hand::print();
 		}
 
 		bool PlayerHand::splittable() const {
@@ -164,8 +157,7 @@ namespace nagisakuya {
 		PlayerHand PlayerHand::split(Deck* deck)
 		{
 			splitted = true;
-			name = "Primal" + name;
-			PlayerHand r = PlayerHand("Splitted" + name, { content[1] ,deck->DrowRandom() }, true);
+			PlayerHand r = PlayerHand({ content[1] ,deck->DrowRandom() }, true);
 			content.pop_back();
 			add(deck->DrowRandom());
 			return r;
@@ -205,7 +197,7 @@ namespace nagisakuya {
 			if (result == Result::undefined) {
 				result = Judge(*this, dealer);
 			}
-			cout << name << " Result:" << ResulttoString.at(get_result()) << endl;
+			cout << " Result:" << ResulttoString.at(get_result()) << endl;
 		}
 
 	}
