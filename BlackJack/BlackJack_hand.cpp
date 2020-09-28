@@ -49,7 +49,7 @@ namespace nagisakuya {
 					AceCount--;
 				}
 			}
-			cout << " sum is " << sum << endl;
+			cout << "sum is " << sum << endl;
 		}
 
 		size_t Hand::size() const
@@ -197,7 +197,7 @@ namespace nagisakuya {
 			if (result == Result::undefined) {
 				result = Judge(*this, dealer);
 			}
-			cout << " Result:" << ResulttoString.at(get_result()) << endl;
+			cout << "Result:" << ResulttoString.at(get_result()) << endl;
 		}
 
 	}

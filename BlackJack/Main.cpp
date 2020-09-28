@@ -5,8 +5,8 @@
 using namespace nagisakuya::BlackJack;
 using namespace std;
 
-/*int main()
-{
+int main()
+/*{
     srand((unsigned int)time(NULL));
 	Table test(8, Rule());
 	string temp_s;

@@ -20,9 +20,12 @@ namespace nagisakuya {
 		}
 		void Player::play(Deck* deck, Rule const& rule)
 		{
+			cout << name << ":" << endl;
 			if (hand.first.play(deck, rule) == Option::Split) {
 				hand.second = hand.first.split(deck);
+				cout << "Primal hand:" << endl;
 				hand.first.play(deck, rule);
+				cout << "Secondaly hand:" << endl;
 				hand.second.play(deck, rule);
 			}
 
