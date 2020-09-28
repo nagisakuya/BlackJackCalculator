@@ -13,7 +13,7 @@ namespace nagisakuya {
 		class Calculator :public Table {
 		private:
 		public:
-			double Calculate_Expection();
+			double Calculate_Expection(Deck const& deck);
 			//(‘½•ª)‘¬“x‚É‰e‹¿o‚é‚Ì‚Å—‚½ŠÖ”‚¾‚¯‚Ç•Ê‚ÅéŒ¾
 			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand);
 			std::pair<Option, double> WhattoDo_writedown(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand, std::ofstream & file);

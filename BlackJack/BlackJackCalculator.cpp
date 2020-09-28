@@ -4,18 +4,19 @@ using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
 		Calculator::Calculator(int NumberofDeck) :Table(NumberofDeck, Rule(),2.5) {}
-		double Calculator::Calculate_Expection()
+		double Calculator::Calculate_Expection(Deck const& deck)
 		{
 			pair<Option, double> temp;
 			double sum = 0;
+			int size = deck.size();
 			for (int i = 10; i-- > 0;)
 			{
 				for (int j = 10; j-- > i;)
 				{
 					for (int k = 10; k-- > 0; )
 					{
-						temp = WhattoDo(Deck(1), PlayerHand({ i,j }), DealerHand({ k }));
-						sum += temp.second * (i == j ? 1 : 2);
+						temp = WhattoDo(((Deck(1) - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }));
+						sum += temp.second * (i == j ? 1 : 2) * ((deck.count(i) * deck.count(j) * deck.count(k)) / (size * (size - 1) * (size - 2)));
 					}
 				}
 			}

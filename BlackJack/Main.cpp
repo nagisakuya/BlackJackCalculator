@@ -25,6 +25,8 @@ int main()
 	double sum = 0;
 	outputfile << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
 	clock_t start = clock();
+	Deck deck(1);
+	double size = deck.size();
 	for (int i = 10; i-- > 0;)
 	{
 		for (int j = 10; j-- > i;)
@@ -33,11 +35,11 @@ int main()
 			{
 				outputfile << "Player:" << Translate(i) << " " << Translate(j) << " \tDealer:" << Translate(k) << "\t";
 				cout << "Player:" << Translate(i) << " " << Translate(j) << "\tDealer:" << Translate(k) << "\t";
-				temp = test.WhattoDo_writedown(((Deck(1) - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }),outputfile);
+				temp = test.WhattoDo_writedown(((deck - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }),outputfile);
 				cout << "WhattoDo:" << OptiontoString.at(temp.first);
 				cout << "\tExpectedValue:" << temp.second << endl;
 				outputfile << "WhattoDo:" << OptiontoString.at(temp.first) << "\t" << "ExpectedValue:" << temp.second << endl;
-				sum += temp.second * (i == j ? 1 : 2);
+				sum += temp.second * (i == j ? 1 : 2) * ((deck.count(i) * deck.count(j) * deck.count(k)) / (size * (size - 1) * (size - 2)));
 			}
 		}
 	}

@@ -31,8 +31,8 @@ using namespace std;
 }*/
 
 //検証その2 first/second は超早い 直接アドレス見てるから？
-//というか、多分inなんとかlist使うと遅い。make_pairはもっと遅い
-int main() {
+//というか、多分initiolizer_ist使うと遅い。make_pairはもっと遅い
+/*int main() {
 	pair<int, int> r;
 	size_t count = 10000000;
 	clock_t start = clock();
@@ -58,3 +58,4 @@ int main() {
 	end = clock();
 	cout << (end - start) << endl;
 }
+*/
