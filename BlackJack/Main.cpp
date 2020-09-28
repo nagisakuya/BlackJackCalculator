@@ -33,7 +33,7 @@ int main()
 			{
 				outputfile << "Player:" << Translate(i) << " " << Translate(j) << " \tDealer:" << Translate(k) << "\t";
 				cout << "Player:" << Translate(i) << " " << Translate(j) << "\tDealer:" << Translate(k) << "\t";
-				temp = test.WhattoDo_writedown(Deck(1), PlayerHand({ i,j }), DealerHand({ k }),outputfile);
+				temp = test.WhattoDo_writedown(((Deck(1) - i) - j) - k, PlayerHand({ i,j }), DealerHand({ k }),outputfile);
 				cout << "WhattoDo:" << OptiontoString.at(temp.first);
 				cout << "\tExpectedValue:" << temp.second << endl;
 				outputfile << "WhattoDo:" << OptiontoString.at(temp.first) << "\t" << "ExpectedValue:" << temp.second << endl;
