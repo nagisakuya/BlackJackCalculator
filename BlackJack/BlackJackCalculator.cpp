@@ -86,7 +86,7 @@ namespace nagisakuya {
 			return best;
 
 		}
-		std::pair<Option, double> Calculator::WhattoDo_writedown(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)
+		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)
 		{
 			int sum;
 			bool BJ;
@@ -171,7 +171,7 @@ namespace nagisakuya {
 		{
 			int sum;
 			bool BJ;
-			tie(sum, ignore, BJ) = player.CheckHand();
+			tie(sum, ignore, BJ) = player.CheckHand();//óvèCê≥
 			if (BJ == true) return  (1 - DealerExpection(deck, dealer)[6]) * Rate.at(Result::BlackJack);
 			double best;
 			double temp = 0;
