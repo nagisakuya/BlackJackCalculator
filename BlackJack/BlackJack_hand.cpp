@@ -81,6 +81,31 @@ namespace nagisakuya {
 			return { sum ,AceCount == 0 ? false : true ,(size == 2 && sum == 21) ? true : false };
 		}
 
+		std::pair<int, bool> Hand::CheckHand_speed() const
+		{
+			//initializer_list‚Í’x‚¢‚Ì‚Å–‘O‚Épair‚ğì‚Á‚Ä‚¨‚­B(pair‚Í‚‘¬‚¾‚Æv‚¤)
+			pair<int, bool> r;
+			r.first = 0;
+			int AceCount = 0;
+			size_t size = content.size();
+			for (size_t i = 0; i < size; i++)
+			{
+				if (content[i] == 0) {
+					r.first += 11;
+					AceCount++;
+				}
+				else {
+					r.first += content[i] + 1;
+				}
+				if (AceCount > 0 && r.first > 21) {
+					r.first -= 10;
+					AceCount--;
+				}
+			}
+			r.second = (size == 2 && r.first == 21) ? true : false;
+			return r;
+		}
+
 
 		DealerHand::DealerHand(vector<int> input) :Hand(input) {
 		}

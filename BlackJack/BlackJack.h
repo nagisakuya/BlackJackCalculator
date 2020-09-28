@@ -44,7 +44,7 @@ namespace nagisakuya {
 			virtual void print() const;
 			size_t size() const;
 			std::tuple<int, bool, bool> CheckHand() const;//sum,issoft,isBJ
-			Hand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return Hand(r); }
+			std::pair<int, bool> CheckHand_speed() const;//sum,isBJ
 		};
 		class DealerHand :public Hand {
 		public:
@@ -52,6 +52,7 @@ namespace nagisakuya {
 			void print() const;
 			void hituntil17(Deck& deck, Rule const& rule);
 			int get_upcard() const { return content[0]; }
+			DealerHand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return DealerHand(r); }
 		};
 		class PlayerHand :public Hand {
 		private:
@@ -71,9 +72,9 @@ namespace nagisakuya {
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }
-			PlayerHand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, doubled); }
-			PlayerHand operator * (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, true); }
-			PlayerHand operator / (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, true, false); }
+			PlayerHand operator + (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, doubled); }//i‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
+			PlayerHand operator * (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, splitted, true); }//Double‚µ‚Äi‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
+			PlayerHand operator / (int i) const { std::vector<int> r = content; r.emplace_back(i); return PlayerHand(name, r, true, false); }//Split‚µ‚½‚ ‚Æi‚ðˆø‚¢‚½Œ‹‰Ê‚ð•Ô‚·
 		};
 		class Player {
 		protected:

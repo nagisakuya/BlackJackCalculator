@@ -26,7 +26,7 @@ int main()
 			for (int k = 10; k-- > 0; )
 			{
 				cout << "Player:" << Translate(i) << " " << Translate(j) << " Dealer:" << Translate(k);
-				temp = test.WhattoDo(Deck(1), PlayerHand("", { i,j }), Hand({ k }));
+				temp = test.WhattoDo(Deck(1), PlayerHand("", { i,j }), DealerHand({ k }));
 				cout <<" Result:" <<OptiontoString.at(temp.first);
 				cout << " ExpectedValue:" << temp.second << endl;
 				sum += temp.second * (i == j ? 1 : 2);

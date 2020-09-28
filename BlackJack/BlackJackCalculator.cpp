@@ -3,8 +3,25 @@ using namespace std;
 
 namespace nagisakuya {
 	namespace BlackJack {
-		Calculator::Calculator(int NumberofDeck, Rule rule, double BJRate) :Table(NumberofDeck, rule, BJRate) {}
-		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, Hand const& dealer)
+		Calculator::Calculator(int NumberofDeck) :Table(NumberofDeck, Rule(),2.5) {}
+		double Calculator::Calc_Expection()
+		{
+			pair<Option, double> temp;
+			double sum = 0;
+			for (int i = 10; i-- > 0;)
+			{
+				for (int j = 10; j-- > i;)
+				{
+					for (int k = 10; k-- > 0; )
+					{
+						temp = WhattoDo(Deck(1), PlayerHand("", { i,j }), DealerHand({ k }));
+						sum += temp.second * (i == j ? 1 : 2);
+					}
+				}
+			}
+			return sum / 1000;
+		}
+		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
 		{
 			int sum;
 			bool BJ;
@@ -68,25 +85,21 @@ namespace nagisakuya {
 			return best;
 
 		}
-		std::valarray<double> Calculator::DealerExpection(Deck const& deck, Hand const& dealer)
+		std::valarray<double> Calculator::DealerExpection(Deck const& deck, DealerHand const& dealer)
 		{
-			int sum;
-			bool BJ, soft;
-			tie(sum, soft, BJ) = dealer.CheckHand(); //’x‚¢‚»‚Ì1 ‘½•ª’l‚ğ‚í‚´‚í‚´•Ê‚È•Ï”‚É‘ã“ü‚µ‚Ä‚é‚Ì‚Ætuple‚ª’x‚¢
-			valarray<double> r;//’x‚¢‚»‚Ì2 ={0,0,0,0,0,0,0} valarray‚Å‰Šú’l‘ã“ü‚Í’x‚¢‚İ‚½‚¢(for‚Å‰ñ‚·‚Ì‚æ‚è–ñ3”{ŠÔ‚ª‚©‚©‚é)
-			for (size_t j = 0; j < 7; j++)
-			{
-				r[j] = 0;
-			}
-			if (BJ == true) {
+			//tie(sum,ignore,BJ) = dealer.CheckHand();
+			//’x‚¢‚»‚Ì1 ‘½•ª’l‚ğ‚í‚´‚í‚´•Ê‚È•Ï”‚É‘ã“ü‚µ‚Ä‚é‚Ì‚Ætuple‚ª’x‚¢
+			pair<int,bool> temp= dealer.CheckHand_speed();//pair‚É‚µ‚Ä‚‘¬‰» 
+			valarray<double> r(0.0, 7);//={0,0,0,0,0,0,0}; ’x‚¢‚»‚Ì2 initilizer_list‚Í’x‚¢
+			if (temp.second == true) {
 				r[6] = 1;
 				return r;
 			}
-			if (21 >= sum && sum >= 17) {
-				r[sum - 16] = 1;
+			if (21 >= temp.first && temp.first >= 17) {
+				r[temp.first - 16] = 1;
 				return r;
 			}
-			if (sum > 21) {
+			if (temp.first > 21) {
 				r[0] = 1;
 				return r;
 			}

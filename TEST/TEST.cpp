@@ -7,8 +7,8 @@
 using namespace std;
 
 
-
-int main()
+//検証その1 forで初期化した方が約3倍早い
+/*int main()
 {
 	valarray<double> r;
 	clock_t start = clock();
@@ -28,15 +28,33 @@ int main()
 	}
 	end = clock();
 	cout << (end - start)<< endl;
+}*/
+
+//検証その2 first/second は超早い 直接アドレス見てるから？
+//というか、多分inなんとかlist使うと遅い。make_pairはもっと遅い
+int main() {
+	pair<int, int> r;
+	size_t count = 10000000;
+	clock_t start = clock();
+	for (size_t i = 0; i < count; i++)
+	{
+		r = { 0,0 };
+	}
+	clock_t end = clock();
+	cout << (end - start) << endl;
+	start = clock();
+	for (size_t i = 0; i < count; i++)
+	{
+		r.first = 0;
+		r.second = 0;
+	}
+	end = clock();
+	cout << (end - start) << endl;
+	start = clock();
+	for (size_t i = 0; i < count; i++)
+	{
+		r = make_pair(0, 0);
+	}
+	end = clock();
+	cout << (end - start) << endl;
 }
-
-// プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
-// プログラムのデバッグ: F5 または [デバッグ] > [デバッグの開始] メニュー
-
-// 作業を開始するためのヒント: 
-//    1. ソリューション エクスプローラー ウィンドウを使用してファイルを追加/管理します 
-//   2. チーム エクスプローラー ウィンドウを使用してソース管理に接続します
-//   3. 出力ウィンドウを使用して、ビルド出力とその他のメッセージを表示します
-//   4. エラー一覧ウィンドウを使用してエラーを表示します
-//   5. [プロジェクト] > [新しい項目の追加] と移動して新しいコード ファイルを作成するか、[プロジェクト] > [既存の項目の追加] と移動して既存のコード ファイルをプロジェクトに追加します
-//   6. 後ほどこのプロジェクトを再び開く場合、[ファイル] > [開く] > [プロジェクト] と移動して .sln ファイルを選択します
