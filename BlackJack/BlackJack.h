@@ -10,11 +10,11 @@
 namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
-		enum class Option { Hit, Stand, DoubleDown, Split, Surrender, Best };
+		enum class Option { Hit, Stand, Double, Split, Surrender, Best };
 		const std::map<Option, std::string> OptiontoString{
 			{Option::Hit	,"Hit   "},
 			{Option::Stand	,"Stand "},
-			{Option::DoubleDown,"Double"},
+			{Option::Double,"Double"},
 			{Option::Split,"Split "},
 			{Option::Surrender,"Surrender"}
 		};
@@ -22,10 +22,12 @@ namespace nagisakuya {
 		class Rule :public std::map<RuleList, bool> {
 		public:
 			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
+			std::string print();
 		};
 		class Rate :public std::map<Result, double> {
 		public:
 			Rate(double BlackJackRate = 1.5);
+			std::string print();
 		};
 		class Deck {
 		protected:
@@ -33,7 +35,7 @@ namespace nagisakuya {
 		public:
 			Deck(int NumberofDeck = 8);
 			Deck(std::array<int, 10> input);
-			void print() const;
+			std::string print() const;
 			int size() const;
 			int count(int i) const{ return content[i]; }
 			int DrowRandom();
@@ -98,7 +100,7 @@ namespace nagisakuya {
 			Rule rule;
 			Rate rate;
 		public:
-			Table(int Numberofdeck = 8, Rule rule = Rule(), Rate rate = Rate(1.5));
+			Table(Deck deck = Deck(8), Rule rule = Rule(), Rate rate = Rate(1.5));
 			bool addplayer(Player input);
 			void play();
 			void replay();

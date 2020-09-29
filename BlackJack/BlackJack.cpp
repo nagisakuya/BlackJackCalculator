@@ -12,6 +12,21 @@ namespace nagisakuya {
 			emplace(RuleList::DoubleAfterSplit, DoubleAfterSplit);
 		}
 
+		std::string Rule::print()
+		{
+			string r;
+			r += "Soft17Hit:";
+			if (at(RuleList::Soft17Hit) == true) r += "true\t";
+			else r += "false\t";
+			r += "Surrender:";
+			if (at(RuleList::Surrender) == true) r += "true\t";
+			else r += "false\t";
+			r += "DoubleAfterSplit:";
+			if (at(RuleList::DoubleAfterSplit) == true) r += "true\t";
+			else r += "false\t";
+			return r;
+		}
+
 		Player::Player(int ID, string name)
 		{
 			this->name = name;
@@ -87,9 +102,18 @@ namespace nagisakuya {
 			emplace(Result::Lose,-1);
 			emplace(Result::Tie, 0);
 			emplace(Result::BlackJack, BlackJackRate);
-			emplace(Result::Surrender, -0.5);
-			emplace(Result::DoubledWin, 2);
-			emplace(Result::DoubledLose, -2);
+			emplace(Result::Surrender, at(Result::Lose) / 2);
+			emplace(Result::DoubledWin, at(Result::Win) * 2);
+			emplace(Result::DoubledLose, at(Result::Lose) * 2);
+		}
+		std::string Rate::print()
+		{
+			string r;
+			r += "Win:" + to_string(at(Result::Win)) + "\t";
+			r += "Tie:" + to_string(at(Result::Tie)) + "\t";
+			r += "Lose:" + to_string(at(Result::Lose)) + "\t";
+			r += "BlackJack:" + to_string(at(Result::BlackJack)) + "\t";
+			return r;
 		}
 	}
 }

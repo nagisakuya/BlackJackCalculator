@@ -17,7 +17,7 @@ namespace nagisakuya {
 				cin >> temp;
 				if (temp == "H") return Option::Hit;
 				else if (temp == "S") return Option::Stand;
-				else if (temp == "D" && DoubleDown_enable == true) return Option::DoubleDown;
+				else if (temp == "D" && DoubleDown_enable == true) return Option::Double;
 				else if (temp == "P" && Split_enable == true) return Option::Split;
 				else if (temp == "R" && Surrender_enable == true) return Option::Surrender;
 				else cout << "error " << temp << " is out of option" << endl;;
@@ -178,11 +178,11 @@ namespace nagisakuya {
 				return Option::Hit;
 			case Option::Stand:
 				return Option::Stand;
-			case Option::DoubleDown:
+			case Option::Double:
 				doubled = true;
 				add(deck->DrowRandom());
 				print();
-				return Option::DoubleDown;
+				return Option::Double;
 			case Option::Split:
 				return Option::Split;
 			case Option::Surrender:

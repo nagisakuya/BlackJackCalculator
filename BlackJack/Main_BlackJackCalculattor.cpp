@@ -9,7 +9,7 @@ using namespace std;
 
 /*int main()
 {
-    srand((unsigned int)time(NULL));
+	srand((unsigned int)time(NULL));
 	Table test(8, Rule());
 	string temp_s;
 	test.addplayer(Player(1));
@@ -19,9 +19,7 @@ using namespace std;
 int main()
 {
 	ofstream outputfile;
-	outputfile.open("output.txt",ios::trunc);
-	Calculator test;
-	outputfile << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
+	outputfile.open("output.txt", ios::trunc);
+	Calculator test(Deck(1), Rule(true, false, true), Rate(1.5));
 	test.Calculate_Expection(outputfile);
-	Deck deck(1);
 }

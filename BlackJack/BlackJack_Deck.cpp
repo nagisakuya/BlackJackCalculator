@@ -13,11 +13,13 @@ namespace nagisakuya {
 		{
 			content = input;
 		}
-		void Deck::print() const{
-			for (int i = 0; i < 14; i++)
+		string Deck::print() const{
+			string r;
+			for (int i = 0; i < 10; i++)
 			{
-				cout << "number of " << Translate(i) << "=" << content[i] << endl;
+				r += Translate(i) + ":" + to_string(content[i]) + "\t";
 			}
+			return r;
 		}
 		int Deck::size() const {
 			int sum = 0;
