@@ -18,11 +18,3 @@ Player:9 T 	Dealer:7	Stand:0.603746	Hit:-0.285794	Double:-0.571588	Split:undefin
 Player:9 T 	Dealer:6	Stand:0.466734	Hit:-0.0646781	Double:-0.129356	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.466734
 Player:9 T 	Dealer:5	Stand:0.45036	Hit:-0.0330713	Double:-0.0661427	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.45036
 Player:9 T 	Dealer:4	Stand:0.445831	Hit:-0.0356138	Double:-0.0712275	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.445831
-Player:9 T 	Dealer:3	Stand:0.413729	Hit:-0.0450337	Double:-0.0900674	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.413729
-Player:9 T 	Dealer:2	Stand:0.415238	Hit:-0.0804168	Double:-0.160834	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.415238
-Player:9 T 	Dealer:A	Stand:-0.124413	Hit:-0.586964	Double:-1.17393	Split:undefined	WhattoDo:Stand 	ExpectedValue:-0.124413
-Player:9 9 	Dealer:T	Stand:-0.217272	Hit:-0.328954	Double:-0.657907	Split:-0.657907	WhattoDo:Stand 	ExpectedValue:-0.217272
-Player:9 9 	Dealer:9	Stand:-0.215511	Hit:-0.234533	Double:-0.469066	Split:-0.469066	WhattoDo:Stand 	ExpectedValue:-0.215511
-Player:9 9 	Dealer:8	Stand:0.0276846	Hit:-0.189744	Double:-0.379487	Split:-0.379487	WhattoDo:Stand 	ExpectedValue:0.0276846
-Player:9 9 	Dealer:7	Stand:0.427901	Hit:-0.220828	Double:-0.441656	Split:-0.441656	WhattoDo:Stand 	ExpectedValue:0.427901
-Player:9 9 	Dealer:6	Stand:0.243118	Hit:0.00929229	Double:0.0185846	Split:0.0185846	WhattoDo:Stand 	ExpectedValue:0.243118
