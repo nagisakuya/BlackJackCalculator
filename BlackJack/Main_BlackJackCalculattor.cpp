@@ -35,6 +35,7 @@ int main()
 		}
 	}
 	inputfile >> BJrate;
+	inputfile.close();
 	ofstream outputfile;
 	outputfile.open("output.txt", ios::trunc);
 	Calculator test(Deck(deck), Rule(rule[0], rule[1], rule[2]), Rate(BJrate));
