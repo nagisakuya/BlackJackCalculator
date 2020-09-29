@@ -9,6 +9,9 @@ namespace nagisakuya {
 			double sum = 0;
 			pair<Option, double> temp_pair;
 			Deck temp_deck[3];
+			cout << rule.print() << endl;
+			cout << rate.print() << endl;
+			cout << deck.print() << endl;
 			file << rule.print() << endl;
 			file << rate.print() << endl;
 			file << deck.print() << endl;
