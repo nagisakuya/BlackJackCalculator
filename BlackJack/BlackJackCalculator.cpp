@@ -7,7 +7,6 @@ namespace nagisakuya {
 		double Calculator::Calculate(std::ofstream& file)
 		{
 			double sum = 0;
-			int temp;
 			pair<Option, double> temp_pair;
 			Deck temp_deck[3];
 			file << rule.print() << endl;
@@ -19,17 +18,14 @@ namespace nagisakuya {
 			for (int i = 10; i-- > 0;)
 			{
 				if (deck.count(i) != 0) {
-					temp = deck.count(i);
 					temp_deck[0] = deck - i;
 					for (int j = 10; j-- > i;)
 					{
 						if (temp_deck[0].count(j) != 0) {
-							temp *= temp_deck[0].count(j);
 							temp_deck[1] = temp_deck[0] - j;
 							for (int k = 10; k-- > 0; )
 							{
 								if (temp_deck[1].count(k) != 0) {
-									temp *= temp_deck[1].count(k);
 									temp_deck[2] = temp_deck[1] - k;
 									file << "Player:" << Translate(i) << " " << Translate(j) << " \tDealer:" << Translate(k) << "\t";
 									cout << "Player:" << Translate(i) << " " << Translate(j) << "\tDealer:" << Translate(k) << "\t";
@@ -37,7 +33,7 @@ namespace nagisakuya {
 									cout << "WhattoDo:" << OptiontoString.at(temp_pair.first);
 									cout << "\tExpectedValue:" << temp_pair.second << endl;
 									file << "WhattoDo:" << OptiontoString.at(temp_pair.first) << "\t" << "ExpectedValue:" << temp_pair.second << endl;
-									sum += temp_pair.second * (i == j ? 1 : 2) * temp;
+									sum += temp_pair.second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
 								}
 							}
 						}
