@@ -4,7 +4,7 @@ using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
 		Calculator::Calculator(Deck deck, Rule rule, Rate rate) :Table(deck, rule, rate) {}
-		double Calculator::Calculate_Expection(std::ofstream& file)
+		double Calculator::Calculate(std::ofstream& file)
 		{
 			clock_t start = clock();
 			double size = deck.size();
@@ -15,6 +15,7 @@ namespace nagisakuya {
 			file << rule.print() << endl;
 			file << rate.print() << endl;
 			file << deck.print() << endl;
+			if (rule.at(RuleList::Surrender) == true) file << "Surrender expexted value is always:" << rate.at(Result::Surrender) << endl;
 			//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
 			for (int i = 10; i-- > 0;)
 			{
@@ -46,22 +47,23 @@ namespace nagisakuya {
 				}
 			}
 			clock_t end = clock();
-			std::cout << "TotalExpectedValue:" << sum / (size * (size - 1) * (size - 2)) << endl;
-			std::cout << " Time:" << (end - start) / CLOCKS_PER_SEC << endl;
-			file << "TotalExpectedValue:" << sum / (size * (size - 1) * (size - 2)) << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+			double r = sum / (size * (size - 1) * (size - 2));
+			std::cout << "TotalExpectedValue:" << r << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+			file << "TotalExpectedValue:" << r << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+			return r;
 		}
 		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)
 		{
 			int sum;
 			bool BJ;
 			double temp = 0;
-			valarray<double> temp_d = DealerExpection(deck, dealer);
+			valarray<double> temp_d = DealerEV(deck, dealer);
 			tie(sum, ignore, BJ) = player.CheckHand();
 			map<Option, double> temp_map;
 			bool IsTheFirst = (player.size() == 2);
 
 			if (BJ == true) {
-				temp_map.emplace(Option::Stand, (1 - DealerExpection(deck, dealer)[6]) * rate.at(Result::BlackJack));
+				temp_map.emplace(Option::Stand, (1 - DealerEV(deck, dealer)[6]) * rate.at(Result::BlackJack));
 				goto exit;
 			}
 			//if stand
@@ -93,37 +95,41 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					temp += deck.count(i) * PlayerExpection(deck - i, player + i, dealer);
+					temp += deck.count(i) * PlayerEV(deck - i, player + i, dealer);
 				}
 			}
 			temp /= deck.size();
 			temp_map.emplace(Option::Hit, temp);
+
 			//if doubledown
 			if (IsTheFirst == true && rule.at(RuleList::DoubleAfterSplit) == true ? player.get_splitted() == false : true) {
 				temp = 0;
 				for (size_t i = 0; i < 10; i++)
 				{
 					if (deck.count(i) != 0) {
-						temp += deck.count(i) * PlayerExpection(deck - i, player * i, dealer) * 2;
+						temp += deck.count(i) * PlayerEV(deck - i, player * i, dealer) * 2;
 					}
 				}
 				temp /= deck.size();
 				temp_map.emplace(Option::Double, temp);
 			}
-			else
-				//if split
-				if (IsTheFirst == true && player.splittable()) {
-					temp = 0;
-					for (size_t i = 0; i < 10; i++)
-					{
-						if (deck.count(i) != 0) {
-							temp += deck.count(i) * PlayerExpection(deck - i, player / i, dealer) * 2;
-						}
+
+			//if split
+			if (IsTheFirst == true && player.splittable()) {
+				temp = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						temp += deck.count(i) * PlayerEV(deck - i, player / i, dealer) * 2;
 					}
-					temp /= deck.size();
-					temp_map.emplace(Option::Split, temp);
-					temp = 0;
 				}
+				temp /= deck.size();
+				temp_map.emplace(Option::Split, temp);
+				temp = 0;
+			}
+
+			//if surrender
+			if (rule.at(RuleList::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
 		exit:
 			Option best = Option::Stand;
 			file << "Stand:" << temp_map.at(Option::Stand) << "\t";
@@ -133,19 +139,20 @@ namespace nagisakuya {
 			else file << "Douoble:undefined" << "\t";
 			if (temp_map.count(Option::Split) == 1) { file << "Split:" << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
 			else file << "Split:undefined" << "\t";
+			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender; 
 			return *temp_map.find(best);
 
 		}
-		double Calculator::PlayerExpection(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
+		double Calculator::PlayerEV(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
 		{
 			int sum;
 			bool BJ;
 			tie(sum, ignore, BJ) = player.CheckHand();//óvèCê≥
-			if (BJ == true) return  (1 - DealerExpection(deck, dealer)[6]) * rate.at(Result::BlackJack);
+			if (BJ == true) return  (1 - DealerEV(deck, dealer)[6]) * rate.at(Result::BlackJack);
 			double best;
 			double temp = 0;
 			//if stand
-			valarray<double> temp_d = DealerExpection(deck, dealer);
+			valarray<double> temp_d = DealerEV(deck, dealer);
 			//bust,17,18,19,20,21,BJ
 			if (21 >= sum && sum >= 17) {
 				for (int i = 0; i < sum - 16; i++)
@@ -175,7 +182,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					temp += deck.count(i) * PlayerExpection(deck - i, player + i, dealer);
+					temp += deck.count(i) * PlayerEV(deck - i, player + i, dealer);
 				}
 			}
 			temp /= deck.size();
@@ -186,29 +193,16 @@ namespace nagisakuya {
 				for (size_t i = 0; i < 10; i++)
 				{
 					if (deck.count(i) != 0) {
-						temp += deck.count(i) * PlayerExpection(deck - i, player * i, dealer) * 2;
+						temp += deck.count(i) * PlayerEV(deck - i, player * i, dealer) * 2;
 					}
 				}
 				temp /= deck.size();
 				if (temp > best) best = temp;
-			}
-			//if split
-			if (IsTheFirst == true && player.splittable()) {
-				temp = 0;
-				for (size_t i = 0; i < 10; i++)
-				{
-					if (deck.count(i) != 0) {
-						temp += deck.count(i) * PlayerExpection(deck - i, player / i, dealer) * 2;
-					}
-				}
-				temp /= deck.size();
-				if (temp > best) best = temp;
-				temp = 0;
 			}
 			return best;
 
 		}
-		std::valarray<double> Calculator::DealerExpection(Deck const& deck, DealerHand const& dealer)
+		std::valarray<double> Calculator::DealerEV(Deck const& deck, DealerHand const& dealer)
 		{
 			//tie(sum,ignore,BJ) = dealer.CheckHand();
 			//íxÇ¢ÇªÇÃ1 ëΩï™ílÇÇÌÇ¥ÇÌÇ¥ï Ç»ïœêîÇ…ë„ì¸ÇµÇƒÇÈÇÃÇ™íxÇ¢
@@ -232,7 +226,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					r += deck.count(i) * DealerExpection(deck - i, dealer + i);
+					r += deck.count(i) * DealerEV(deck - i, dealer + i);
 				}
 			}
 			r = r / deck.size();

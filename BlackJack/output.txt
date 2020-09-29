@@ -1,18 +1,28 @@
-Soft17Hit:true	Surrender:false	DoubleAfterSplit:true	
+Soft17Hit:false	Surrender:false	DoubleAfterSplit:false	
 Win:1.000000	Tie:0.000000	Lose:-1.000000	BlackJack:1.500000	
 A:4	2:4	3:4	4:4	5:4	6:4	7:4	8:4	9:4	T:16	
-Player:T T 	Dealer:T	Stand:0.424499	Hit:-0.304078	Double:-0.608156	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.424499
-Player:T T 	Dealer:9	Stand:0.704514	Hit:-0.248881	Double:-0.497763	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.704514
-Player:T T 	Dealer:8	Stand:0.741924	Hit:-0.241326	Double:-0.482653	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.741924
-Player:T T 	Dealer:7	Stand:0.668943	Hit:0.0307901	Double:0.0615802	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.668943
-Player:T T 	Dealer:6	Stand:0.622033	Hit:0.0314328	Double:0.0628655	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.622033
-Player:T T 	Dealer:5	Stand:0.65029	Hit:0.034353	Double:0.0687061	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.65029
-Player:T T 	Dealer:4	Stand:0.636204	Hit:0.046208	Double:0.092416	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.636204
-Player:T T 	Dealer:3	Stand:0.624059	Hit:0.0239595	Double:0.047919	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.624059
-Player:T T 	Dealer:2	Stand:0.60535	Hit:-0.00529192	Double:-0.0105838	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.60535
-Player:T T 	Dealer:A	Stand:0.0758453	Hit:-0.537653	Double:-1.07531	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.0758453
-Player:9 T 	Dealer:T	Stand:-0.0364407	Hit:-0.233321	Double:-0.466642	Split:undefined	WhattoDo:Stand 	ExpectedValue:-0.0364407
-Player:9 T 	Dealer:9	Stand:0.211287	Hit:-0.156138	Double:-0.312276	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.211287
-Player:9 T 	Dealer:8	Stand:0.513357	Hit:-0.167965	Double:-0.335929	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.513357
-Player:9 T 	Dealer:7	Stand:0.440806	Hit:0.0962516	Double:0.192503	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.440806
-Player:9 T 	Dealer:6	Stand:0.356779	Hit:0.0918162	Double:0.183632	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.356779
+Player:T T 	Dealer:T	Stand:0.453917	Hit:-0.45283	Double:-0.90566	Split:-0.90566	WhattoDo:Stand 	ExpectedValue:0.453917
+Player:T T 	Dealer:9	Stand:0.737732	Hit:-0.410478	Double:-0.820956	Split:-0.820956	WhattoDo:Stand 	ExpectedValue:0.737732
+Player:T T 	Dealer:8	Stand:0.773988	Hit:-0.393667	Double:-0.787333	Split:-0.787333	WhattoDo:Stand 	ExpectedValue:0.773988
+Player:T T 	Dealer:7	Stand:0.76144	Hit:-0.380277	Double:-0.760553	Split:-0.760553	WhattoDo:Stand 	ExpectedValue:0.76144
+Player:T T 	Dealer:6	Stand:0.688623	Hit:-0.150372	Double:-0.300745	Split:-0.300745	WhattoDo:Stand 	ExpectedValue:0.688623
+Player:T T 	Dealer:5	Stand:0.687645	Hit:-0.11719	Double:-0.234381	Split:-0.234381	WhattoDo:Stand 	ExpectedValue:0.687645
+Player:T T 	Dealer:4	Stand:0.672837	Hit:-0.12251	Double:-0.245021	Split:-0.245021	WhattoDo:Stand 	ExpectedValue:0.672837
+Player:T T 	Dealer:3	Stand:0.653448	Hit:-0.133169	Double:-0.266337	Split:-0.266337	WhattoDo:Stand 	ExpectedValue:0.653448
+Player:T T 	Dealer:2	Stand:0.638413	Hit:-0.17108	Double:-0.34216	Split:-0.34216	WhattoDo:Stand 	ExpectedValue:0.638413
+Player:T T 	Dealer:A	Stand:0.12182	Hit:-0.653314	Double:-1.30663	Split:-1.30663	WhattoDo:Stand 	ExpectedValue:0.12182
+Player:9 T 	Dealer:T	Stand:0.0125159	Hit:-0.366191	Double:-0.732382	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.0125159
+Player:9 T 	Dealer:9	Stand:0.266456	Hit:-0.299972	Double:-0.599944	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.266456
+Player:9 T 	Dealer:8	Stand:0.557441	Hit:-0.281001	Double:-0.562002	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.557441
+Player:9 T 	Dealer:7	Stand:0.603746	Hit:-0.285794	Double:-0.571588	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.603746
+Player:9 T 	Dealer:6	Stand:0.466734	Hit:-0.0646781	Double:-0.129356	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.466734
+Player:9 T 	Dealer:5	Stand:0.45036	Hit:-0.0330713	Double:-0.0661427	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.45036
+Player:9 T 	Dealer:4	Stand:0.445831	Hit:-0.0356138	Double:-0.0712275	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.445831
+Player:9 T 	Dealer:3	Stand:0.413729	Hit:-0.0450337	Double:-0.0900674	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.413729
+Player:9 T 	Dealer:2	Stand:0.415238	Hit:-0.0804168	Double:-0.160834	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.415238
+Player:9 T 	Dealer:A	Stand:-0.124413	Hit:-0.586964	Double:-1.17393	Split:undefined	WhattoDo:Stand 	ExpectedValue:-0.124413
+Player:9 9 	Dealer:T	Stand:-0.217272	Hit:-0.328954	Double:-0.657907	Split:-0.657907	WhattoDo:Stand 	ExpectedValue:-0.217272
+Player:9 9 	Dealer:9	Stand:-0.215511	Hit:-0.234533	Double:-0.469066	Split:-0.469066	WhattoDo:Stand 	ExpectedValue:-0.215511
+Player:9 9 	Dealer:8	Stand:0.0276846	Hit:-0.189744	Double:-0.379487	Split:-0.379487	WhattoDo:Stand 	ExpectedValue:0.0276846
+Player:9 9 	Dealer:7	Stand:0.427901	Hit:-0.220828	Double:-0.441656	Split:-0.441656	WhattoDo:Stand 	ExpectedValue:0.427901
+Player:9 9 	Dealer:6	Stand:0.243118	Hit:0.00929229	Double:0.0185846	Split:0.0185846	WhattoDo:Stand 	ExpectedValue:0.243118

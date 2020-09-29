@@ -57,5 +57,8 @@
     <Text Include="output.txt">
       <Filter>リソース ファイル</Filter>
     </Text>
+    <Text Include="input.txt">
+      <Filter>リソース ファイル</Filter>
+    </Text>
   </ItemGroup>
 </Project>
