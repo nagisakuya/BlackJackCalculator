@@ -148,7 +148,7 @@
     <ClCompile Include="BlackJack_Deck.cpp" />
     <ClCompile Include="BlackJack_Hand.cpp" />
     <ClCompile Include="BlackJack_Table.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Main_BlackJackCalculattor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackJack.h" />

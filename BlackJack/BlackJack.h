@@ -23,6 +23,10 @@ namespace nagisakuya {
 		public:
 			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
 		};
+		class Rate :public std::map<Result, double> {
+		public:
+			Rate(double BlackJackRate = 1.5);
+		};
 		class Deck {
 		protected:
 			std::array<int, 10> content;
@@ -88,13 +92,13 @@ namespace nagisakuya {
 		class Table {
 		private:
 			std::vector<Player> PlayerList;
+		protected:
 			DealerHand dealer;
 			Deck deck;
-		protected:
 			Rule rule;
-			std::map<Result, double>Rate;
+			Rate rate;
 		public:
-			Table(int Numberofdeck = 8, Rule rule = Rule(), double BlackJackRate = 2.5);
+			Table(int Numberofdeck = 8, Rule rule = Rule(), Rate rate = Rate(1.5));
 			bool addplayer(Player input);
 			void play();
 			void replay();

@@ -81,5 +81,15 @@ namespace nagisakuya {
 				return std::to_string(input + 1);
 			}
 		}
+		Rate::Rate(double BlackJackRate)
+		{
+			emplace(Result::Win, 1);
+			emplace(Result::Lose,-1);
+			emplace(Result::Tie, 0);
+			emplace(Result::BlackJack, BlackJackRate);
+			emplace(Result::Surrender, -0.5);
+			emplace(Result::DoubledWin, 2);
+			emplace(Result::DoubledLose, -2);
+		}
 	}
 }
