@@ -28,4 +28,3 @@ Player:9 9 	Dealer:7	Stand:0.40106	Hit:-0.201058	Double:-0.402115	Split:-0.40211
 Player:9 9 	Dealer:6	Stand:0.265195	Hit:0.022244	Double:0.044488	Split:0.044488	WhattoDo:Stand 	ExpectedValue:0.265195
 Player:9 9 	Dealer:5	Stand:0.202893	Hit:0.0323749	Double:0.0647498	Split:0.0647498	WhattoDo:Stand 	ExpectedValue:0.202893
 Player:9 9 	Dealer:4	Stand:0.166978	Hit:-0.0125935	Double:-0.0251871	Split:-0.0251871	WhattoDo:Stand 	ExpectedValue:0.166978
-Player:9 9 	Dealer:3	Stand:0.122553	Hit:-0.0806785	Double:-0.161357	Split:-0.161357	WhattoDo:Stand 	ExpectedValue:0.122553
