@@ -25,7 +25,7 @@ namespace nagisakuya {
 		}
 
 		void Hand::add(int input) {
-			content.push_back(input);
+			content.emplace_back(input);
 		}
 
 		void Hand::print() const {
@@ -134,7 +134,7 @@ namespace nagisakuya {
 		}
 
 
-		const map< Result, string> PlayerHand::ResulttoString = {
+		const unordered_map< Result, string> PlayerHand::ResulttoString = {
 			{Result::Win		,"Win"},
 			{Result::Lose		,"Lose"},
 			{Result::Tie		,"Tie"},
@@ -198,6 +198,31 @@ namespace nagisakuya {
 				result = Judge(*this, dealer);
 			}
 			cout << "Result:" << ResulttoString.at(get_result()) << endl;
+		}
+
+		std::tuple<int, bool, bool> PlayerHand::CheckHand() const
+		{
+			int sum = 0;
+			int AceCount = 0;
+			size_t size = content.size();
+			for (size_t i = 0; i < size; i++)
+			{
+				if (content[i] == 0) {
+					sum += 11;
+					AceCount++;
+				}
+				else if (content[i] >= 9) {
+					sum += 10;
+				}
+				else {
+					sum += content[i] + 1;
+				}
+				if (AceCount > 0 && sum > 21) {
+					sum -= 10;
+					AceCount--;
+				}
+			}
+			return { sum ,AceCount == 0 ? false : true ,(size == 2 && sum == 21 && splitted == false) ? true : false };
 		}
 
 	}

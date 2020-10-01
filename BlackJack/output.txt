@@ -1,30 +1,8 @@
-Soft17Hit:false	Surrender:false	DoubleAfterSplit:false	
-Win:1.000000	Tie:0.000000	Lose:-1.000000	BlackJack:1.500000	
-A:4	2:4	3:4	4:4	5:4	6:4	7:4	8:4	9:4	T:16	
-Player:T T 	Dealer:T	Stand:0.453917	Hit:-0.45283	Double:-0.90566	Split:-0.90566	WhattoDo:Stand 	ExpectedValue:0.453917
-Player:T T 	Dealer:9	Stand:0.74397	Hit:-0.41288	Double:-0.82576	Split:-0.82576	WhattoDo:Stand 	ExpectedValue:0.74397
-Player:T T 	Dealer:8	Stand:0.783251	Hit:-0.402965	Double:-0.805931	Split:-0.805931	WhattoDo:Stand 	ExpectedValue:0.783251
-Player:T T 	Dealer:7	Stand:0.764677	Hit:-0.362389	Double:-0.724778	Split:-0.724778	WhattoDo:Stand 	ExpectedValue:0.764677
-Player:T T 	Dealer:6	Stand:0.697403	Hit:-0.108193	Double:-0.216387	Split:-0.216387	WhattoDo:Stand 	ExpectedValue:0.697403
-Player:T T 	Dealer:5	Stand:0.673675	Hit:-0.0929638	Double:-0.185928	Split:-0.185928	WhattoDo:Stand 	ExpectedValue:0.673675
-Player:T T 	Dealer:4	Stand:0.644848	Hit:-0.142826	Double:-0.285652	Split:-0.285652	WhattoDo:Stand 	ExpectedValue:0.644848
-Player:T T 	Dealer:3	Stand:0.636134	Hit:-0.1919	Double:-0.3838	Split:-0.3838	WhattoDo:Stand 	ExpectedValue:0.636134
-Player:T T 	Dealer:2	Stand:0.627226	Hit:-0.2335	Double:-0.467001	Split:-0.467001	WhattoDo:Stand 	ExpectedValue:0.627226
-Player:T T 	Dealer:A	Stand:0.178641	Hit:-0.688119	Double:-1.37624	Split:-1.37624	WhattoDo:Stand 	ExpectedValue:0.178641
-Player:9 T 	Dealer:T	Stand:0.0125159	Hit:-0.366191	Double:-0.732382	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.0125159
-Player:9 T 	Dealer:9	Stand:0.264279	Hit:-0.304172	Double:-0.608344	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.264279
-Player:9 T 	Dealer:8	Stand:0.576828	Hit:-0.293817	Double:-0.587634	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.576828
-Player:9 T 	Dealer:7	Stand:0.61012	Hit:-0.27733	Double:-0.554659	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.61012
-Player:9 T 	Dealer:6	Stand:0.484093	Hit:-0.0336367	Double:-0.0672735	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.484093
-Player:9 T 	Dealer:5	Stand:0.447849	Hit:-0.0205819	Double:-0.0411637	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.447849
-Player:9 T 	Dealer:4	Stand:0.404114	Hit:-0.0666852	Double:-0.13337	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.404114
-Player:9 T 	Dealer:3	Stand:0.383557	Hit:-0.112871	Double:-0.225743	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.383557
-Player:9 T 	Dealer:2	Stand:0.384834	Hit:-0.157897	Double:-0.315793	Split:undefined	WhattoDo:Stand 	ExpectedValue:0.384834
-Player:9 T 	Dealer:A	Stand:-0.0926329	Hit:-0.600189	Double:-1.20038	Split:undefined	WhattoDo:Stand 	ExpectedValue:-0.0926329
-Player:9 9 	Dealer:T	Stand:-0.204037	Hit:-0.319854	Double:-0.639707	Split:-0.639707	WhattoDo:Stand 	ExpectedValue:-0.204037
-Player:9 9 	Dealer:9	Stand:-0.196372	Hit:-0.236465	Double:-0.472929	Split:-0.472929	WhattoDo:Stand 	ExpectedValue:-0.196372
-Player:9 9 	Dealer:8	Stand:0.0645179	Hit:-0.199836	Double:-0.399671	Split:-0.399671	WhattoDo:Stand 	ExpectedValue:0.0645179
-Player:9 9 	Dealer:7	Stand:0.40106	Hit:-0.201058	Double:-0.402115	Split:-0.402115	WhattoDo:Stand 	ExpectedValue:0.40106
-Player:9 9 	Dealer:6	Stand:0.265195	Hit:0.022244	Double:0.044488	Split:0.044488	WhattoDo:Stand 	ExpectedValue:0.265195
-Player:9 9 	Dealer:5	Stand:0.202893	Hit:0.0323749	Double:0.0647498	Split:0.0647498	WhattoDo:Stand 	ExpectedValue:0.202893
-Player:9 9 	Dealer:4	Stand:0.166978	Hit:-0.0125935	Double:-0.0251871	Split:-0.0251871	WhattoDo:Stand 	ExpectedValue:0.166978
+Soft17Hit: false	Surrender: false	DoubleAfterSplit: false	
+Win: 1.000000	Tie: 0.000000	Lose: -1.000000	BlackJack: 1.500000	
+A: 4	2: 4	3: 4	4: 4	5: 4	6: 4	7: 4	8: 4	9: 4	T: 16	
+Player1st: T	Player2nd: T 	Dealer: T	Stand: 0.453917	Hit: -0.45283	Double: -0.90566	Split: 0.0343655	WhattoDo: Stand 	ExpectedValue: 0.453917
+Player1st: T	Player2nd: T 	Dealer: 9	Stand: 0.74397	Hit: -0.41288	Double: -0.82576	Split: 0.184041	WhattoDo: Stand 	ExpectedValue: 0.74397
+Player1st: T	Player2nd: T 	Dealer: 8	Stand: 0.783251	Hit: -0.402965	Double: -0.805931	Split: 0.291743	WhattoDo: Stand 	ExpectedValue: 0.783251
+Player1st: T	Player2nd: T 	Dealer: 7	Stand: 0.764677	Hit: -0.362389	Double: -0.724778	Split: 0.360366	WhattoDo: Stand 	ExpectedValue: 0.764677
+Player1st: T	Player2nd: T 	Dealer: 6	Stand: 0.697403	Hit: -0.108193	Double: -0.216387	Split: 0.432406	WhattoDo: Stand 	ExpectedValue: 0.697403

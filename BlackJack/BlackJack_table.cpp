@@ -4,11 +4,9 @@ using namespace std;
 
 namespace nagisakuya {
 	namespace BlackJack {
-		Table::Table(Deck deck, Rule rule, Rate rate)
+		Table::Table(Deck deck,Rule rule,Rate rate) : rule(rule),rate(rate)
 		{
 			this->deck = deck;
-			this->rule = rule;
-			this->rate = rate;
 		}
 
 		void Table::play() {
@@ -56,7 +54,7 @@ namespace nagisakuya {
 					return false;
 				}
 			}
-			PlayerList.push_back(input);
+			PlayerList.emplace_back(input);
 			return true;
 		}
 	}

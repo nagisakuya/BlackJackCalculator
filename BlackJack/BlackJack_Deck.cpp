@@ -17,7 +17,7 @@ namespace nagisakuya {
 			string r;
 			for (int i = 0; i < 10; i++)
 			{
-				r += Translate(i) + ":" + to_string(content[i]) + "\t";
+				r += Translate(i) + ": " + to_string(content[i]) + "\t";
 			}
 			return r;
 		}

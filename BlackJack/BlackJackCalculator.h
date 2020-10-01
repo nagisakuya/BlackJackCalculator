@@ -14,7 +14,7 @@ namespace nagisakuya {
 			Calculator(Deck deck, Rule rule = Rule(), Rate rate = Rate());
 			//EV = Expected Value
 			double Calculate(std::ofstream& file);
-			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand, std::ofstream& file);
+			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand, std::ofstream & file);
 			std::valarray<double> DealerEV(Deck const& deck, DealerHand const& dealer); //bust,17,18,19,20,21,BJ‚ÌŠm—¦
 		};
 	}
