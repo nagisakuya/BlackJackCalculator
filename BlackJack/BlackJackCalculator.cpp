@@ -22,17 +22,17 @@ namespace nagisakuya {
 			{
 				if (deck.count(i) != 0) {
 					temp_deck[0] = deck - i;
-					for (int j = 10; j-- > i;)
+					for (int j = 10; j-- > 0;)
 					{
 						if (temp_deck[0].count(j) != 0) {
 							temp_deck[1] = temp_deck[0] - j;
-							for (int k = 10; k-- > 0; )
+							for (int k = 10; k-- > j; )
 							{
 								if (temp_deck[1].count(k) != 0) {
 									temp_deck[2] = temp_deck[1] - k;
-									file << "Player1st: " << Translate(i) << "\tPlayer2nd: " << Translate(j) << " \tDealer: " << Translate(k) << "\t";
-									cout << "Player1st: " << Translate(i) << "\tPlayer2nd: " << Translate(j) << " \tDealer: " << Translate(k) << "\t";
-									temp_pair = WhattoDo(temp_deck[2], PlayerHand({ i,j }), DealerHand({ k }), file);
+									file << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
+									cout << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
+									temp_pair = WhattoDo(temp_deck[2], PlayerHand({ j,k }), DealerHand({ i }), file);
 									cout << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << endl;
 									file << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << endl;
 									sum += temp_pair.second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
