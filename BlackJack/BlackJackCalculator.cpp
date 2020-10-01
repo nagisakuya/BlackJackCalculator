@@ -48,7 +48,7 @@ namespace nagisakuya {
 			file << "TotalExpectedValue:" << r << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
 			return r;
 		}
-		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer,ofstream & file)
+		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)
 		{
 			int sum;
 			bool BJ;
@@ -77,7 +77,9 @@ namespace nagisakuya {
 					}
 				}
 			}
-			else {
+			else if (sum > 21) {
+				temp += rate.at(Result::Lose);
+			}else{
 				temp += rate.at(Result::Win) * temp_d[0];
 				temp += rate.at(Result::Lose) * (1 - temp_d[0]);
 			}
@@ -140,7 +142,7 @@ namespace nagisakuya {
 			else file << "Douoble: undefined" << "\t";
 			if (temp_map.count(Option::Split) == 1) { file << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
 			else file << "Split: undefined" << "\t";
-			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender; 
+			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
 			return *temp_map.find(best);
 
 		}
@@ -149,55 +151,44 @@ namespace nagisakuya {
 			const tuple<int, bool, bool > temp_tuple = player.CheckHand();
 			if (get<2>(temp_tuple) == true) return  (1 - DealerEV(deck, dealer)[6]) * rate.at(Result::BlackJack);
 			double best = -2;
-			double temp = 0;
+			double stand = 0;
 			//if stand
 			if (get<0>(temp_tuple) > 11 || player.get_doubled() == true) {
 				valarray<double> temp_d = DealerEV(deck, dealer); //bust,17,18,19,20,21,BJ
 				if (21 >= get<0>(temp_tuple) && get<0>(temp_tuple) >= 17) {
 					for (int i = 0; i < get<0>(temp_tuple) - 16; i++)
 					{
-						temp += rate.at(Result::Win) * temp_d[i];
+						stand += rate.at(Result::Win) * temp_d[i];
 					}
 					if (get<0>(temp_tuple) != 21) {
 						for (int i = get<0>(temp_tuple) - 16 + 1; i < 7; i++)
 						{
-							temp += rate.at(Result::Lose) * temp_d[i];
+							stand += rate.at(Result::Lose) * temp_d[i];
 						}
 					}
 				}
-				else {
-					temp += rate.at(Result::Win) * temp_d[0];
-					temp += rate.at(Result::Lose) * (1 - temp_d[0]);
+				else if (get<0>(temp_tuple) > 21) {
+					stand += rate.at(Result::Lose);
 				}
-				if (get<0>(temp_tuple) >= 21 || player.get_doubled() == true) return temp;
-				best = temp;
+				else {
+					stand += rate.at(Result::Win) * temp_d[0];
+					stand += rate.at(Result::Lose) * (1 - temp_d[0]);
+				}
+				if (get<0>(temp_tuple) >= 21 || player.get_doubled() == true) return stand;
 			}
 
+			double hit = 0;
 			bool IsTheFirst = (player.size() == 2);
 
 			//if hit
-			temp = 0;
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					temp += deck.count(i) * PlayerEV(deck - i, player + i, dealer);
+					hit += deck.count(i) * PlayerEV(deck - i, player + i, dealer);
 				}
 			}
-			temp /= deck.size();
-			if (temp > best) best = temp;
-			//if doubledown
-			if (IsTheFirst == true && rule.at(RuleList::DoubleAfterSplit) == true ? player.get_splitted() == false : true) {
-				temp = 0;
-				for (size_t i = 0; i < 10; i++)
-				{
-					if (deck.count(i) != 0) {
-						temp += deck.count(i) * PlayerEV(deck - i, player * i, dealer) * 2;
-					}
-				}
-				temp /= deck.size();
-				if (temp > best) best = temp;
-			}
-			return best;
+			hit /= deck.size();
+			return hit > stand ? hit : stand;
 
 		}
 		std::valarray<double> Calculator::DealerEV(Deck const& deck, DealerHand const& dealer)
@@ -207,12 +198,13 @@ namespace nagisakuya {
 			//pair‚æ‚è‚Í’x‚¢‚ªtuple‚à‚‘¬
 			tuple<int, bool, bool> temp = dealer.CheckHand();//pair‚É‚µ‚Ä‚‘¬‰» 
 			valarray<double> r(0.0, 7);//={0,0,0,0,0,0,0}; ’x‚¢‚»‚Ì2 initilizer_list‚Í’x‚¢
-			if (get<2>(temp) == true) {
-				r[6] = 1;
-				return r;
-			}
-			if (!(get<1>(temp) == true && get<0>(temp) == 17 && rule.at(RuleList::Soft17Hit) == true)) {
-				if (21 >= get<0>(temp) && get<0>(temp) >= 17) {
+			//valarray’x‚¢‚©‚à
+			if (get<0>(temp) >= 17) {
+				if (get<2>(temp) == true) {
+					r[6] = 1;
+					return r;
+				}
+				if (21 >= get<0>(temp) && !(get<0>(temp) == 17 && get<1>(temp) == true && rule.at(RuleList::Soft17Hit) == true)) {
 					r[get<0>(temp) - 16] = 1;
 					return r;
 				}
