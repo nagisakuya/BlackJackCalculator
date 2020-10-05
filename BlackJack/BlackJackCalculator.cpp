@@ -79,7 +79,8 @@ namespace nagisakuya {
 			}
 			else if (sum > 21) {
 				temp += rate.at(Result::Lose);
-			}else{
+			}
+			else {
 				temp += rate.at(Result::Win) * temp_d[0];
 				temp += rate.at(Result::Lose) * (1 - temp_d[0]);
 			}
@@ -122,7 +123,8 @@ namespace nagisakuya {
 						for (int j = 10; j-- > i;)
 						{
 							if (temp_deck.count(j) != 0) {
-								temp += (i == j ? 1 : 2) * (((double)deck.count(i) * (double)temp_deck.count(j) * WhattoDo(temp_deck, player / i, dealer, null).second) + (deck.count(j) * WhattoDo(temp_deck - j, player / j, dealer, null).second));
+								temp += (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck.count(j) *
+									(WhattoDo(temp_deck - j, player / i, dealer, null).second + WhattoDo(temp_deck - j, player / j, dealer, null).second));
 							}
 						}
 					}
@@ -155,7 +157,14 @@ namespace nagisakuya {
 			//if stand
 			if (get<0>(temp_tuple) > 11 || player.get_doubled() == true) {
 				valarray<double> temp_d = DealerEV(deck, dealer); //bust,17,18,19,20,21,BJ
-				if (21 >= get<0>(temp_tuple) && get<0>(temp_tuple) >= 17) {
+				if (get<0>(temp_tuple) > 21) {
+					stand += rate.at(Result::Lose);
+				}
+				else if (get<0>(temp_tuple) < 17) {
+					stand += rate.at(Result::Win) * temp_d[0];
+					stand += rate.at(Result::Lose) * (1 - temp_d[0]);
+				}
+				else{ //if (21 >= get<0>(temp_tuple) && get<0>(temp_tuple) >= 17) 
 					for (int i = 0; i < get<0>(temp_tuple) - 16; i++)
 					{
 						stand += rate.at(Result::Win) * temp_d[i];
@@ -166,13 +175,6 @@ namespace nagisakuya {
 							stand += rate.at(Result::Lose) * temp_d[i];
 						}
 					}
-				}
-				else if (get<0>(temp_tuple) > 21) {
-					stand += rate.at(Result::Lose);
-				}
-				else {
-					stand += rate.at(Result::Win) * temp_d[0];
-					stand += rate.at(Result::Lose) * (1 - temp_d[0]);
 				}
 				if (get<0>(temp_tuple) >= 21 || player.get_doubled() == true) return stand;
 			}
