@@ -18,6 +18,7 @@ namespace nagisakuya {
 			if (rule.at(RuleList::Surrender) == true) file << "Surrender expexted value is always:" << rate.at(Result::Surrender) << endl;
 			//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
 			clock_t start = clock();
+			clock_t temp_clock = clock();
 			for (int i = 10; i-- > 0;)
 			{
 				if (deck.count(i) != 0) {
@@ -32,9 +33,10 @@ namespace nagisakuya {
 									temp_deck[2] = temp_deck[1] - k;
 									file << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
 									cout << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
+									temp_clock = clock();
 									temp_pair = WhattoDo(temp_deck[2], PlayerHand({ j,k }), DealerHand({ i }), file);
-									cout << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << endl;
-									file << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << endl;
+									cout << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << "\tTime: " << clock() - temp_clock << endl;
+									file << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << "\tTime: " << clock() - temp_clock << endl;
 									sum += temp_pair.second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
 								}
 							}
@@ -44,8 +46,8 @@ namespace nagisakuya {
 			}
 			clock_t end = clock();
 			double r = sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
-			std::cout << "TotalExpectedValue:" << r << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
-			file << "TotalExpectedValue:" << r << "\t" << " Time:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+			std::cout << "TotalExpectedValue:" << r << "\t" << " TotalTime:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+			file << "TotalExpectedValue:" << r << "\t" << " TotalTime:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
 			return r;
 		}
 		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)

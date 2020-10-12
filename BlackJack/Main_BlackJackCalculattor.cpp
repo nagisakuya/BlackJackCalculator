@@ -31,7 +31,7 @@ int main()
 		if (temp_s == "true") rule[i] = true;
 		else if (temp_s == "false") rule[i] = false;
 		else {
-			cout << "Error:can't read " << i + 10 << " Th" << endl;
+			cout << "Error:can't read " << i + 10 << " Th option" << endl;
 			return 1;
 		}
 	}
