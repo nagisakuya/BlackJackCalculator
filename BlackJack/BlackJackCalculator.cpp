@@ -161,12 +161,8 @@ namespace nagisakuya {
 		}
 		std::valarray<double> Calculator::DealerEV(Deck const& deck, DealerHand const& dealer)
 		{
-			//tie(sum,ignore,BJ) = dealer.CheckHand();
-			//’x‚¢‚»‚Ì1 ‘½•ª’l‚ğ‚í‚´‚í‚´•Ê‚È•Ï”‚É‘ã“ü‚µ‚Ä‚é‚Ì‚ª’x‚¢
-			//pair‚æ‚è‚Í’x‚¢‚ªtuple‚à‚‘¬
-			tuple<int, bool, bool> temp = dealer.CheckHand();//pair‚É‚µ‚Ä‚‘¬‰» 
-			valarray<double> r(0.0, 7);//={0,0,0,0,0,0,0}; ’x‚¢‚»‚Ì2 initilizer_list‚Í’x‚¢
-			//valarray’x‚¢‚©‚à
+			tuple<int, bool, bool> temp = dealer.CheckHand();
+			valarray<double> r(0.0, 7);
 			if (get<0>(temp) >= 17) {
 				if (get<2>(temp) == true) {
 					r[6] = 1;
@@ -181,14 +177,15 @@ namespace nagisakuya {
 					return r;
 				}
 			}
-			for (size_t i = 0; i < 10; i++)
-			{
-				if (deck.count(i) != 0) {
-					r += deck.count(i) * DealerEV(deck - i, dealer + i);
+			else {
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						r += deck.count(i) * DealerEV(deck - i, dealer + i);
+					}
 				}
+				r = r / deck.size();
 			}
-			r = r / deck.size();
-			return r;
 		}
 }
 }

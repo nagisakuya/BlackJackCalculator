@@ -9,10 +9,6 @@ namespace nagisakuya {
 			}
 			content[9] = NumberofDeck * 16;
 		}
-		Deck::Deck(array<int, 10> input)
-		{
-			content = input;
-		}
 		string Deck::print() const{
 			string r;
 			for (int i = 0; i < 10; i++)

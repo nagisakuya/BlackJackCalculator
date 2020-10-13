@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-	cout << "BlackJackCalculator Ver 1.1.0" << endl;
+	cout << "BlackJackCalculator Ver 1.1.1" << endl;
 	ifstream inputfile;
 	array<int, 10> deck;
 	array<bool,3> rule;
@@ -39,6 +39,6 @@ int main()
 	inputfile.close();
 	ofstream outputfile;
 	outputfile.open("output.txt", ios::trunc);
-	Calculator test(Deck(deck), Rule(rule[0], rule[1], rule[2]), Rate(BJrate));
+	 Calculator test(Deck(deck), Rule(rule[0], rule[1], rule[2]), Rate(BJrate));
 	test.Calculate(outputfile);
 }

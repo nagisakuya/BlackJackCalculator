@@ -34,27 +34,27 @@ namespace nagisakuya {
 			std::array<int, 10> content;
 		public:
 			Deck(int NumberofDeck = 8);
-			Deck(std::array<int, 10> input);
+			Deck(std::array<int, 10> input) { content = input; }
 			std::string print() const;
-			int size() const;
+			inline int size() const;
 			int count(int i) const{ return content[i]; }
 			int DrowRandom();
-			Deck operator - (int i) const { std::array<int, 10> r = content; r[i]--; return Deck(r); }
+			int Drow(int input) { content[input]--; return input; }
+			Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
 		};
 		class Hand {
 		protected:
 			std::vector<int> content;
 		public:
-			Hand(std::vector<int> input = {});
-			void add(int input);
+			Hand(std::vector<int> input = {}) { content = input; }
+			void add(int input) { content.emplace_back(input); }
 			virtual void print() const;
-			size_t size() const;
-			virtual std::tuple<int, bool, bool> CheckHand() const;//sum,issoft,isBJ
-			std::pair<int, bool> CheckHand_speed() const;//sum,isBJ
+			size_t size() const { return content.size(); }
+			inline std::tuple<int, bool, bool> CheckHand() const;//sum,issoft,isBJ
 		};
 		class DealerHand :public Hand {
 		public:
-			DealerHand(std::vector<int> input = {});
+			DealerHand(std::vector<int> input = {}) :Hand(input) {};
 			void print() const;
 			void hituntil17(Deck& deck, Rule const& rule);
 			int get_upcard() const { return content[0]; }
@@ -68,12 +68,11 @@ namespace nagisakuya {
 			const static std::unordered_map< Result, std::string> ResulttoString;
 			static Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
 		public:
-			PlayerHand(std::vector<int> input = {}, bool splitted = false, bool doubled = false);
+			PlayerHand(std::vector<int> input = {}, bool splitted = false, bool doubled = false) :Hand(input) { this->splitted = splitted; this->doubled = doubled; }
 			bool splittable() const;
 			PlayerHand split(Deck* deck);
 			Option play(Deck* deck, Rule const& rule);
 			void judge(DealerHand const& dealer);
-			std::tuple<int, bool, bool> CheckHand() const;
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }

@@ -2,9 +2,6 @@
 using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
-		Hand::Hand(vector<int> input) {
-			content = input;
-		}
 
 		Option PlayerHand::AskOption(bool Split_enable, bool DoubleDown_enable, bool Surrender_enable) {
 			string temp;
@@ -22,10 +19,6 @@ namespace nagisakuya {
 				else if (temp == "R" && Surrender_enable == true) return Option::Surrender;
 				else cout << "error " << temp << " is out of option" << endl;;
 			}
-		}
-
-		void Hand::add(int input) {
-			content.emplace_back(input);
 		}
 
 		void Hand::print() const {
@@ -52,15 +45,10 @@ namespace nagisakuya {
 			cout << "sum is " << sum << endl;
 		}
 
-		size_t Hand::size() const
-		{
-			return content.size();
-		}
-
 		tuple<int, bool, bool> Hand::CheckHand() const {
 			int sum = 0;
 			int AceCount = 0;
-			size_t size = content.size();
+			const size_t size = content.size();
 			for (size_t i = 0; i < size; i++)
 			{
 				if (content[i] == 0) {
@@ -78,37 +66,10 @@ namespace nagisakuya {
 					AceCount--;
 				}
 			}
-			return { sum ,AceCount == 0 ? false : true ,(size == 2 && sum == 21) ? true : false };
-		}
-
-		std::pair<int, bool> Hand::CheckHand_speed() const
-		{
-			//initializer_list‚Í’x‚¢‚Ì‚Å–‘O‚Épair‚ğì‚Á‚Ä‚¨‚­B(pair‚Í‚‘¬‚¾‚Æv‚¤)
-			pair<int, bool> r;
-			r.first = 0;
-			int AceCount = 0;
-			size_t size = content.size();
-			for (size_t i = 0; i < size; i++)
-			{
-				if (content[i] == 0) {
-					r.first += 11;
-					AceCount++;
-				}
-				else {
-					r.first += content[i] + 1;
-				}
-				if (AceCount > 0 && r.first > 21) {
-					r.first -= 10;
-					AceCount--;
-				}
-			}
-			r.second = (size == 2 && r.first == 21) ? true : false;
-			return r;
+			return make_tuple(sum, AceCount == 0 ? false : true, (size == 2 && sum == 21) ? true : false);
 		}
 
 
-		DealerHand::DealerHand(vector<int> input) :Hand(input) {
-		}
 
 		void DealerHand::print() const
 		{
@@ -143,11 +104,6 @@ namespace nagisakuya {
 			{Result::DoubledWin	,"DoubledWin"},
 			{Result::DoubledLose,"DoubledLose"}
 		};
-
-		PlayerHand::PlayerHand(vector<int> input, bool splitted , bool doubled) :Hand(input) {
-			this->splitted = splitted;
-			this->doubled = doubled;
-		}
 
 		bool PlayerHand::splittable() const {
 			if (splitted == false && content.size() == 2 && (content[0] == content[1] || content[0] >= 9 && content[1] >= 9))return true;
@@ -198,31 +154,6 @@ namespace nagisakuya {
 				result = Judge(*this, dealer);
 			}
 			cout << "Result:" << ResulttoString.at(get_result()) << endl;
-		}
-
-		std::tuple<int, bool, bool> PlayerHand::CheckHand() const
-		{
-			int sum = 0;
-			int AceCount = 0;
-			size_t size = content.size();
-			for (size_t i = 0; i < size; i++)
-			{
-				if (content[i] == 0) {
-					sum += 11;
-					AceCount++;
-				}
-				else if (content[i] >= 9) {
-					sum += 10;
-				}
-				else {
-					sum += content[i] + 1;
-				}
-				if (AceCount > 0 && sum > 21) {
-					sum -= 10;
-					AceCount--;
-				}
-			}
-			return { sum ,AceCount == 0 ? false : true ,(size == 2 && sum == 21 && splitted == false) ? true : false };
 		}
 
 	}
