@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-	cout << "BlackJackCalculator Ver 1.1.1" << endl;
+	cout << "BlackJackCalculator Ver 1.1.2" << endl;
 	ifstream inputfile;
 	array<int, 10> deck;
 	array<bool,3> rule;

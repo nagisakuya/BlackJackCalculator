@@ -53,7 +53,7 @@ namespace nagisakuya {
 		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, ofstream& file)
 		{
 			valarray<double> temp_d = DealerEV(deck, dealer);
-			tuple<int,bool,bool> temp_tuple = player.CheckHand();
+			tuple<int, bool, bool> temp_tuple = player.CheckHand();
 			unordered_map<Option, double> temp_map;
 			bool IsTheFirst = (player.size() == 2);
 
@@ -84,7 +84,8 @@ namespace nagisakuya {
 				if (get<0>(temp_tuple) >= 21 || player.get_doubled() == true) return stand;
 				double hit = If_hit(deck, player, dealer);
 				return hit > stand ? hit : stand;
-			}else return If_hit(deck, player, dealer);
+			}
+			else return If_hit(deck, player, dealer);
 
 		}
 		double Calculator::If_stand(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
@@ -177,15 +178,13 @@ namespace nagisakuya {
 					return r;
 				}
 			}
-			else {
-				for (size_t i = 0; i < 10; i++)
-				{
-					if (deck.count(i) != 0) {
-						r += deck.count(i) * DealerEV(deck - i, dealer + i);
-					}
+			for (size_t i = 0; i < 10; i++)
+			{
+				if (deck.count(i) != 0) {
+					r += deck.count(i) * DealerEV(deck - i, dealer + i);
 				}
-				r = r / deck.size();
 			}
+			return r / deck.size();
 		}
-}
+	}
 }
