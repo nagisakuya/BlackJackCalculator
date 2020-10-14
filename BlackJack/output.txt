@@ -1,5 +1,5 @@
 Soft17Hit: false	Surrender: false	DoubleAfterSplit: false	
 Win: 1.000000	Tie: 0.000000	Lose: -1.000000	BlackJack: 1.500000	
 A: 4	2: 4	3: 4	4: 4	5: 4	6: 4	7: 4	8: 4	9: 4	T: 16	
-Dealer: T	Player1st: T 	Player2nd: T	Stand: 0.453917	Hit: -0.845176	Double: -1.69035	Split: -0.00757866	WhattoDo: Stand 	ExpectedValue: 0.453917	Time: 4.918
-Dealer: T	Player1st: 9 	Player2nd: T	Stand: 0.0125159	Hit: -0.726904	Double: -1.45381	Split: undefined	WhattoDo: Stand 	ExpectedValue: 0.0125159	Time: 0.005
+Dealer: T	Player1st: T 	Player2nd: T	Stand: 0.453917	Hit: -0.845176	Double: -1.69035	Split: -0.00757866	WhattoDo: Stand 	ExpectedValue: 0.453917	Time: 4.873
+Dealer: T	Player1st: 9 	Player2nd: T	Stand: 0.0125159	Hit: -0.726904	Double: -1.45381	Split: undefined	WhattoDo: Stand 	ExpectedValue: 0.0125159	Time: 0.004

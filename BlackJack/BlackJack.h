@@ -104,6 +104,9 @@ namespace nagisakuya {
 			bool addplayer(Player input);
 			void play();
 			void replay();
+			bool getrule(RuleList input) const { return rule.at(input); }
+			double getrate(Result input) const { return rate.at(input); }
+			Deck getdeck() const { return deck; }
 		};
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
 		std::string Translate(int input);

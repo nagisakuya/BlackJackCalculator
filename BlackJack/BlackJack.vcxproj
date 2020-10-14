@@ -150,10 +150,12 @@
     <ClCompile Include="BlackJack_Table.cpp" />
     <ClCompile Include="Main_BlackJackCalculattor.cpp" />
     <ClCompile Include="Main_PlayBlackJack.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlackJack.h" />
     <ClInclude Include="BlackJackCalculator.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlackJackStrategy.json" />
