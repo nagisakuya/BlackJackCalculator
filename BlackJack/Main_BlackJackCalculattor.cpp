@@ -36,9 +36,8 @@ int main()
 	}
 	inputfile >> BJrate;
 	inputfile.close();
-	ofstream outputfile;
-	outputfile.open("output.txt", ios::trunc);
-	cfstream cfout(outputfile);
-	Calculator test(Deck(deck), Rule(rule[0], rule[1], rule[2]), Rate(BJrate));
-	test.Calculate(cfout);
+	cfstream cfout("output.txt", ios::trunc);
+	Calculator calculator(Deck(deck), Rule(rule[0], rule[1], rule[2]), Rate(BJrate));
+	calculator.calculate(cfout);
+	cfout.close();
 }

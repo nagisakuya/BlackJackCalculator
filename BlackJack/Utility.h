@@ -7,28 +7,34 @@ namespace nagisakuya {
 	namespace BlackJack {
 		class cfstream {
 		private:
-			std::ofstream& outputfile;
+			std::ofstream fout;
 		public:
-			cfstream(std::ofstream& file):outputfile(file){}
+			cfstream(std::string const& path , std::ios_base::openmode const mode = std::ios_base::out){
+				open(path, mode);
+			}
+			cfstream() {};
+			~cfstream() {
+				close();
+			}
+			void open(std::string const& path, std::ios_base::openmode const mode = std::ios_base::out) {
+				fout.open(path, mode);
+			}
+			void close() {
+				fout.close();
+			}
 			template <typename T>
 			cfstream& operator<<(const T& input) {
 				std::cout << input;
-				outputfile << input;
+				fout << input;
 				return *this;
 			}
 			cfstream& operator<<(std::ostream& (*of)(std::ostream&)) {
 				of(std::cout);
-				of(outputfile);
+				of(fout);
 				return *this;
 			}
-			template <typename T>
-			cfstream& operator<=(const T& input) {
-				outputfile << input;
-				return *this;
-			}
-			cfstream& operator<=(std::ostream& (*of)(std::ostream&)) {
-				of(outputfile);
-				return *this;
+			std::ofstream& fonly() {
+				return fout;
 			}
 		};
 

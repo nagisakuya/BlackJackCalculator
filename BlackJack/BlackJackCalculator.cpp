@@ -4,7 +4,7 @@ using namespace std;
 namespace nagisakuya {
 	namespace BlackJack {
 		Calculator::Calculator(Deck deck, Rule rule, Rate rate) :Table(deck, rule, rate) {}
-		double Calculator::Calculate()
+		double Calculator::calculate()
 		{
 			double sum = 0;
 			Deck temp_deck[2];
@@ -28,7 +28,7 @@ namespace nagisakuya {
 			}
 			return sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
 		}
-		double Calculator::Calculate(cfstream& cfout)
+		double Calculator::calculate(cfstream& cfout)
 		{
 			double sum = 0;
 			pair<Option, double> temp_pair;
@@ -101,13 +101,13 @@ namespace nagisakuya {
 				if (rule.at(RuleList::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
 			}
 			Option best = Option::Stand;
-			cfout <= "Stand: " <= temp_map.at(Option::Stand) <= "\t";
-			if (temp_map.count(Option::Hit) == 1) { cfout <= "Hit: " <= temp_map.at(Option::Hit) <= "\t"; if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
-			else cfout <= "Hit: undefined" <= "\t";
-			if (temp_map.count(Option::Double) == 1) { cfout <= "Double: " <= temp_map.at(Option::Double) <= "\t"; if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
-			else cfout <= "Douoble: undefined" <= "\t";
-			if (temp_map.count(Option::Split) == 1) { cfout <= "Split: " <= temp_map.at(Option::Split) <= "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
-			else cfout <= "Split: undefined" <= "\t";
+			cfout.fonly() << "Stand: " << temp_map.at(Option::Stand) << "\t";
+			if (temp_map.count(Option::Hit) == 1) { cfout.fonly() << "Hit: " << temp_map.at(Option::Hit) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
+			else cfout.fonly() << "Hit: undefined" << "\t";
+			if (temp_map.count(Option::Double) == 1) { cfout.fonly() << "Double: " << temp_map.at(Option::Double) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
+			else cfout.fonly() << "Douoble: undefined" << "\t";
+			if (temp_map.count(Option::Split) == 1) { cfout.fonly() << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
+			else cfout.fonly() << "Split: undefined" << "\t";
 			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
 			return *temp_map.find(best);
 

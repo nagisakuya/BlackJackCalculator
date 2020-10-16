@@ -19,8 +19,8 @@ namespace nagisakuya {
 			inline double If_split(Deck const& deck, PlayerHand const& player, DealerHand const& dealer);
 		public:
 			Calculator(Deck deck, Rule rule = Rule(), Rate rate = Rate());
-			double Calculate();
-			double Calculate(cfstream& cfout);
+			double calculate();
+			double calculate(cfstream& cfout);
 			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand);
 			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand, cfstream& cfout);
 			std::string PrintStatus();
