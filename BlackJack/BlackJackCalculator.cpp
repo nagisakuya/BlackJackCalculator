@@ -1,5 +1,6 @@
 #include "BlackJackCalculator.h"
 using namespace std;
+using namespace nagisakuya::Utilty;
 
 namespace nagisakuya {
 	namespace BlackJack {

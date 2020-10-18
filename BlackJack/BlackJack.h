@@ -5,6 +5,9 @@
 #include <vector>
 #include <iostream>
 #include <array>
+#include "Utility.h"
+
+using namespace nagisakuya::Utilty;
 
 
 namespace nagisakuya {
@@ -111,5 +114,4 @@ namespace nagisakuya {
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
 		std::string Translate(int input);
 	}
-
 }

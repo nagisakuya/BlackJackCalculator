@@ -142,7 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TEST\TEST.cpp" />
     <ClCompile Include="BlackJack.cpp" />
     <ClCompile Include="BlackJackCalculator.cpp" />
     <ClCompile Include="BlackJack_Deck.cpp" />

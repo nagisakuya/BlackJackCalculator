@@ -33,9 +33,6 @@
     <ClCompile Include="BlackJackCalculator.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\TEST\TEST.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Main_BlackJackCalculattor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>

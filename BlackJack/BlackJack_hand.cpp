@@ -5,6 +5,7 @@ namespace nagisakuya {
 
 		Option PlayerHand::AskOption(bool Split_enable, bool DoubleDown_enable, bool Surrender_enable) {
 			string temp;
+			//bijection<Option,string> bijec;
 			while (true) {
 				cout << "Hit(H) or Stand(S)";
 				if (DoubleDown_enable) cout << " or DoubleDown(D)";

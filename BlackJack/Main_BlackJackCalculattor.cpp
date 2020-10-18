@@ -4,6 +4,7 @@
 #include <fstream>
 
 using namespace nagisakuya::BlackJack;
+using namespace nagisakuya::Utilty;
 using namespace std;
 
 
