@@ -45,16 +45,16 @@ namespace nagisakuya {
 			typename std::unordered_map<F, const void*> first_element;
 			typename std::unordered_map<S, const void*> second_element;
 		public:
-			/*class Iterator {
+			class Iterator {
 			private:
-				std::unordered_map<F, const void*>::iterator ite;
+				typename std::unordered_map<F, const void*>::iterator ite;
 			public:
-				Iterator(std::unordered_map<F, const void*>::iterator i) { ite = i; }
+				Iterator(typename std::unordered_map<F, const void*>::iterator i) { ite = i; }
 				F first() const { return ite->first; }
 				S second() const { return *(S*)(ite->second); }
 				Iterator& operator++() { ite++; }
 				bool operator==(const Iterator& i) { return ite == i.ite; }
-			};*/
+			};
 			bijection() {};
 			bijection(std::initializer_list<typename std::pair < F, S >> input) {
 				add(input);
@@ -85,8 +85,8 @@ namespace nagisakuya {
 			bijection operator =(std::initializer_list<typename std::pair < F, S >> input) {
 				return bijection(input);
 			}
-			//Iterator begin() { return Iterator(first_element.begin()); }
-			//Iterator end() { return Iterator(first_element.end()); }
+			Iterator begin() { return Iterator(first_element.begin()); }
+			Iterator end() { return Iterator(first_element.end()); }
 		};
 	}
 }
