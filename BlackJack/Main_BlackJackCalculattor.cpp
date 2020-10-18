@@ -23,10 +23,12 @@ int main()
 	}
 	for (size_t i = 0; i < 10; i++)
 	{
+		inputfile >> temp_s;
 		inputfile >> deck[i];
 	}
 	for (size_t i = 0; i < 3; i++)
 	{
+		inputfile >> temp_s;
 		inputfile >> temp_s;
 		if (temp_s == "true") rule[i] = true;
 		else if (temp_s == "false") rule[i] = false;
@@ -35,6 +37,7 @@ int main()
 			return 1;
 		}
 	}
+	inputfile >> temp_s;
 	inputfile >> BJrate;
 	inputfile.close();
 	cfstream cfout("output.txt", ios::trunc);

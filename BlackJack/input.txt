@@ -1,1 +1,14 @@
-4 4 4 4 4 4 4 4 4 16 false false false 1.5 
+A: 4
+2: 4
+3: 4
+4: 4
+5: 4
+6: 4
+7: 4
+8: 4
+9: 4
+T: 16
+Soft17Hit: false
+Surrender: false
+DoubleAfterSplit: false
+BlackJack: 1.5 
