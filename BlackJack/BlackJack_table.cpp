@@ -45,7 +45,10 @@ namespace nagisakuya {
 				if (temp_s == "e") break;
 			}
 		}
-
+		string Table::PrintStatus()
+		{
+			return rule.print() + "\n" + rate.print() + "\n" + deck.print() + "\n";
+		}
 		bool Table::addplayer(Player input)
 		{
 			int input_id = input.get_ID();

@@ -23,7 +23,6 @@ namespace nagisakuya {
 			double calculate();
 			double calculate(cfstream& cfout);
 			std::pair<Option, double> WhattoDo(PlayerHand const& playerhand);
-			std::string PrintStatus();
 		};
 
 	}

@@ -110,6 +110,7 @@ namespace nagisakuya {
 			bool getrule(RuleList input) const { return rule.at(input); }
 			double getrate(Result input) const { return rate.at(input); }
 			Deck getdeck() const { return deck; }
+			std::string PrintStatus();
 		};
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
 		std::string Translate(int input);

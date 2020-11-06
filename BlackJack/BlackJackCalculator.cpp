@@ -84,10 +84,6 @@ namespace nagisakuya {
 			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
 			return *temp_map.find(best);
 		}
-		string Calculator::PrintStatus()
-		{
-			return rule.print() + "\n" + rate.print() + "\n" + deck.print() + "\n";
-		}
 		std::unordered_map<Option, double> Calculator::PlayerEV_all(PlayerHand const& player)
 		{
 			tuple<int, bool, bool> temp_tuple = player.CheckHand();
