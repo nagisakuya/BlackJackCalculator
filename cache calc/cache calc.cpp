@@ -2,9 +2,9 @@
 
 long long int func(int card_number, int d_sum,int p_sum) {
 	long long int r = 0;
-	for (size_t i = 0; i <= (17 + card_number - 1 - d_sum) / card_number ; i++)
+	for (size_t i = 0; (signed)i <= (17 + card_number - 1 - d_sum) / card_number ; i++)
 	{
-		for (size_t j = 0; j <= (21 + card_number - 1 - p_sum) / card_number; j++)
+		for (size_t j = 0; (signed)j <= (21 + card_number - 1 - p_sum) / card_number; j++)
 		{
 			if (card_number == 10) {
 				r += 1;
