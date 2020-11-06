@@ -103,7 +103,7 @@ namespace nagisakuya {
 			const Rule rule;
 			const Rate rate;
 		public:
-			Table(Deck deck = Deck(8), Rule rule = Rule(), Rate rate = Rate(1.5));
+			Table(Deck deck = Deck(8), Rule rule = Rule(), Rate rate = Rate(1.5), DealerHand dealer = DealerHand());
 			bool addplayer(Player input);
 			void play();
 			void replay();
