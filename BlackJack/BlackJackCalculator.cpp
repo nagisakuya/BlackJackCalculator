@@ -32,7 +32,6 @@ namespace nagisakuya {
 		double Calculator::calculate(cfstream& cfout)
 		{
 			double sum = 0;
-			pair<Option, double> temp_pair;
 			Deck temp_deck[2];
 			cfout << PrintStatus();
 			if (rule.at(RuleList::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.at(Result::Surrender) << endl;
@@ -52,9 +51,18 @@ namespace nagisakuya {
 								if (temp_deck[1].count(k) != 0) {
 									cfout << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
 									temp_clock = clock();
-									temp_pair = WhattoDo(temp_deck[1] - k, PlayerHand({ j,k }), DealerHand({ i }), cfout);
-									cfout << "WhattoDo: " << OptiontoString.at(temp_pair.first) << "\tExpectedValue: " << temp_pair.second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
-									sum += temp_pair.second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
+									unordered_map<Option, double> temp_map = PlayerEV_all(temp_deck[1] - k, PlayerHand({ j,k }), DealerHand({ i }));
+									Option best = Option::Stand;
+									cfout.fonly() << "Stand: " << temp_map.at(Option::Stand) << "\t";
+									if (temp_map.count(Option::Hit) == 1) { cfout.fonly() << "Hit: " << temp_map.at(Option::Hit) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
+									else cfout.fonly() << "Hit: undefined" << "\t";
+									if (temp_map.count(Option::Double) == 1) { cfout.fonly() << "Double: " << temp_map.at(Option::Double) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
+									else cfout.fonly() << "Douoble: undefined" << "\t";
+									if (temp_map.count(Option::Split) == 1) { cfout.fonly() << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
+									else cfout.fonly() << "Split: undefined" << "\t";
+									if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
+									cfout << "WhattoDo: " << OptiontoString.at((*temp_map.find(best)).first) << "\tExpectedValue: " << (*temp_map.find(best)).second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
+									sum += (*temp_map.find(best)).second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
 								}
 							}
 						}
@@ -68,18 +76,7 @@ namespace nagisakuya {
 		}
 		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
 		{
-			valarray<double> temp_d = DealerEV(deck, dealer);
-			tuple<int, bool, bool> temp_tuple = player.CheckHand();
-			unordered_map<Option, double> temp_map;
-			bool IsTheFirst = (player.size() == 2);
-
-			temp_map.emplace(Option::Stand, If_stand(deck, player, dealer));
-			if (!(get<0>(temp_tuple) == 21 || get<2>(temp_tuple) == true || player.get_doubled() == true)) {
-				temp_map.emplace(Option::Hit, If_hit(deck, player, dealer));
-				if (IsTheFirst == true && rule.at(RuleList::DoubleAfterSplit) == true ? true : player.get_splitted() == false) temp_map.emplace(Option::Double, If_double(deck, player, dealer));
-				if (IsTheFirst == true && player.splittable()) 	temp_map.emplace(Option::Split, If_split(deck, player, dealer));
-				if (rule.at(RuleList::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
-			}
+			unordered_map<Option, double> temp_map = PlayerEV_all(deck, player, dealer);
 			Option best = Option::Stand;
 			if (temp_map.count(Option::Hit) == 1) { if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
 			if (temp_map.count(Option::Double) == 1) { if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
@@ -87,13 +84,15 @@ namespace nagisakuya {
 			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
 			return *temp_map.find(best);
 		}
-		std::pair<Option, double> Calculator::WhattoDo(Deck const& deck, PlayerHand const& player, DealerHand const& dealer, cfstream& cfout)
+		string Calculator::PrintStatus()
 		{
-			valarray<double> temp_d = DealerEV(deck, dealer);
+			return rule.print() + "\n" + rate.print() + "\n" + deck.print() + "\n";
+		}
+		std::unordered_map<Option, double> Calculator::PlayerEV_all(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
+		{
 			tuple<int, bool, bool> temp_tuple = player.CheckHand();
 			unordered_map<Option, double> temp_map;
 			bool IsTheFirst = (player.size() == 2);
-
 			temp_map.emplace(Option::Stand, If_stand(deck, player, dealer));
 			if (!(get<0>(temp_tuple) == 21 || get<2>(temp_tuple) == true || player.get_doubled() == true)) {
 				temp_map.emplace(Option::Hit, If_hit(deck, player, dealer));
@@ -101,21 +100,7 @@ namespace nagisakuya {
 				if (IsTheFirst == true && player.splittable()) 	temp_map.emplace(Option::Split, If_split(deck, player, dealer));
 				if (rule.at(RuleList::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
 			}
-			Option best = Option::Stand;
-			cfout.fonly() << "Stand: " << temp_map.at(Option::Stand) << "\t";
-			if (temp_map.count(Option::Hit) == 1) { cfout.fonly() << "Hit: " << temp_map.at(Option::Hit) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
-			else cfout.fonly() << "Hit: undefined" << "\t";
-			if (temp_map.count(Option::Double) == 1) { cfout.fonly() << "Double: " << temp_map.at(Option::Double) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
-			else cfout.fonly() << "Douoble: undefined" << "\t";
-			if (temp_map.count(Option::Split) == 1) { cfout.fonly() << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
-			else cfout.fonly() << "Split: undefined" << "\t";
-			if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
-			return *temp_map.find(best);
-
-		}
-		string Calculator::PrintStatus()
-		{
-			return rule.print() + "\n" + rate.print() + "\n" + deck.print() + "\n";
+			return temp_map;
 		}
 		double Calculator::PlayerEV(Deck const& deck, PlayerHand const& player, DealerHand const& dealer)
 		{

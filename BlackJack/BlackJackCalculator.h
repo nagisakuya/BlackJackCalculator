@@ -10,6 +10,7 @@ namespace nagisakuya {
 	namespace BlackJack {
 		class Calculator :public Table {
 		private:
+			inline std::unordered_map<Option, double> PlayerEV_all(Deck const& deck, PlayerHand const& player, DealerHand const& dealer);
 			double PlayerEV(Deck const& deck, PlayerHand const& player, DealerHand const& dealer);
 			double PlayerEV_afterP(Deck const& deck, PlayerHand const& player, DealerHand const& dealer);
 			std::valarray<double> DealerEV(Deck const& deck, DealerHand const& dealer); //bust,17,18,19,20,21,BJ‚ÌŠm—¦‚ð•Ô‚·
@@ -22,7 +23,6 @@ namespace nagisakuya {
 			double calculate();
 			double calculate(cfstream& cfout);
 			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand);
-			std::pair<Option, double> WhattoDo(Deck const& deck, PlayerHand const& playerhand, DealerHand const& dealerhand, cfstream& cfout);
 			std::string PrintStatus();
 		};
 
