@@ -7,22 +7,22 @@ namespace nagisakuya {
 
 		Rule::Rule(bool Soft17Hit, bool Surrender, bool DoubleAfterSplit)
 		{
-			emplace(RuleList::Soft17Hit, Soft17Hit);
-			emplace(RuleList::Surrender, Surrender);
-			emplace(RuleList::DoubleAfterSplit, DoubleAfterSplit);
+			element.emplace(Rule::List::Soft17Hit, Soft17Hit);
+			element.emplace(Rule::List::Surrender, Surrender);
+			element.emplace(Rule::List::DoubleAfterSplit, DoubleAfterSplit);
 		}
 
 		std::string Rule::print() const
 		{
 			string r;
 			r += "Soft17Hit: ";
-			if (at(RuleList::Soft17Hit) == true) r += "true\t";
+			if (element.at(Rule::List::Soft17Hit) == true) r += "true\t";
 			else r += "false\t";
 			r += "Surrender: ";
-			if (at(RuleList::Surrender) == true) r += "true\t";
+			if (element.at(Rule::List::Surrender) == true) r += "true\t";
 			else r += "false\t";
 			r += "DoubleAfterSplit: ";
-			if (at(RuleList::DoubleAfterSplit) == true) r += "true\t";
+			if (element.at(Rule::List::DoubleAfterSplit) == true) r += "true\t";
 			else r += "false\t";
 			return r;
 		}
@@ -98,21 +98,21 @@ namespace nagisakuya {
 		}
 		Rate::Rate(double BlackJackRate)
 		{
-			emplace(Result::Win, 1);
-			emplace(Result::Lose,-1);
-			emplace(Result::Tie, 0);
-			emplace(Result::BlackJack, BlackJackRate);
-			emplace(Result::Surrender, at(Result::Lose) / 2);
-			emplace(Result::DoubledWin, at(Result::Win) * 2);
-			emplace(Result::DoubledLose, at(Result::Lose) * 2);
+			element.emplace(Result::Win, 1);
+			element.emplace(Result::Lose,-1);
+			element.emplace(Result::Tie, 0);
+			element.emplace(Result::BlackJack, BlackJackRate);
+			element.emplace(Result::Surrender, at(Result::Lose) / 2);
+			element.emplace(Result::DoubledWin, at(Result::Win) * 2);
+			element.emplace(Result::DoubledLose, at(Result::Lose) * 2);
 		}
 		std::string Rate::print() const
 		{
 			string r;
-			r += "Win: " + to_string(at(Result::Win)) + "\t";
-			r += "Tie: " + to_string(at(Result::Tie)) + "\t";
-			r += "Lose: " + to_string(at(Result::Lose)) + "\t";
-			r += "BlackJack: " + to_string(at(Result::BlackJack)) + "\t";
+			r += "Win: " + to_string(element.at(Result::Win)) + "\t";
+			r += "Tie: " + to_string(element.at(Result::Tie)) + "\t";
+			r += "Lose: " + to_string(element.at(Result::Lose)) + "\t";
+			r += "BlackJack: " + to_string(element.at(Result::BlackJack)) + "\t";
 			return r;
 		}
 	}

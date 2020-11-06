@@ -90,7 +90,7 @@ namespace nagisakuya {
 			for (;;) {
 				add(deck.DrowRandom());
 				std::tie(sum, soft, std::ignore) = CheckHand();
-				if (sum >= 17 && !(soft == true && sum == 17 && rule.at(RuleList::Soft17Hit) == true)) break;
+				if (sum >= 17 && !(soft == true && sum == 17 && rule.at(Rule::List::Soft17Hit) == true)) break;
 			}
 			print();
 		}
@@ -126,8 +126,8 @@ namespace nagisakuya {
 			print();
 			switch (std::get<0>(CheckHand()) >= 21 ? Option::Stand : AskOption(
 				IsTheFirst && splittable(),
-				splitted == true ? IsTheFirst && rule.at(RuleList::DoubleAfterSplit) : IsTheFirst,
-				rule.at(RuleList::Surrender) && IsTheFirst && splitted == false)
+				splitted == true ? IsTheFirst && rule.at(Rule::List::DoubleAfterSplit) : IsTheFirst,
+				rule.at(Rule::List::Surrender) && IsTheFirst && splitted == false)
 				) {
 			case Option::Hit:
 				add(deck->DrowRandom());

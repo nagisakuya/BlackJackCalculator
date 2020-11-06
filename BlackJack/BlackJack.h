@@ -21,15 +21,22 @@ namespace nagisakuya {
 			{Option::Split,"Split "},
 			{Option::Surrender,"Surrender"}
 		};
-		enum class RuleList { Soft17Hit, Surrender, DoubleAfterSplit };
-		class Rule :public std::unordered_map<RuleList, bool> {
+		class Rule {
 		public:
+			enum class List { Soft17Hit, Surrender, DoubleAfterSplit };
+		private:
+			std::unordered_map<List, bool> element;
+		public:
+			bool at(List input) const { return element.at(input); }
 			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
 			std::string print() const;
 		};
-		class Rate :public std::unordered_map<Result, double> {
+		class Rate {
+		private:
+			std::unordered_map<Result, double> element;
 		public:
 			Rate(double BlackJackRate = 1.5);
+			double at(Result input)const { return element.at(input); }
 			std::string print() const;
 		};
 		class Deck {
@@ -40,7 +47,7 @@ namespace nagisakuya {
 			Deck(std::array<int, 10> input) { content = input; }
 			std::string print() const;
 			inline int size() const;
-			int count(int i) const{ return content[i]; }
+			int count(int i) const { return content[i]; }
 			int DrowRandom();
 			int Drow(int input) { content[input]--; return input; }
 			Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
@@ -107,7 +114,7 @@ namespace nagisakuya {
 			bool addplayer(Player input);
 			void play();
 			void replay();
-			bool getrule(RuleList input) const { return rule.at(input); }
+			bool getrule(Rule::List input) const { return rule.at(input); }
 			double getrate(Result input) const { return rate.at(input); }
 			Deck getdeck() const { return deck; }
 			std::string PrintStatus();

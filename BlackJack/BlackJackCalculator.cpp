@@ -34,7 +34,7 @@ namespace nagisakuya {
 			double sum = 0;
 			Deck temp_deck[2];
 			cfout << PrintStatus();
-			if (rule.at(RuleList::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.at(Result::Surrender) << endl;
+			if (rule.at(Rule::List::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.at(Result::Surrender) << endl;
 			//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
 			clock_t start = clock();
 			clock_t temp_clock;
@@ -92,9 +92,9 @@ namespace nagisakuya {
 			temp_map.emplace(Option::Stand, If_stand(deck, player));
 			if (!(get<0>(temp_tuple) == 21 || get<2>(temp_tuple) == true || player.get_doubled() == true)) {
 				temp_map.emplace(Option::Hit, If_hit(deck, player));
-				if (IsTheFirst == true && rule.at(RuleList::DoubleAfterSplit) == true ? true : player.get_splitted() == false) temp_map.emplace(Option::Double, If_double(deck, player));
+				if (IsTheFirst == true && rule.at(Rule::List::DoubleAfterSplit) == true ? true : player.get_splitted() == false) temp_map.emplace(Option::Double, If_double(deck, player));
 				if (IsTheFirst == true && player.splittable()) 	temp_map.emplace(Option::Split, If_split(deck, player));
-				if (rule.at(RuleList::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
+				if (rule.at(Rule::List::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
 			}
 			return temp_map;
 		}
@@ -113,7 +113,7 @@ namespace nagisakuya {
 		double Calculator::PlayerEV_afterP(Deck const& deck, PlayerHand const& player)
 		{
 			const tuple<int, bool, bool > temp_tuple = player.CheckHand();
-			if (rule.at(RuleList::DoubleAfterSplit) == true) {
+			if (rule.at(Rule::List::DoubleAfterSplit) == true) {
 				if (get<0>(temp_tuple) > 11) {
 					double stand = If_stand(deck, player);
 					if (get<0>(temp_tuple) >= 21 || player.get_doubled() == true) return stand;
@@ -208,7 +208,7 @@ namespace nagisakuya {
 					r[6] = 1;
 					return r;
 				}
-				if (21 >= get<0>(temp) && !(get<0>(temp) == 17 && get<1>(temp) == true && rule.at(RuleList::Soft17Hit) == true)) {
+				if (21 >= get<0>(temp) && !(get<0>(temp) == 17 && get<1>(temp) == true && rule.at(Rule::List::Soft17Hit) == true)) {
 					r[get<0>(temp) - 16] = 1;
 					return r;
 				}
