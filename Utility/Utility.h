@@ -37,8 +37,7 @@ namespace nagisakuya {
 				return fout;
 			}
 		};
-		template <typename F, typename S>
-		class bijection
+		template <typename F, typename S> class bijection
 		{
 		private:
 			typename std::unordered_map<F, const void*> first_element;
@@ -81,7 +80,7 @@ namespace nagisakuya {
 			F at_reverse(S second) const {
 				return *(F*)second_element.at(second);
 			}
-			int count(F first) const{
+			int count(F first) const {
 				return first_element.count(first);
 			}
 			int count_reverse(S second) const {
@@ -93,5 +92,26 @@ namespace nagisakuya {
 			Iterator begin() { return Iterator(first_element.begin()); }
 			Iterator end() { return Iterator(first_element.end()); }
 		};
+		/*class json {
+		public:
+			template<typename T>
+			std::string containertojson(T container) {
+				std::stringstream ss;
+				if (std::is_array<T>::value == true) {
+					if (true)
+					{
+
+					}
+					for (T::iterator i = container.begin(); i != container.end(); i++) {
+						containertojson(i);
+					}
+				}
+			}
+			for (size_t i = 0; i < length; i++)
+			{
+			}
+			return ss.str();
+			}
+		};*/
 	}
 }

@@ -41,13 +41,16 @@
     <ClCompile Include="BlackJack.cpp">
       <Filter>ソース ファイル\BlackJack.h</Filter>
     </ClCompile>
-    <ClCompile Include="BlackJack_Deck.cpp">
+    <ClCompile Include="Strategy.cpp">
       <Filter>ソース ファイル\BlackJack.h</Filter>
     </ClCompile>
-    <ClCompile Include="BlackJack_Hand.cpp">
+    <ClCompile Include="Deck.cpp">
       <Filter>ソース ファイル\BlackJack.h</Filter>
     </ClCompile>
-    <ClCompile Include="BlackJack_table.cpp">
+    <ClCompile Include="Hand.cpp">
+      <Filter>ソース ファイル\BlackJack.h</Filter>
+    </ClCompile>
+    <ClCompile Include="Table.cpp">
       <Filter>ソース ファイル\BlackJack.h</Filter>
     </ClCompile>
   </ItemGroup>

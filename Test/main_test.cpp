@@ -17,7 +17,13 @@ using namespace std;
 void test_strategy1() {
 	ifstream file("BasicStrategy.txt", ios::in);
 	Strategy strategy;
-	strategy.import(file);
+	//strategy.import(file);
+	cout <<  strategy.print();
+	DealerHand dealer({ 7 - 1 });
+	PlayerHand player({ 1 - 1, 5 - 1 , 2 - 1 });
+	dealer.print();
+	player.print();
+	cout << OptionandString.at(strategy.find(dealer, player, Rule())) << endl;
 }
 
 int main(){

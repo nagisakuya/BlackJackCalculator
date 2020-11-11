@@ -11,5 +11,8 @@
 #include "framework.h"
 #include <string>
 #include <iostream>
+#include <type_traits>
+#include <sstream>
+#include <unordered_map>
 
 #endif //PCH_H

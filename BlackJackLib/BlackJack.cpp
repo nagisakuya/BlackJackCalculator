@@ -185,6 +185,15 @@ namespace nagisakuya {
 			{Option::Doublestand,"Ds"},
 			{Option::Splithit,"Ph"},
 		};
+		const Utility::bijection<Strategy::Option, std::string> Strategy::OptionandOption = {
+			{Option::Hit	,"Option::Hit"},
+			{Option::Stand	,"Option::Stand"},
+			{Option::Double	,"Option::Double"},
+			{Option::Split	,"Option::Split"},
+			{Option::Surrenderhit,"Option::Surrenderhit"},
+			{Option::Doublestand,"Option::Doublestand"},
+			{Option::Splithit,"Option::Splithit"},
+		};
 		std::string Rate::print() const
 		{
 			string r;
@@ -193,48 +202,6 @@ namespace nagisakuya {
 			r += "Lose: " + to_string(element.at(Result::Lose)) + "\t";
 			r += "BlackJack: " + to_string(element.at(Result::BlackJack)) + "\t";
 			return r;
-		}
-		void Strategy::Splittable::import(std::istream& input)
-		{
-			string temp_str;
-			for (size_t i = 0; i < 10; i++)
-			{
-				for (size_t j = 0; j < 10; j++)
-				{
-					input >> temp_str;
-					list[i][j] = OptionandString.at_reverse(temp_str);
-				}
-			}
-		}
-		void Strategy::Soft::import(std::istream& input)
-		{
-			string temp_str;
-			for (size_t i = 0; i < 10; i++)
-			{
-				for (size_t j = 0; j < 9; j++)
-				{
-					input >> temp_str;
-					list[i][j] = OptionandString.at_reverse(temp_str);
-				}
-			}
-		}
-		void Strategy::Hard::import(std::istream& input)
-		{
-			string temp_str;
-			for (size_t i = 0; i < 10; i++)
-			{
-				for (size_t j = 0; j < 10; j++)
-				{
-					input >> temp_str;
-					list[i][j] = OptionandString.at_reverse(temp_str);
-				}
-			}
-		}
-		void Strategy::import(std::istream& input)
-		{
-			splittable.import(input);
-			soft.import(input);
-			hard.import(input);
 		}
 	}
 }
