@@ -75,16 +75,16 @@ namespace nagisakuya {
 			size_t size() const {
 				return first_element.size();
 			}
-			S at_ftos(F first) const {
+			S at(F first) const {
 				return *(S*)first_element.at(first);
 			}
-			F at_stof(S second) const {
+			F at_reverse(S second) const {
 				return *(F*)second_element.at(second);
 			}
-			int count_f(F first) const{
+			int count(F first) const{
 				return first_element.count(first);
 			}
-			int count_s(S second) const {
+			int count_reverse(S second) const {
 				return second_element.count(second);
 			}
 			bijection operator =(std::initializer_list<typename std::pair < F, S >> input) {

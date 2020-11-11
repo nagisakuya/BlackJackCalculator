@@ -62,7 +62,7 @@ namespace nagisakuya {
 									if (temp_map.count(Option::Split) == 1) { cfout.fonly() << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
 									else cfout.fonly() << "Split: undefined" << "\t";
 									if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
-									cfout << "WhattoDo: " << OptiontoString.at((*temp_map.find(best)).first) << "\tExpectedValue: " << (*temp_map.find(best)).second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
+									cfout << "WhattoDo: " << OptionandString.at((*temp_map.find(best)).first) << "\tExpectedValue: " << (*temp_map.find(best)).second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
 									sum += (*temp_map.find(best)).second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
 								}
 							}

@@ -1,0 +1,3 @@
+Soft17Hit: false
+Surrender: false
+DoubleAfterSplit: false

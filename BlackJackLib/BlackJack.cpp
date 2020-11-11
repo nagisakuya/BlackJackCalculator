@@ -25,7 +25,7 @@ namespace nagisakuya {
 		{
 			string re;
 			for (List i = (List)0; i < List::EoE; i = (List)((int)i + 1)) {
-				re += RuleandString.at_ftos(i) + ": ";
+				re += RuleandString.at(i) + ": ";
 				if (element.at(i) == true) re += "true\t";
 				else re += "false\t";
 			}
@@ -37,7 +37,7 @@ namespace nagisakuya {
 			{
 				string temp_str, temp_rulename;
 				input >> temp_rulename;
-				if (RuleandString.at_ftos(i) + ":" == temp_rulename) {
+				if (RuleandString.at(i) + ":" == temp_rulename) {
 					input >> temp_str;
 					if (temp_str == "true") {
 						element[i] = true;
@@ -53,6 +53,25 @@ namespace nagisakuya {
 				else {
 					cout << "[ERROR] Wrong text in rule name";
 					exit(0);
+				}
+			}
+		}
+		void Rule::ask()
+		{
+			string temp_string;
+			for (Rule::List i = (Rule::List)0; i < Rule::List::EoE; i = (Rule::List)((int)i + 1))
+			{
+				while (true) {
+					cout << Rule::RuleandString.at(i) << "? true or false" << endl;
+					cin >> temp_string;
+					if (temp_string == "true") {
+						set(i, true);
+						break;
+					}
+					else if (temp_string == "false") {
+						set(i, false);
+						break;
+					}
 				}
 			}
 		}
@@ -157,6 +176,15 @@ namespace nagisakuya {
 			element.emplace(Result::DoubledWin, at(Result::Win) * 2);
 			element.emplace(Result::DoubledLose, at(Result::Lose) * 2);
 		}
+		const nagisakuya::Utility::bijection<Strategy::Option, std::string> Strategy::OptionandString = {
+			{Option::Hit	,"H"},
+			{Option::Stand	,"S"},
+			{Option::Double	,"D"},
+			{Option::Split	,"P"},
+			{Option::Surrenderhit,"Rh"},
+			{Option::Doublestand,"Ds"},
+			{Option::Splithit,"Ph"},
+		};
 		std::string Rate::print() const
 		{
 			string r;
@@ -165,6 +193,48 @@ namespace nagisakuya {
 			r += "Lose: " + to_string(element.at(Result::Lose)) + "\t";
 			r += "BlackJack: " + to_string(element.at(Result::BlackJack)) + "\t";
 			return r;
+		}
+		void Strategy::Splittable::import(std::istream& input)
+		{
+			string temp_str;
+			for (size_t i = 0; i < 10; i++)
+			{
+				for (size_t j = 0; j < 10; j++)
+				{
+					input >> temp_str;
+					list[i][j] = OptionandString.at_reverse(temp_str);
+				}
+			}
+		}
+		void Strategy::Soft::import(std::istream& input)
+		{
+			string temp_str;
+			for (size_t i = 0; i < 10; i++)
+			{
+				for (size_t j = 0; j < 9; j++)
+				{
+					input >> temp_str;
+					list[i][j] = OptionandString.at_reverse(temp_str);
+				}
+			}
+		}
+		void Strategy::Hard::import(std::istream& input)
+		{
+			string temp_str;
+			for (size_t i = 0; i < 10; i++)
+			{
+				for (size_t j = 0; j < 10; j++)
+				{
+					input >> temp_str;
+					list[i][j] = OptionandString.at_reverse(temp_str);
+				}
+			}
+		}
+		void Strategy::import(std::istream& input)
+		{
+			splittable.import(input);
+			soft.import(input);
+			hard.import(input);
 		}
 	}
 }

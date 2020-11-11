@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="input-regular-strategy.txt">
+      <Filter>リソース ファイル</Filter>
+    </Text>
+    <Text Include="input-splittable-strategy.txt">
+      <Filter>リソース ファイル</Filter>
+    </Text>
+    <Text Include="output-strategy.txt">
+      <Filter>リソース ファイル</Filter>
+    </Text>
+    <Text Include="input-rule.txt">
+      <Filter>リソース ファイル</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{b29feb3a-edad-4616-92c8-e3aa526d75c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{366e6a00-8916-4bc1-99a9-2896359922a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{bd5456da-cd38-4410-b23a-23eaf51029c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -18,5 +18,7 @@
 #include <valarray>
 #include <ctime>
 #include <sstream>
+#include <map>
+#include <algorithm>
 
 #endif //PCH_H

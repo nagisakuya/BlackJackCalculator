@@ -6,14 +6,6 @@
 namespace nagisakuya {
 	namespace BlackJack {
 		class Calculator :public Table {
-		public:
-			class Strategy {
-			private:
-				std::array<std::array < std::array < std::array<double, 3>, 10>, 10>, 10> regular;
-				std::array<std::array < std::array<double, 4>, 10>, 10> splittable;
-				Rule rule;
-			public:
-			};
 		private:
 			inline std::unordered_map<Option, double> PlayerEV_all(PlayerHand const& player);
 			double PlayerEV(Deck const& deck, PlayerHand const& player);
@@ -24,7 +16,7 @@ namespace nagisakuya {
 			inline double If_double(Deck const& deck, PlayerHand const& player);
 			inline double If_split(Deck const& deck, PlayerHand const& player);
 		public:
-			Calculator(Deck deck, Rule rule = Rule(), Rate rate = Rate(),DealerHand dealer = DealerHand());
+			Calculator(Deck deck, Rule rule = Rule(), Rate rate = Rate(), DealerHand dealer = DealerHand());
 			double calculate();
 			double calculate(Utility::cfstream& cfout);
 			std::pair<Option, double> WhattoDo(PlayerHand const& playerhand);

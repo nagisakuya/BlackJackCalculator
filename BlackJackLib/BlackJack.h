@@ -12,7 +12,7 @@ namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
 		enum class Option { Hit, Stand, Double, Split, Surrender };
-		const std::unordered_map<Option, std::string> OptiontoString{
+		const Utility::bijection<Option, std::string> OptionandString{
 			{Option::Hit	,"Hit"},
 			{Option::Stand	,"Stand "},
 			{Option::Double,"Double"},
@@ -32,6 +32,7 @@ namespace nagisakuya {
 			void set(List i, bool j) { element.at(i) = j; }
 			std::string print() const;
 			void import(std::istream&);
+			void ask();
 		};
 		class Rate {
 		private:
@@ -102,6 +103,41 @@ namespace nagisakuya {
 			void play(Deck* deck, Rule const& rule);
 			int get_ID() const { return id; }
 			std::string get_name() const { return name; }
+		};
+		class Strategy {
+		public:
+			enum class Option { Hit, Stand, Double, Split, Surrenderhit, Splithit, Doublestand };
+			const static Utility::bijection<Strategy::Option, std::string> OptionandString;
+		private:
+			class Splittable {
+			private:
+				std::array < std::array<Strategy::Option, 10>, 10> list;
+				Strategy::Option& get_ref(int dealer, int player) { return list[dealer][player]; }
+			public:
+				Strategy::Option get(int dealer, int player) { return get_ref(dealer, player); }
+				void import(std::istream&);
+			};
+			class Soft {
+			private:
+				std::array < std::array<Strategy::Option, 9>, 10> list;
+				Strategy::Option& get_ref(int dealer, int player_nonAcard) { return list[dealer][player_nonAcard - 1]; }
+			public:
+				Strategy::Option get(int dealer, int player_nonAcard) { return get_ref(dealer, player_nonAcard); }
+				void import(std::istream&);
+			};
+			class Hard {
+			private:
+				std::array < std::array<Strategy::Option, 10>, 10> list;
+				Strategy::Option& get_ref(int dealer, int player_sum) { if (player_sum >= 17)return list[dealer][9]; if (player_sum <= 8)return list[dealer][0]; return list[dealer][player_sum - 8]; }
+			public:
+				Strategy::Option get(int dealer, int player_sum) { return get_ref(dealer, player_sum); }
+				void import(std::istream&);
+			};
+			Splittable splittable;
+			Soft soft;
+			Hard hard;
+		public:
+			void import(std::istream&);
 		};
 		class Table {
 		private:
