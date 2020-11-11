@@ -1,11 +1,17 @@
 #pragma once
 #include "pch.h"
+#include "../Utility/Utility.h"
+#define GENERATE_ENUM_ITERATOR(T) \
+inline T operator++(T& x) { return x = (T)(std::underlying_type<T>::type(x) + 1); } \
+inline T operator*(T c) { return c; } \
+inline T begin(T r) { return static_cast<T>(0); } \
+inline T end(T r) { T l = T::LAST; return l; }
 
 
 namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
-		enum class Option { Hit, Stand, Double, Split, Surrender, Best };
+		enum class Option { Hit, Stand, Double, Split, Surrender };
 		const std::unordered_map<Option, std::string> OptiontoString{
 			{Option::Hit	,"Hit"},
 			{Option::Stand	,"Stand "},
@@ -15,13 +21,17 @@ namespace nagisakuya {
 		};
 		class Rule {
 		public:
-			enum class List { Soft17Hit, Surrender, DoubleAfterSplit };
+			enum class List { Soft17Hit, Surrender, DoubleAfterSplit, EoE };//Rule::List i = (Rule::List)0; i < Rule::List::EoE; i = (Rule::List)((int)i + 1)
+			const static Utility::bijection<List, std::string> RuleandString;
 		private:
 			std::unordered_map<List, bool> element;
 		public:
 			bool at(List input) const { return element.at(input); }
 			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
+			Rule(std::istream&);
+			void set(List i, bool j) { element.at(i) = j; }
 			std::string print() const;
+			void import(std::istream&);
 		};
 		class Rate {
 		private:
@@ -113,5 +123,6 @@ namespace nagisakuya {
 		};
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
 		std::string Translate(int input);
+		int Translate(std::string input);
 	}
 }

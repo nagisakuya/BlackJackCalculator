@@ -17,5 +17,6 @@
 #include <array>
 #include <valarray>
 #include <ctime>
+#include <sstream>
 
 #endif //PCH_H

@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlackJackCalculator", "Blac
 		{2E81C78C-F69B-4166-BFA1-1BB492CC15F2} = {2E81C78C-F69B-4166-BFA1-1BB492CC15F2}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Strategy importer", "Strategy importer\Strategy importer.vcxproj", "{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -68,6 +70,14 @@ Global
 		{FD7F16D4-236B-4E43-A909-F8D86CCBB14A}.Release|x64.Build.0 = Release|x64
 		{FD7F16D4-236B-4E43-A909-F8D86CCBB14A}.Release|x86.ActiveCfg = Release|Win32
 		{FD7F16D4-236B-4E43-A909-F8D86CCBB14A}.Release|x86.Build.0 = Release|Win32
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Debug|x64.ActiveCfg = Debug|x64
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Debug|x64.Build.0 = Debug|x64
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Debug|x86.ActiveCfg = Debug|Win32
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Debug|x86.Build.0 = Debug|Win32
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Release|x64.ActiveCfg = Release|x64
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Release|x64.Build.0 = Release|x64
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Release|x86.ActiveCfg = Release|Win32
+		{0CFDA509-BE85-411A-A3EB-C5F54D673EF9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,22 +12,50 @@ namespace nagisakuya {
 			element.emplace(Rule::List::Surrender, Surrender);
 			element.emplace(Rule::List::DoubleAfterSplit, DoubleAfterSplit);
 		}
-
+		Rule::Rule(std::istream& input)
+		{
+			import(input);
+		}
+		const nagisakuya::Utility::bijection<Rule::List, std::string> Rule::RuleandString = {
+			{ List::Soft17Hit,"Soft17Hit"},
+			{ List::Surrender,"Surrender" },
+			{ List::DoubleAfterSplit,"DoubleAfterSplit" }
+		};
 		std::string Rule::print() const
 		{
-			string r;
-			r += "Soft17Hit: ";
-			if (element.at(Rule::List::Soft17Hit) == true) r += "true\t";
-			else r += "false\t";
-			r += "Surrender: ";
-			if (element.at(Rule::List::Surrender) == true) r += "true\t";
-			else r += "false\t";
-			r += "DoubleAfterSplit: ";
-			if (element.at(Rule::List::DoubleAfterSplit) == true) r += "true\t";
-			else r += "false\t";
-			return r;
+			string re;
+			for (List i = (List)0; i < List::EoE; i = (List)((int)i + 1)) {
+				re += RuleandString.at_ftos(i) + ": ";
+				if (element.at(i) == true) re += "true\t";
+				else re += "false\t";
+			}
+			return re;
 		}
-
+		void Rule::import(std::istream& input)
+		{
+			for (List i = (List)0; i < List::EoE; i = (List)((int)i + 1))
+			{
+				string temp_str, temp_rulename;
+				input >> temp_rulename;
+				if (RuleandString.at_ftos(i) + ":" == temp_rulename) {
+					input >> temp_str;
+					if (temp_str == "true") {
+						element[i] = true;
+					}
+					else if (temp_str == "false") {
+						element[i] = false;
+					}
+					else {
+						cout << "[ERROR] Wrong text in rule string";
+						exit(0);
+					}
+				}
+				else {
+					cout << "[ERROR] Wrong text in rule name";
+					exit(0);
+				}
+			}
+		}
 		Player::Player(int ID, string name)
 		{
 			this->name = name;
@@ -78,7 +106,7 @@ namespace nagisakuya {
 				}
 			}
 		}
-		
+
 		string Translate(int input) {
 			switch (input) {
 			case 0:
@@ -91,16 +119,38 @@ namespace nagisakuya {
 				return "Q";
 			case 12:
 				return "K";
-			case 13:
-				return "Joker";
 			default:
 				return std::to_string(input + 1);
+			}
+		}
+		int Translate(std::string input)
+		{
+			if (input == ",") {
+				cout << "";
+			}
+			if (input == "A") {
+				return 0;
+			}
+			else if (input == "T") {
+				return 9;
+			}
+			else if (input == "J") {
+				return 10;
+			}
+			else if (input == "Q") {
+				return 11;
+			}
+			else if (input == "K") {
+				return 12;
+			}
+			else {
+				return stoi(input) - 1;
 			}
 		}
 		Rate::Rate(double BlackJackRate)
 		{
 			element.emplace(Result::Win, 1);
-			element.emplace(Result::Lose,-1);
+			element.emplace(Result::Lose, -1);
 			element.emplace(Result::Tie, 0);
 			element.emplace(Result::BlackJack, BlackJackRate);
 			element.emplace(Result::Surrender, at(Result::Lose) / 2);

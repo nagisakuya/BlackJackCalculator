@@ -3,6 +3,7 @@
 using namespace std;
 
 namespace nagisakuya {
+	using namespace Utility;
 	namespace BlackJack {
 		Calculator::Calculator(Deck deck, Rule rule, Rate rate, DealerHand dealer) :Table(deck, rule, rate, dealer) {}
 		double Calculator::calculate()

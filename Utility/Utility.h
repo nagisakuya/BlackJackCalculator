@@ -1,9 +1,10 @@
 #pragma once
 #include "pch.h"
 #include <fstream>
+#include <unordered_map>
 
 namespace nagisakuya {
-	namespace Utilty {
+	namespace Utility {
 		class cfstream {
 		private:
 			std::ofstream fout;
@@ -79,6 +80,12 @@ namespace nagisakuya {
 			}
 			F at_stof(S second) const {
 				return *(F*)second_element.at(second);
+			}
+			int count_f(F first) const{
+				return first_element.count(first);
+			}
+			int count_s(S second) const {
+				return second_element.count(second);
 			}
 			bijection operator =(std::initializer_list<typename std::pair < F, S >> input) {
 				return bijection(input);
