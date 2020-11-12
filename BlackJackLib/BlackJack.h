@@ -86,11 +86,11 @@ namespace nagisakuya {
 			PlayerHand(std::vector<int> input = {}, bool splitted = false, bool doubled = false) :Hand(input) { this->splitted = splitted; this->doubled = doubled; }
 			inline bool splittable() const;
 			inline bool doubleble(bool DoubleafterSplit) const {
-			if (DoubleafterSplit == false) {
-				return size() == 2 && splitted == false;
+				if (DoubleafterSplit == false) {
+					return size() == 2 && splitted == false;
+				}
+				return size() == 2;
 			}
-			return size() == 2;
-		}
 			PlayerHand split(Deck* deck);
 			Option play(Deck* deck, Rule const& rule);
 			void judge(DealerHand const& dealer);
@@ -120,63 +120,33 @@ namespace nagisakuya {
 			const static Utility::bijection<Strategy::Option, std::string> OptionandOption;
 			class Splittable {
 			private:
-				std::array < std::array<Strategy::Option, 10>, 10> list = { {
-					{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Split,Option::Stand,Option::Stand,},
-					{Option::Split,Option::Splithit,Option::Splithit,Option::Hit,Option::Double,Option::Splithit,Option::Split,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Splithit,Option::Splithit,Option::Hit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Split,Option::Split,Option::Hit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Split,Option::Split,Option::Hit,Option::Double,Option::Hit,Option::Split,Option::Split,Option::Stand,Option::Stand,},
-					{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Split,Option::Split,Option::Stand,},
-					{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Split,Option::Stand,Option::Stand,},
-				} };
+				std::array < std::array<Strategy::Option, 10>, 10> list;
 				Strategy::Option& get_ref(int dealer, int player) { return list[dealer][player]; }
 			public:
-				Strategy::Option get(int dealer, int player) { return get_ref(dealer, player); }
+				Splittable();
+				Strategy::Option get(int dealer, int player) const { return list[dealer][player]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
 			};
 			class Soft {
 			private:
-				std::array < std::array<Strategy::Option, 8>, 10> list = { {
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Doublestand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Doublestand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Double,Option::Doublestand,Option::Stand,Option::Stand,},
-					{Option::Double,Option::Double,Option::Double,Option::Double,Option::Double,Option::Doublestand,Option::Stand,Option::Stand,},
-					{Option::Double,Option::Double,Option::Double,Option::Double,Option::Double,Option::Doublestand,Option::Doublestand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,},
-				} };
+				std::array < std::array<Strategy::Option, 9>, 10> list;
 				Strategy::Option& get_ref(int dealer, int player_nonAcard) { return list[dealer][player_nonAcard - 1]; }
 			public:
-				Strategy::Option get(int dealer, int player_sum) { return get_ref(dealer, player_sum - 11 - 1); }
+				Soft();
+				Strategy::Option get(int dealer, int player_sum) const { return list[dealer][player_sum - 11 - 1 - 1]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
 			};
 			class Hard {
 			private:
-				std::array < std::array<Strategy::Option, 10>, 10> list = { {
-					{Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Surrenderhit,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Hit,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Surrenderhit,Option::Stand,},
-					{Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Surrenderhit,Option::Surrenderhit,Option::Stand,},
-} };
+				std::array < std::array<Strategy::Option, 10>, 10> list;
 				Strategy::Option& get_ref(int dealer, int player_sum) { if (player_sum >= 17)return list[dealer][9]; if (player_sum <= 8)return list[dealer][0]; return list[dealer][player_sum - 8]; }
 			public:
-				Strategy::Option get(int dealer, int player_sum) { return get_ref(dealer, player_sum); }
+				Hard();
+				Strategy::Option get(int dealer, int player_sum) const { if (player_sum >= 17)return list[dealer][9]; if (player_sum <= 8)return list[dealer][0]; return list[dealer][player_sum - 8]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
@@ -187,7 +157,7 @@ namespace nagisakuya {
 			Hard hard;
 			void import(std::istream&);
 			std::string print();
-			BlackJack::Option find(DealerHand const& dealer, PlayerHand const& player, Rule const& rule);
+			BlackJack::Option find(DealerHand const& dealer, PlayerHand const& player, Rule const& rule) const;
 		};
 		class Table {
 		private:

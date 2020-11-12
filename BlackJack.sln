@@ -24,6 +24,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Strategy importer", "Strate
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{FAA17CDE-3B9E-45F9-8D17-6D1A480227D8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CalculatorOnStrategy", "CalculatorOnStrategy\CalculatorOnStrategy.vcxproj", "{6364D932-CCAE-4266-9040-8CA0D9038A3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -88,6 +90,14 @@ Global
 		{FAA17CDE-3B9E-45F9-8D17-6D1A480227D8}.Release|x64.Build.0 = Release|x64
 		{FAA17CDE-3B9E-45F9-8D17-6D1A480227D8}.Release|x86.ActiveCfg = Release|Win32
 		{FAA17CDE-3B9E-45F9-8D17-6D1A480227D8}.Release|x86.Build.0 = Release|Win32
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Debug|x64.ActiveCfg = Debug|x64
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Debug|x64.Build.0 = Debug|x64
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Debug|x86.ActiveCfg = Debug|Win32
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Debug|x86.Build.0 = Debug|Win32
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Release|x64.ActiveCfg = Release|x64
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Release|x64.Build.0 = Release|x64
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Release|x86.ActiveCfg = Release|Win32
+		{6364D932-CCAE-4266-9040-8CA0D9038A3C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

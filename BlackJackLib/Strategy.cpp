@@ -5,6 +5,21 @@ using namespace std;
 
 namespace nagisakuya {
 	namespace BlackJack {
+		Strategy::Splittable::Splittable()
+		{
+			list = { {
+				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Split,Option::Stand,Option::Stand,},
+				{Option::Split,Option::Splithit,Option::Splithit,Option::Hit,Option::Double,Option::Splithit,Option::Split,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Splithit,Option::Splithit,Option::Hit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Split,Option::Split,Option::Hit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Split,Option::Split,Option::Hit,Option::Double,Option::Hit,Option::Split,Option::Split,Option::Stand,Option::Stand,},
+				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Split,Option::Split,Option::Stand,},
+				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Split,Option::Stand,Option::Stand,},
+			} };
+		}
 		void Strategy::Splittable::import(std::istream& input)
 		{
 			string temp_str;
@@ -35,6 +50,7 @@ namespace nagisakuya {
 				}
 				ss << endl;
 			}
+			ss << endl;
 			return ss.str();
 		}
 		std::string Strategy::Splittable::print_initializer_list()
@@ -53,10 +69,25 @@ namespace nagisakuya {
 			ss << "}" << endl;
 			return ss.str();
 		}
+		Strategy::Soft::Soft()
+		{
+			list = { {
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Doublestand,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Doublestand,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Double,Option::Doublestand,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Double,Option::Double,Option::Double,Option::Double,Option::Double,Option::Doublestand,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Double,Option::Double,Option::Double,Option::Double,Option::Double,Option::Doublestand,Option::Doublestand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,Option::Stand,Option::Stand},
+			} };
+		}
 		void Strategy::Soft::import(std::istream& input)
 		{
 			string temp_str;
-			for (size_t i = 0; i < 8; i++)
+			for (size_t i = 0; i < 9; i++)
 			{
 				for (size_t j = 0; j < 10; j++)
 				{
@@ -74,15 +105,16 @@ namespace nagisakuya {
 				ss << Translate(i) << "\t";
 			}
 			ss << endl;
-			for (size_t i = 0; i < 8; i++)
+			for (size_t i = 0; i < 9; i++)
 			{
-				ss  << "A," << Translate(i + 1) << ":\t";
+				ss << "A," << Translate(i + 1) << ":\t";
 				for (size_t j = 0; j < 10; j++)
 				{
 					ss << OptionandString.at(list[j][i]) << "\t";
 				}
 				ss << endl;
 			}
+			ss << endl;
 			return ss.str();
 		}
 		std::string Strategy::Soft::print_initializer_list()
@@ -92,7 +124,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				ss << "{";
-				for (size_t j = 0; j < 8; j++)
+				for (size_t j = 0; j < 9; j++)
 				{
 					ss << OptionandOption.at(list[i][j]) << ",";
 				}
@@ -100,6 +132,21 @@ namespace nagisakuya {
 			}
 			ss << "}" << endl;
 			return ss.str();
+		}
+		Strategy::Hard::Hard()
+		{
+			list = { {
+				{Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Surrenderhit,Option::Stand,},
+				{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
+				{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Hit,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
+				{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
+				{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
+				{Option::Hit,Option::Double,Option::Double,Option::Double,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,Option::Stand,},
+				{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,},
+				{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Stand,},
+				{Option::Hit,Option::Hit,Option::Double,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Surrenderhit,Option::Stand,},
+				{Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Hit,Option::Surrenderhit,Option::Surrenderhit,Option::Stand,},
+			} };
 		}
 		void Strategy::Hard::import(std::istream& input)
 		{
@@ -119,7 +166,7 @@ namespace nagisakuya {
 			ss << "\t";
 			for (size_t i = 0; i < 10; i++)
 			{
-				ss <<  Translate(i) << "\t";
+				ss << Translate(i) << "\t";
 			}
 			ss << endl;
 			for (size_t i = 0; i < 10; i++)
@@ -131,6 +178,7 @@ namespace nagisakuya {
 				}
 				ss << endl;
 			}
+			ss << endl;
 			return ss.str();
 		}
 		std::string Strategy::Hard::print_initializer_list()
@@ -144,7 +192,7 @@ namespace nagisakuya {
 				{
 					ss << OptionandOption.at(list[i][j]) << ",";
 				}
-				ss << "}," <<endl;
+				ss << "}," << endl;
 			}
 			ss << "}" << endl;
 			return ss.str();
@@ -159,15 +207,13 @@ namespace nagisakuya {
 		{
 			stringstream ss;
 			ss << splittable.print();
-			ss << endl;
 			ss << soft.print();
-			ss << endl;
 			ss << hard.print();
 			return ss.str();
 		}
-		BlackJack::Option Strategy::find(DealerHand const& dealer, PlayerHand const& player, Rule const& rule)
+		BlackJack::Option Strategy::find(DealerHand const& dealer, PlayerHand const& player, Rule const& rule) const
 		{
-			auto OptiontoOption = [=](Strategy::Option input){
+			auto OptiontoOption = [=](Strategy::Option input) {
 				if (input == Strategy::Option::Hit) {
 					return BlackJack::Option::Hit;
 				}
@@ -175,7 +221,7 @@ namespace nagisakuya {
 					return BlackJack::Option::Stand;
 				}
 				else if (input == Strategy::Option::Double) {
-					if(player.doubleble(rule.at(Rule::List::DoubleAfterSplit)) == true) return BlackJack::Option::Double;
+					if (player.doubleble(rule.at(Rule::List::DoubleAfterSplit)) == true) return BlackJack::Option::Double;
 					else return BlackJack::Option::Hit;
 				}
 				else if (input == Strategy::Option::Doublestand) {

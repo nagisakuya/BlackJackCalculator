@@ -1,0 +1,45 @@
+Calculating on strategy
+	A	2	3	4	5	6	7	8	9	T	
+A,A:	P	P	P	P	P	P	P	P	P	P	
+2,2:	H	Ph	Ph	P	P	P	P	H	H	H	
+3,3:	H	Ph	Ph	P	P	P	P	H	H	H	
+4,4:	H	H	H	H	Ph	Ph	H	H	H	H	
+5,5:	H	D	D	D	D	D	D	D	D	H	
+6,6:	H	Ph	P	P	P	P	H	H	H	H	
+7,7:	H	P	P	P	P	P	P	H	H	H	
+8,8:	P	P	P	P	P	P	P	P	P	P	
+9,9:	S	P	P	P	P	P	S	P	P	S	
+T,T:	S	S	S	S	S	S	S	S	S	S	
+
+	A	2	3	4	5	6	7	8	9	T	
+A,2:	H	H	H	H	D	D	H	H	H	H	
+A,3:	H	H	H	H	D	D	H	H	H	H	
+A,4:	H	H	H	D	D	D	H	H	H	H	
+A,5:	H	H	H	D	D	D	H	H	H	H	
+A,6:	H	H	D	D	D	D	H	H	H	H	
+A,7:	H	Ds	Ds	Ds	Ds	Ds	S	S	H	H	
+A,8:	S	S	S	S	S	Ds	S	S	S	S	
+A,9:	S	S	S	S	S	S	S	S	S	S	
+A,T:	S	S	S	S	S	S	S	S	S	S	
+
+	A	2	3	4	5	6	7	8	9	T	
+8:	H	H	H	H	H	H	H	H	H	H	
+9:	H	H	D	D	D	D	H	H	H	H	
+10:	H	D	D	D	D	D	D	D	D	H	
+11:	D	D	D	D	D	D	D	D	D	D	
+12:	H	H	H	S	S	S	H	H	H	H	
+13:	H	S	S	S	S	S	H	H	H	H	
+14:	H	S	S	S	S	S	H	H	H	H	
+15:	H	S	S	S	S	S	H	H	H	Rh	
+16:	Rh	S	S	S	S	S	H	H	Rh	Rh	
+17:	S	S	S	S	S	S	S	S	S	S	
+
+Soft17Hit: false	Surrender: false	DoubleAfterSplit: false	
+Win: 1.000000	Tie: 0.000000	Lose: -1.000000	BlackJack: 1.500000	
+A: 4	2: 4	3: 4	4: 4	5: 4	6: 4	7: 4	8: 4	9: 4	T: 16	
+Dealer: T	Player1st: T 	Player2nd: T	ExpectedValue: 0.435222	Time: 0
+Dealer: T	Player1st: 9 	Player2nd: T	ExpectedValue: -0.0174536	Time: 0
+Dealer: T	Player1st: 9 	Player2nd: 9	ExpectedValue: -0.239065	Time: 0
+Dealer: T	Player1st: 8 	Player2nd: T	ExpectedValue: -0.239065	Time: 0
+Dealer: T	Player1st: 8 	Player2nd: 9	ExpectedValue: -0.460448	Time: 0
+Dealer: T	Player1st: 8 	Player2nd: 8	

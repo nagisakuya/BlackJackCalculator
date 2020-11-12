@@ -1,0 +1,24 @@
+Soft17Hit: false	Surrender: false	DoubleAfterSplit: false	
+Win: 1.000000	Tie: 0.000000	Lose: -1.000000	BlackJack: 1.500000	
+A: 4	2: 4	3: 4	4: 4	5: 4	6: 4	7: 4	8: 4	9: 4	T: 16	
+Dealer: T	Player1st: T 	Player2nd: T	Stand: 0.453917	Hit: -0.845176	Double: -1.69035	Split: -0.00757866	WhattoDo: Stand 	ExpectedValue: 0.453917	Time: 4.996
+Dealer: T	Player1st: 9 	Player2nd: T	Stand: 0.0125159	Hit: -0.726904	Double: -1.45381	Split: undefined	WhattoDo: Stand 	ExpectedValue: 0.0125159	Time: 0.004
+Dealer: T	Player1st: 9 	Player2nd: 9	Stand: -0.204037	Hit: -0.648318	Double: -1.29664	Split: -0.396253	WhattoDo: Stand 	ExpectedValue: -0.204037	Time: 13.404
+Dealer: T	Player1st: 8 	Player2nd: T	Stand: -0.224156	Hit: -0.646784	Double: -1.29357	Split: undefined	WhattoDo: Stand 	ExpectedValue: -0.224156	Time: 0.007
+Dealer: T	Player1st: 8 	Player2nd: 9	Stand: -0.44043	Hit: -0.58743	Double: -1.17486	Split: undefined	WhattoDo: Stand 	ExpectedValue: -0.44043	Time: 0.012
+Dealer: T	Player1st: 8 	Player2nd: 8	Stand: -0.557614	Hit: -0.544809	Double: -1.08962	Split: -0.575827	WhattoDo: Hit	ExpectedValue: -0.544809	Time: 20.948
+Dealer: T	Player1st: 7 	Player2nd: T	Stand: -0.460313	Hit: -0.586088	Double: -1.17218	Split: undefined	WhattoDo: Stand 	ExpectedValue: -0.460313	Time: 0.011
+Dealer: T	Player1st: 7 	Player2nd: 9	Stand: -0.557378	Hit: -0.545042	Double: -1.09008	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.545042	Time: 0.021
+Dealer: T	Player1st: 7 	Player2nd: 8	Stand: -0.553687	Hit: -0.510864	Double: -1.02173	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.510864	Time: 0.037
+Dealer: T	Player1st: 7 	Player2nd: 7	Stand: -0.549761	Hit: -0.550589	Double: -1.10672	Split: -0.722791	WhattoDo: Stand 	ExpectedValue: -0.549761	Time: 36.692
+Dealer: T	Player1st: 6 	Player2nd: T	Stand: -0.580262	Hit: -0.540377	Double: -1.08075	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.540377	Time: 0.02
+Dealer: T	Player1st: 6 	Player2nd: 9	Stand: -0.576861	Hit: -0.544305	Double: -1.09341	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.544305	Time: 0.038
+Dealer: T	Player1st: 6 	Player2nd: 8	Stand: -0.57317	Hit: -0.500728	Double: -1.00957	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.500728	Time: 0.069
+Dealer: T	Player1st: 6 	Player2nd: 7	Stand: -0.569243	Hit: -0.486976	Double: -0.983785	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.486976	Time: 0.127
+Dealer: T	Player1st: 6 	Player2nd: 6	Stand: -0.588725	Hit: -0.427742	Double: -0.887891	Split: -0.74173	WhattoDo: Hit	ExpectedValue: -0.427742	Time: 64.285
+Dealer: T	Player1st: 5 	Player2nd: T	Stand: -0.576112	Hit: -0.535016	Double: -1.07003	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.535016	Time: 0.039
+Dealer: T	Player1st: 5 	Player2nd: 9	Stand: -0.57271	Hit: -0.490477	Double: -0.986417	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.490477	Time: 0.071
+Dealer: T	Player1st: 5 	Player2nd: 8	Stand: -0.56902	Hit: -0.485423	Double: -0.988421	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.485423	Time: 0.128
+Dealer: T	Player1st: 5 	Player2nd: 7	Stand: -0.565093	Hit: -0.426446	Double: -0.875735	Split: undefined	WhattoDo: Hit	ExpectedValue: -0.426446	Time: 0.237
+Dealer: T	Player1st: 5 	Player2nd: 6	Stand: -0.586276	Hit: 0.0501462	Double: 0.0445547	Split: undefined	WhattoDo: Hit	ExpectedValue: 0.0501462	Time: 0.439
+Dealer: T	Player1st: 5 	Player2nd: 5	

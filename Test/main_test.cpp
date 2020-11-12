@@ -20,10 +20,15 @@ void test_strategy1() {
 	//strategy.import(file);
 	cout <<  strategy.print();
 	DealerHand dealer({ 7 - 1 });
-	PlayerHand player({ 1 - 1, 5 - 1 , 2 - 1 });
+	PlayerHand player({ 1 - 1, 5 - 1 , 5 - 1 });
 	dealer.print();
 	player.print();
 	cout << OptionandString.at(strategy.find(dealer, player, Rule())) << endl;
+}
+
+void test_strategy2() {
+	cfstream cf("/dev/null");
+	cout << Calculator(Deck(1)).calculate_onstrategy(cf);
 }
 
 int main(){

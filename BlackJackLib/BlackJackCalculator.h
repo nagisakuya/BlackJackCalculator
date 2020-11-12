@@ -15,10 +15,12 @@ namespace nagisakuya {
 			inline double If_hit(Deck const& deck, PlayerHand const& player);
 			inline double If_double(Deck const& deck, PlayerHand const& player);
 			inline double If_split(Deck const& deck, PlayerHand const& player);
+			double If_onstrategy(Deck const&, PlayerHand const&, Strategy = Strategy());
 		public:
 			Calculator(Deck deck, Rule rule = Rule(), Rate rate = Rate(), DealerHand dealer = DealerHand());
 			double calculate();
-			double calculate(Utility::cfstream& cfout);
+			double calculate(Utility::cfstream&);
+			double calculate_onstrategy(Utility::cfstream&, Strategy = Strategy());
 			std::pair<Option, double> WhattoDo(PlayerHand const& playerhand);
 		};
 

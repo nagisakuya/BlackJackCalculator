@@ -12,7 +12,9 @@ namespace nagisakuya {
 			cfstream(std::string const& path, std::ios_base::openmode const mode = std::ios_base::out) {
 				open(path, mode);
 			}
-			cfstream() {};
+			cfstream() {
+				
+			}
 			~cfstream() {
 				close();
 			}

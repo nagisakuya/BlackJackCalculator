@@ -75,6 +75,40 @@ namespace nagisakuya {
 			cfout << "TotalExpectedValue:" << r << "\t" << " TotalTime:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
 			return r;
 		}
+		double Calculator::calculate_onstrategy(Utility::cfstream& cfout, Strategy strategy)
+		{
+			double sum = 0;
+			Deck temp_deck[2];
+			cfout << "Calculating on strategy" << endl;
+			cfout << strategy.print();
+			cfout << PrintStatus();
+			clock_t start = clock();
+			for (int i = 10; i-- > 0;)
+			{
+				if (deck.count(i) != 0) {
+					temp_deck[0] = deck - i;
+					for (int j = 10; j-- > 0;)
+					{
+						if (temp_deck[0].count(j) != 0) {
+							temp_deck[1] = temp_deck[0] - j;
+							for (int k = 10; k-- > j; )
+							{
+								if (temp_deck[1].count(k) != 0) {
+									cfout << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
+									clock_t temp_clock = clock();
+									double ev = Calculator(temp_deck[1] - k, rule, rate, DealerHand({ i })).If_onstrategy(deck, PlayerHand({ j,k }));
+									cfout << "ExpectedValue: " << ev << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
+									sum += ev * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
+								}
+							}
+						}
+					}
+				}
+			}
+			double r = sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
+			cfout << "TotalExpectedValue:" << r << "\t" << " TotalTime:" << (clock() - start) / CLOCKS_PER_SEC << "sec" << endl;
+			return r;
+		}
 		std::pair<Option, double> Calculator::WhattoDo(PlayerHand const& player)
 		{
 			unordered_map<Option, double> temp_map = Calculator(deck, rule, rate, dealer).PlayerEV_all(player);
@@ -175,7 +209,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					r += deck.count(i) * PlayerEV(deck - i, player * i) * 2;
+					r += deck.count(i) * If_stand(deck - i, player * i) * 2;
 				}
 			}
 			r /= deck.size();
@@ -199,6 +233,58 @@ namespace nagisakuya {
 				}
 			}
 			return r / ((double)deck.size() * ((double)deck.size() - 1));
+		}
+		double Calculator::If_onstrategy(Deck const& deck, PlayerHand const& player, Strategy strategy)
+		{
+			auto temp_option = strategy.find(dealer, player, rule);
+			if (temp_option == Option::Stand) {
+				return If_stand(deck, player);
+			}
+			else if (temp_option == Option::Hit) {
+				double sum = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						sum += deck.count(i) * If_onstrategy(deck - i, player + i);
+					}
+				}
+				return sum / deck.size();
+			}
+			else if (temp_option == Option::Double) {
+				double sum = 0;
+				for (size_t i = 0; i < 10; i++)
+				{
+					if (deck.count(i) != 0) {
+						sum += deck.count(i) * If_stand(deck - i, player * i) * 2;
+					}
+				}
+				return sum / deck.size();
+			}
+			else if (temp_option == Option::Split) {
+				double sum = 0;
+				Deck temp_deck;
+				for (int i = 10; i-- > 0;)
+				{
+					if (deck.count(i) != 0) {
+						temp_deck = deck - i;
+						for (int j = 10; j-- > i;)
+						{
+							if (temp_deck.count(j) != 0) {
+								sum += (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck.count(j) *
+									(If_onstrategy(temp_deck - j, player / i) + If_onstrategy(temp_deck - j, player / j)));
+							}
+						}
+					}
+				}
+				return sum / ((double)deck.size() * ((double)deck.size() - 1));
+			}
+			else if (temp_option == Option::Surrender) {
+				return rate.at(Result::Surrender);
+			}
+			else {
+				cout << "something wrong in If_onstrategy may be in Option enum";
+				exit(0);
+			};
 		}
 		std::valarray<double> Calculator::DealerEV(Deck const& deck, DealerHand const& dealer)
 		{

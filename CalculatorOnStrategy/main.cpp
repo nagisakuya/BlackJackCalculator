@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-	cout << "BlackJackCalculator" << endl;
+	cout << "BlackJackCalculator on strategy ver" << endl;
 	ifstream inputfile;
 	array<int,10> deck;
 	double BJrate;
@@ -29,8 +29,8 @@ int main()
 	inputfile >> temp_s;
 	inputfile >> BJrate;
 	inputfile.close();
-	cfstream cfout("output.txt", ios::trunc);
+	cfstream cfout("output_onstrategy.txt", ios::trunc);
 	Calculator calculator(Deck(deck), rule, Rate(BJrate));
-	calculator.calculate(cfout);
+	calculator.calculate_onstrategy(cfout);
 	cfout.close();
 }
