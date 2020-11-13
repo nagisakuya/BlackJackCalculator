@@ -17,7 +17,8 @@ namespace nagisakuya {
 			inline double If_split(Deck const& deck, PlayerHand const& player);
 			double If_onstrategy(Deck const&, PlayerHand const&, Strategy = Strategy());
 		public:
-			Calculator(Deck deck, Rule rule = Rule(), Rate rate = Rate(), DealerHand dealer = DealerHand());
+			Calculator() {};
+			Calculator(Deck, Rule = Rule(), Rate = Rate(), DealerHand = DealerHand());
 			double calculate();
 			double calculate(Utility::cfstream&);
 			double calculate_onstrategy(Utility::cfstream&, Strategy = Strategy());

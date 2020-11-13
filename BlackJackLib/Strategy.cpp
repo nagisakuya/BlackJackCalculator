@@ -8,16 +8,16 @@ namespace nagisakuya {
 		Strategy::Splittable::Splittable()
 		{
 			list = { {
-				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Split,Option::Stand,Option::Stand,},
-				{Option::Split,Option::Splithit,Option::Splithit,Option::Hit,Option::Double,Option::Splithit,Option::Split,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Splithit,Option::Splithit,Option::Hit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Split,Option::Split,Option::Hit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Double,Option::Split,Option::Split,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Split,Option::Split,Option::Hit,Option::Double,Option::Hit,Option::Split,Option::Split,Option::Stand,Option::Stand,},
-				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Double,Option::Hit,Option::Hit,Option::Split,Option::Split,Option::Stand,},
-				{Option::Split,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Hit,Option::Split,Option::Stand,Option::Stand,},
+				{Option::Split,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Notsplit,Option::Notsplit,},
+				{Option::Split,Option::Splithit,Option::Splithit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Splithit,Option::Splithit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Split,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Split,Option::Split,Option::Notsplit,Option::Notsplit,Option::Split,Option::Split,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Notsplit,Option::Split,Option::Split,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Split,Option::Split,Option::Splithit,Option::Notsplit,Option::Split,Option::Split,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Split,Option::Split,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Split,Option::Notsplit,Option::Notsplit,},
+				{Option::Split,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Split,Option::Notsplit,},
+				{Option::Split,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Notsplit,Option::Split,Option::Notsplit,Option::Notsplit,},
 			} };
 		}
 		void Strategy::Splittable::import(std::istream& input)
@@ -229,22 +229,26 @@ namespace nagisakuya {
 					else return BlackJack::Option::Stand;
 				}
 				else if (input == Strategy::Option::Split) {
-					if (player.splittable() == true) return BlackJack::Option::Split;
-					else return BlackJack::Option::Stand;
+					return BlackJack::Option::Split;
 				}
 				else if (input == Strategy::Option::Splithit) {
-					if (player.splittable() == true) return BlackJack::Option::Split;
+					if (rule.at(Rule::List::DoubleAfterSplit) == true) return BlackJack::Option::Split;
 					else return BlackJack::Option::Hit;
 				}
 				else if (input == Strategy::Option::Surrenderhit) {
 					if (rule.at(Rule::List::Surrender) == true) { return BlackJack::Option::Surrender; }
 					else { return BlackJack::Option::Hit; }
 				}
+				else if (input == Strategy::Option::Notsplit) {
+					return BlackJack::Option::null;
+				}
 				return BlackJack::Option();
 			};
 			auto temp_tuple = player.CheckHand();
 			if (player.splittable() == true) {
-				return OptiontoOption(splittable.get(dealer.get_upcard(), player.get()[0]));
+				if (OptiontoOption(splittable.get(dealer.get_upcard(), player.get()[0])) == BlackJack::Option::Split) {
+					return BlackJack::Option::Split;
+				}
 			}
 			if (get<1>(temp_tuple) == true) {
 				return OptiontoOption(soft.get(dealer.get_upcard(), get<0>(temp_tuple)));

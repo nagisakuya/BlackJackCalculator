@@ -1,15 +1,15 @@
 Calculating on strategy
 	A	2	3	4	5	6	7	8	9	T	
 A,A:	P	P	P	P	P	P	P	P	P	P	
-2,2:	H	Ph	Ph	P	P	P	P	H	H	H	
-3,3:	H	Ph	Ph	P	P	P	P	H	H	H	
-4,4:	H	H	H	H	Ph	Ph	H	H	H	H	
-5,5:	H	D	D	D	D	D	D	D	D	H	
-6,6:	H	Ph	P	P	P	P	H	H	H	H	
-7,7:	H	P	P	P	P	P	P	H	H	H	
+2,2:	N	Ph	Ph	P	P	P	P	N	N	N	
+3,3:	N	Ph	Ph	P	P	P	P	N	N	N	
+4,4:	N	N	N	N	Ph	Ph	N	N	N	N	
+5,5:	N	N	N	N	N	N	N	N	N	N	
+6,6:	N	N	P	P	P	P	N	N	N	N	
+7,7:	N	P	P	P	P	P	P	N	N	N	
 8,8:	P	P	P	P	P	P	P	P	P	P	
-9,9:	S	P	P	P	P	P	S	P	P	S	
-T,T:	S	S	S	S	S	S	S	S	S	S	
+9,9:	N	P	P	P	P	P	N	P	P	N	
+T,T:	N	N	N	N	N	N	N	N	N	N	
 
 	A	2	3	4	5	6	7	8	9	T	
 A,2:	H	H	H	H	D	D	H	H	H	H	
@@ -42,4 +42,39 @@ Dealer: T	Player1st: 9 	Player2nd: T	ExpectedValue: -0.0174536	Time: 0
 Dealer: T	Player1st: 9 	Player2nd: 9	ExpectedValue: -0.239065	Time: 0
 Dealer: T	Player1st: 8 	Player2nd: T	ExpectedValue: -0.239065	Time: 0
 Dealer: T	Player1st: 8 	Player2nd: 9	ExpectedValue: -0.460448	Time: 0
-Dealer: T	Player1st: 8 	Player2nd: 8	
+Dealer: T	Player1st: 8 	Player2nd: 8	ExpectedValue: -0.597639	Time: 1.082
+Dealer: T	Player1st: 7 	Player2nd: T	ExpectedValue: -0.460448	Time: 0
+Dealer: T	Player1st: 7 	Player2nd: 9	ExpectedValue: -0.569962	Time: 0.001
+Dealer: T	Player1st: 7 	Player2nd: 8	ExpectedValue: -0.537451	Time: 0.002
+Dealer: T	Player1st: 7 	Player2nd: 7	ExpectedValue: -0.502161	Time: 0.005
+Dealer: T	Player1st: 6 	Player2nd: T	ExpectedValue: -0.569962	Time: 0.001
+Dealer: T	Player1st: 6 	Player2nd: 9	ExpectedValue: -0.537451	Time: 0.002
+Dealer: T	Player1st: 6 	Player2nd: 8	ExpectedValue: -0.502161	Time: 0.005
+Dealer: T	Player1st: 6 	Player2nd: 7	ExpectedValue: -0.464799	Time: 0.009
+Dealer: T	Player1st: 6 	Player2nd: 6	ExpectedValue: -0.425375	Time: 0.017
+Dealer: T	Player1st: 5 	Player2nd: T	ExpectedValue: -0.537451	Time: 0.002
+Dealer: T	Player1st: 5 	Player2nd: 9	ExpectedValue: -0.502161	Time: 0.004
+Dealer: T	Player1st: 5 	Player2nd: 8	ExpectedValue: -0.464799	Time: 0.009
+Dealer: T	Player1st: 5 	Player2nd: 7	ExpectedValue: -0.425375	Time: 0.017
+Dealer: T	Player1st: 5 	Player2nd: 6	ExpectedValue: 0.0508369	Time: 0.001
+Dealer: T	Player1st: 5 	Player2nd: 5	ExpectedValue: -0.0453743	Time: 0.035
+Dealer: T	Player1st: 4 	Player2nd: T	ExpectedValue: -0.502161	Time: 0.004
+Dealer: T	Player1st: 4 	Player2nd: 9	ExpectedValue: -0.464799	Time: 0.008
+Dealer: T	Player1st: 4 	Player2nd: 8	ExpectedValue: -0.425375	Time: 0.017
+Dealer: T	Player1st: 4 	Player2nd: 7	ExpectedValue: 0.0508369	Time: 0.002
+Dealer: T	Player1st: 4 	Player2nd: 6	ExpectedValue: -0.0453743	Time: 0.035
+Dealer: T	Player1st: 4 	Player2nd: 5	ExpectedValue: -0.209	Time: 0.067
+Dealer: T	Player1st: 4 	Player2nd: 4	ExpectedValue: -0.29882	Time: 0.099
+Dealer: T	Player1st: 3 	Player2nd: T	ExpectedValue: -0.464799	Time: 0.009
+Dealer: T	Player1st: 3 	Player2nd: 9	ExpectedValue: -0.425375	Time: 0.016
+Dealer: T	Player1st: 3 	Player2nd: 8	ExpectedValue: 0.0508369	Time: 0.001
+Dealer: T	Player1st: 3 	Player2nd: 7	ExpectedValue: -0.0453743	Time: 0.035
+Dealer: T	Player1st: 3 	Player2nd: 6	ExpectedValue: -0.209	Time: 0.065
+Dealer: T	Player1st: 3 	Player2nd: 5	ExpectedValue: -0.29882	Time: 0.098
+Dealer: T	Player1st: 3 	Player2nd: 4	ExpectedValue: -0.366305	Time: 0.193
+Dealer: T	Player1st: 3 	Player2nd: 3	ExpectedValue: -0.379253	Time: 0.311
+Dealer: T	Player1st: 2 	Player2nd: T	ExpectedValue: -0.425375	Time: 0.017
+Dealer: T	Player1st: 2 	Player2nd: 9	ExpectedValue: 0.0508369	Time: 0.002
+Dealer: T	Player1st: 2 	Player2nd: 8	ExpectedValue: -0.0453743	Time: 0.035
+Dealer: T	Player1st: 2 	Player2nd: 7	ExpectedValue: -0.209	Time: 0.065
+Dealer: T	Player1st: 2 	Player2nd: 6	ExpectedValue: -0.29882	Time: 0.1

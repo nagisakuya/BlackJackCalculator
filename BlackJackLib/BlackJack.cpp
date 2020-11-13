@@ -172,9 +172,9 @@ namespace nagisakuya {
 			element.emplace(Result::Lose, -1);
 			element.emplace(Result::Tie, 0);
 			element.emplace(Result::BlackJack, BlackJackRate);
-			element.emplace(Result::Surrender, at(Result::Lose) / 2);
-			element.emplace(Result::DoubledWin, at(Result::Win) * 2);
-			element.emplace(Result::DoubledLose, at(Result::Lose) * 2);
+			element.emplace(Result::Surrender, get(Result::Lose) / 2);
+			element.emplace(Result::DoubledWin, get(Result::Win) * 2);
+			element.emplace(Result::DoubledLose, get(Result::Lose) * 2);
 		}
 		const nagisakuya::Utility::bijection<Strategy::Option, std::string> Strategy::OptionandString = {
 			{Option::Hit	,"H"},
@@ -184,6 +184,7 @@ namespace nagisakuya {
 			{Option::Surrenderhit,"Rh"},
 			{Option::Doublestand,"Ds"},
 			{Option::Splithit,"Ph"},
+			{Option::Notsplit,"N"},
 		};
 		const Utility::bijection<Strategy::Option, std::string> Strategy::OptionandOption = {
 			{Option::Hit	,"Option::Hit"},
@@ -193,6 +194,7 @@ namespace nagisakuya {
 			{Option::Surrenderhit,"Option::Surrenderhit"},
 			{Option::Doublestand,"Option::Doublestand"},
 			{Option::Splithit,"Option::Splithit"},
+			{Option::Notsplit,"Option::Notsplit"},
 		};
 		std::string Rate::print() const
 		{

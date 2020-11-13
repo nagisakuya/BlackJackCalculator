@@ -50,6 +50,14 @@ namespace nagisakuya {
 		{
 			return rule.print() + "\n" + rate.print() + "\n" + deck.print() + "\n";
 		}
+		void Table::import(istream& input)
+		{
+			string temp_s;
+			deck.import(input);
+			rule.import(input);
+			input >> temp_s;
+			input >> rate.at(Result::BlackJack);
+		}
 		bool Table::addplayer(Player input)
 		{
 			int input_id = input.get_ID();

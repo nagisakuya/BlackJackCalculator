@@ -41,5 +41,15 @@ namespace nagisakuya {
 			return 0;
 		}
 
+		void Deck::import(istream& input)
+		{
+			string temp_s;
+			for (size_t i = 0; i < 10; i++)
+			{
+				input >> temp_s;
+				input >> content[i];
+			}
+		}
+
 	}
 }

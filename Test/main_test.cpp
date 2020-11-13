@@ -15,9 +15,7 @@ using namespace nagisakuya::Utility;
 using namespace std;
 
 void test_strategy1() {
-	ifstream file("BasicStrategy.txt", ios::in);
 	Strategy strategy;
-	//strategy.import(file);
 	cout <<  strategy.print();
 	DealerHand dealer({ 7 - 1 });
 	PlayerHand player({ 1 - 1, 5 - 1 , 5 - 1 });
@@ -31,6 +29,14 @@ void test_strategy2() {
 	cout << Calculator(Deck(1)).calculate_onstrategy(cf);
 }
 
+void test_strategy3() {
+	ifstream file("BasicStrategy.txt", ios::in);
+	Strategy strategy;
+	strategy.import(file);
+	cout << strategy.print();
+	cout << strategy.splittable.print_initializer_list();
+}
+
 int main(){
-	test_strategy1();
+	test_strategy3();
 }

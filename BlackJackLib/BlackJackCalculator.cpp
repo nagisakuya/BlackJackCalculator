@@ -35,7 +35,7 @@ namespace nagisakuya {
 			double sum = 0;
 			Deck temp_deck[2];
 			cfout << PrintStatus();
-			if (rule.at(Rule::List::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.at(Result::Surrender) << endl;
+			if (rule.at(Rule::List::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.get(Result::Surrender) << endl;
 			//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
 			clock_t start = clock();
 			clock_t temp_clock;
@@ -129,7 +129,7 @@ namespace nagisakuya {
 				temp_map.emplace(Option::Hit, If_hit(deck, player));
 				if (IsTheFirst == true && rule.at(Rule::List::DoubleAfterSplit) == true ? true : player.get_splitted() == false) temp_map.emplace(Option::Double, If_double(deck, player));
 				if (IsTheFirst == true && player.splittable()) 	temp_map.emplace(Option::Split, If_split(deck, player));
-				if (rule.at(Rule::List::Surrender) == true) temp_map.emplace(Option::Surrender, rate.at(Result::Surrender));
+				if (rule.at(Rule::List::Surrender) == true) temp_map.emplace(Option::Surrender, rate.get(Result::Surrender));
 			}
 			return temp_map;
 		}
@@ -167,25 +167,25 @@ namespace nagisakuya {
 		double Calculator::If_stand(Deck const& deck, PlayerHand const& player)
 		{
 			const tuple<int, bool, bool > temp_tuple = player.CheckHand();
-			if (get<2>(temp_tuple) == true) return  (1 - DealerEV(deck, dealer)[6]) * rate.at(Result::BlackJack);
+			if (get<2>(temp_tuple) == true) return  (1 - DealerEV(deck, dealer)[6]) * rate.get(Result::BlackJack);
 			valarray<double> temp_d = DealerEV(deck, dealer); //bust,17,18,19,20,21,BJ
 			if (get<0>(temp_tuple) > 21) {
-				return rate.at(Result::Lose);
+				return rate.get(Result::Lose);
 			}
 			else if (get<0>(temp_tuple) < 17) {
-				return (rate.at(Result::Win) * temp_d[0])
-					+ (rate.at(Result::Lose) * (1 - temp_d[0]));
+				return (rate.get(Result::Win) * temp_d[0])
+					+ (rate.get(Result::Lose) * (1 - temp_d[0]));
 			}
 			else {
 				double r = 0;
 				for (int i = 0; i < get<0>(temp_tuple) - 16; i++)
 				{
-					r += rate.at(Result::Win) * temp_d[i];
+					r += rate.get(Result::Win) * temp_d[i];
 				}
 				if (get<0>(temp_tuple) != 21) {
 					for (int i = get<0>(temp_tuple) - 16 + 1; i < 7; i++)
 					{
-						r += rate.at(Result::Lose) * temp_d[i];
+						r += rate.get(Result::Lose) * temp_d[i];
 					}
 				}
 				return r;
@@ -279,7 +279,7 @@ namespace nagisakuya {
 				return sum / ((double)deck.size() * ((double)deck.size() - 1));
 			}
 			else if (temp_option == Option::Surrender) {
-				return rate.at(Result::Surrender);
+				return rate.get(Result::Surrender);
 			}
 			else {
 				cout << "something wrong in If_onstrategy may be in Option enum";

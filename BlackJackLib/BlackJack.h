@@ -11,7 +11,7 @@ inline T end(T r) { T l = T::LAST; return l; }
 namespace nagisakuya {
 	namespace BlackJack {
 		enum class Result { Win, Lose, Tie, BlackJack, Surrender, DoubledWin, DoubledLose, undefined };
-		enum class Option { Hit, Stand, Double, Split, Surrender };
+		enum class Option { Hit, Stand, Double, Split, Surrender , null};
 		const Utility::bijection<Option, std::string> OptionandString{
 			{Option::Hit	,"Hit"},
 			{Option::Stand	,"Stand "},
@@ -39,8 +39,11 @@ namespace nagisakuya {
 			std::unordered_map<Result, double> element;
 		public:
 			Rate(double BlackJackRate = 1.5);
-			double at(Result input)const { return element.at(input); }
+			std::unordered_map<Result, double>& get_ref() { return element; };
+			double get(Result input)const { return element.at(input); }
+			double& at(Result input) { return element.at(input); }
 			std::string print() const;
+			double& operator[](Result i) { return element[i]; }
 		};
 		class Deck {
 		protected:
@@ -54,6 +57,7 @@ namespace nagisakuya {
 			int DrowRandom();
 			int Drow(int input) { content[input]--; return input; }
 			Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
+			void import(std::istream&);
 		};
 		class Hand {
 		protected:
@@ -114,7 +118,7 @@ namespace nagisakuya {
 		};
 		class Strategy {
 		public:
-			enum class Option { Hit, Stand, Double, Split, Doublestand, Splithit, Surrenderhit };
+			enum class Option { Hit, Stand, Double, Split, Doublestand, Splithit, Surrenderhit ,Notsplit };
 			const static Utility::bijection<Strategy::Option, std::string> OptionandString;
 		private:
 			const static Utility::bijection<Strategy::Option, std::string> OptionandOption;
@@ -165,17 +169,18 @@ namespace nagisakuya {
 		protected:
 			DealerHand dealer;
 			Deck deck;
-			const Rule rule;
-			const Rate rate;
+			Rule rule;
+			Rate rate;
 		public:
-			Table(Deck deck = Deck(8), Rule rule = Rule(), Rate rate = Rate(1.5), DealerHand dealer = DealerHand());
-			bool addplayer(Player input);
+			Table(Deck = Deck(8), Rule = Rule(), Rate = Rate(1.5), DealerHand = DealerHand());
+			bool addplayer(Player);
 			void play();
 			void replay();
 			bool getrule(Rule::List input) const { return rule.at(input); }
-			double getrate(Result input) const { return rate.at(input); }
+			double getrate(Result input) const { return rate.get(input); }
 			Deck getdeck() const { return deck; }
 			std::string PrintStatus();
+			void import(std::istream&);
 		};
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
 		std::string Translate(int input);
