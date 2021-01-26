@@ -178,6 +178,7 @@ namespace nagisakuya {
 			void replay();
 			bool getrule(Rule::List input) const { return rule.at(input); }
 			double getrate(Result input) const { return rate.get(input); }
+			DealerHand getdealer() const { return dealer; }
 			Deck getdeck() const { return deck; }
 			std::string PrintStatus();
 			void import(std::istream&);

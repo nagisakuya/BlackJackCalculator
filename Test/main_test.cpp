@@ -16,7 +16,7 @@ using namespace std;
 
 void test_strategy1() {
 	Strategy strategy;
-	cout <<  strategy.print();
+	cout << strategy.print();
 	DealerHand dealer({ 7 - 1 });
 	PlayerHand player({ 1 - 1, 5 - 1 , 5 - 1 });
 	dealer.print();
@@ -37,6 +37,21 @@ void test_strategy3() {
 	cout << strategy.splittable.print_initializer_list();
 }
 
-int main(){
-	test_strategy3();
+void test_dolambda(void(*lambda)()) {
+	int a = 0;
+	lambda();
+}
+
+void test_lambda1() {
+	auto lambda = [] {cout << "Hello World"; return; };
+	test_dolambda(lambda);
+}
+
+void test_lambda2() {
+	int a = 1;
+	auto lambda = [&]()->void {cout << a;};
+}
+
+int main() {
+	test_lambda1();
 }

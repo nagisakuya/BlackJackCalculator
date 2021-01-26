@@ -21,6 +21,6 @@ int main()
 	calc.import(inputfile);
 	inputfile.close();
 	cfstream cfout("output.txt", ios::trunc);
-	calc.calculate(cfout);
+	calc.calculate_withoutput(cfout);
 	cfout.close();
 }

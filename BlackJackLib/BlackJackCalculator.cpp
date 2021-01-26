@@ -6,108 +6,79 @@ namespace nagisakuya {
 	using namespace Utility;
 	namespace BlackJack {
 		Calculator::Calculator(Deck deck, Rule rule, Rate rate, DealerHand dealer) :Table(deck, rule, rate, dealer) {}
-		double Calculator::calculate()
+		double Calculator::calculate(std::function<void()> do_before, std::function<double(Calculator, PlayerHand)> do_while, std::function<void(double,double)> do_after)
 		{
 			double sum = 0;
-			Deck temp_deck[2];
-			for (int i = 10; i-- > 0;)
-			{
-				if (deck.count(i) != 0) {
-					temp_deck[0] = deck - i;
-					for (int j = 10; j-- > 0;)
-					{
-						if (temp_deck[0].count(j) != 0) {
-							temp_deck[1] = temp_deck[0] - j;
-							for (int k = 10; k-- > j; )
-							{
-								if (temp_deck[1].count(k) != 0) {
-									sum += Calculator(temp_deck[1] - k,rule,rate, DealerHand({ i })).WhattoDo(PlayerHand({ j,k })).second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
-								}
-							}
-						}
-					}
-				}
-			}
-			return sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
-		}
-		double Calculator::calculate(cfstream& cfout)
-		{
-			double sum = 0;
-			Deck temp_deck[2];
-			cfout << PrintStatus();
-			if (rule.at(Rule::List::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.get(Result::Surrender) << endl;
-			//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
+			do_before();
 			clock_t start = clock();
-			clock_t temp_clock;
 			for (int i = 10; i-- > 0;)
 			{
 				if (deck.count(i) != 0) {
-					temp_deck[0] = deck - i;
+					Deck temp_deck1 = deck - i;
 					for (int j = 10; j-- > 0;)
 					{
-						if (temp_deck[0].count(j) != 0) {
-							temp_deck[1] = temp_deck[0] - j;
+						if (temp_deck1.count(j) != 0) {
+							Deck temp_deck2 = temp_deck1 - j;
 							for (int k = 10; k-- > j; )
 							{
-								if (temp_deck[1].count(k) != 0) {
-									cfout << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
-									temp_clock = clock();
-									unordered_map<Option, double> temp_map = Calculator(temp_deck[1] - k, rule, rate, DealerHand({ i })).PlayerEV_all(PlayerHand({ j,k }));
-									Option best = Option::Stand;
-									cfout.fonly() << "Stand: " << temp_map.at(Option::Stand) << "\t";
-									if (temp_map.count(Option::Hit) == 1) { cfout.fonly() << "Hit: " << temp_map.at(Option::Hit) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
-									else cfout.fonly() << "Hit: undefined" << "\t";
-									if (temp_map.count(Option::Double) == 1) { cfout.fonly() << "Double: " << temp_map.at(Option::Double) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
-									else cfout.fonly() << "Douoble: undefined" << "\t";
-									if (temp_map.count(Option::Split) == 1) { cfout.fonly() << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
-									else cfout.fonly() << "Split: undefined" << "\t";
-									if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
-									cfout << "WhattoDo: " << OptionandString.at((*temp_map.find(best)).first) << "\tExpectedValue: " << (*temp_map.find(best)).second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
-									sum += (*temp_map.find(best)).second * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
+								if (temp_deck2.count(k) != 0) {
+									sum += do_while(Calculator(temp_deck2 - k, rule, rate, DealerHand({ i })), PlayerHand({ j,k })) * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck1.count(j) * (double)temp_deck2.count(k));
 								}
 							}
 						}
 					}
 				}
 			}
-			clock_t end = clock();
 			double r = sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
-			cfout << "TotalExpectedValue:" << r << "\t" << " TotalTime:" << (end - start) / CLOCKS_PER_SEC << "sec" << endl;
+			do_after(r,(double)clock() - start);
 			return r;
+		}
+		double Calculator::calculate_withoutput(cfstream& cfout)
+		{
+			auto before = [&] {
+				cfout << PrintStatus();
+				if (rule.at(Rule::List::Surrender) == true) cfout << "Surrender expexted value is always:" << rate.get(Result::Surrender) << endl;
+				//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
+			};
+			auto while_ = [&](Calculator table, PlayerHand player) {
+				cfout << "Dealer: " << Translate(table.getdealer().get_upcard()) << "\tPlayer1st: " << Translate(player.get()[0]) << " \tPlayer2nd: " << Translate(player.get()[1]) << "\t";
+				clock_t temp_clock = clock();
+				unordered_map<Option, double> temp_map = table.PlayerEV_all(player);
+				Option best = Option::Stand;
+				cfout.fonly() << "Stand: " << temp_map.at(Option::Stand) << "\t";
+				if (temp_map.count(Option::Hit) == 1) { cfout.fonly() << "Hit: " << temp_map.at(Option::Hit) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Hit))best = Option::Hit; }
+				else cfout.fonly() << "Hit: undefined" << "\t";
+				if (temp_map.count(Option::Double) == 1) { cfout.fonly() << "Double: " << temp_map.at(Option::Double) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Double))best = Option::Double; }
+				else cfout.fonly() << "Douoble: undefined" << "\t";
+				if (temp_map.count(Option::Split) == 1) { cfout.fonly() << "Split: " << temp_map.at(Option::Split) << "\t"; if (temp_map.at(best) < temp_map.at(Option::Split))best = Option::Split; }
+				else cfout.fonly() << "Split: undefined" << "\t";
+				if (temp_map.count(Option::Surrender) == 1) if (temp_map.at(best) < temp_map.at(Option::Surrender))best = Option::Surrender;
+				cfout << "WhattoDo: " << OptionandString.at((*temp_map.find(best)).first) << "\tExpectedValue: " << (*temp_map.find(best)).second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
+				return (*temp_map.find(best)).second;
+			};
+			auto after = [&](double d,double clock) {
+				cfout << "TotalExpectedValue:" << d << "\t" << " TotalTime:" << clock / CLOCKS_PER_SEC << "sec" << endl;
+			};
+			return calculate(before, while_,after);
 		}
 		double Calculator::calculate_onstrategy(Utility::cfstream& cfout, Strategy strategy)
 		{
-			double sum = 0;
-			Deck temp_deck[2];
-			cfout << "Calculating on strategy" << endl;
-			cfout << strategy.print();
-			cfout << PrintStatus();
-			clock_t start = clock();
-			for (int i = 10; i-- > 0;)
-			{
-				if (deck.count(i) != 0) {
-					temp_deck[0] = deck - i;
-					for (int j = 10; j-- > 0;)
-					{
-						if (temp_deck[0].count(j) != 0) {
-							temp_deck[1] = temp_deck[0] - j;
-							for (int k = 10; k-- > j; )
-							{
-								if (temp_deck[1].count(k) != 0) {
-									cfout << "Dealer: " << Translate(i) << "\tPlayer1st: " << Translate(j) << " \tPlayer2nd: " << Translate(k) << "\t";
-									clock_t temp_clock = clock();
-									double ev = Calculator(temp_deck[1] - k, rule, rate, DealerHand({ i })).If_onstrategy(deck, PlayerHand({ j,k }));
-									cfout << "ExpectedValue: " << ev << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
-									sum += ev * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck[0].count(j) * (double)temp_deck[1].count(k));
-								}
-							}
-						}
-					}
-				}
-			}
-			double r = sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
-			cfout << "TotalExpectedValue:" << r << "\t" << " TotalTime:" << (clock() - start) / CLOCKS_PER_SEC << "sec" << endl;
-			return r;
+			auto before = [&] {
+				cfout << "Calculating on strategy" << endl;
+				cfout << strategy.print();
+				cfout << PrintStatus();
+			};
+			auto while_ = [&](Calculator table, PlayerHand player) {
+				cfout << "Dealer: " << Translate(table.getdealer().get_upcard()) << "\tPlayer1st: " << Translate(player.get()[0]) << " \tPlayer2nd: " << Translate(player.get()[1]) << "\t";
+				clock_t temp_clock = clock();
+				double ev =table.If_onstrategy(deck,player);
+				cfout << "ExpectedValue: " << ev << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
+				return ev;
+			};
+			auto after = [&](double d, double clock) {
+				cfout << "TotalExpectedValue:" << d << "\t" << " TotalTime:" << clock / CLOCKS_PER_SEC << "sec" << endl;
+			};
+			return calculate(before, while_, after);
 		}
 		std::pair<Option, double> Calculator::WhattoDo(PlayerHand const& player)
 		{
