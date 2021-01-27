@@ -140,9 +140,36 @@ namespace nagisakuya {
 		void PlayerHand::judge(DealerHand const& dealer)
 		{
 			if (result == Result::undefined) {
-				result = Judge(*this, dealer);
+				int dealer_sum, player_sum;
+				bool playerBJ, dealerBJ;
+				std::tie(player_sum, std::ignore, playerBJ) = CheckHand();
+				std::tie(dealer_sum, std::ignore, dealerBJ) = dealer.CheckHand();
+				if (dealer_sum > 21) dealer_sum = 0;
+				if (player_sum > 21) player_sum = -1;
+				if (playerBJ == true && dealerBJ == false) {
+					result = Result::BlackJack;
+				}
+				else if (player_sum < dealer_sum) {
+					if (doubled == false) {
+						result = Result::Lose;
+					}
+					else {
+						result = Result::DoubledLose;
+					}
+				}
+				else if (player_sum == dealer_sum) {
+					result = Result::Tie;
+				}
+				else {
+					if (doubled == false) {
+						result = Result::Win;
+					}
+					else {
+						result = Result::DoubledWin;
+					}
+				}
 			}
-			cout << "Result:" << ResulttoString.at(get_result()) << endl;
+			cout << "Result:" << ResulttoString.at(result) << endl;
 		}
 
 	}

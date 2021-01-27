@@ -1,0 +1,4 @@
+Soft17Hit: false	Surrender: false	DoubleAfterSplit: false	
+Win: 1.000000	Tie: 0.000000	Lose: -1.000000	BlackJack: 1.500000	
+A: 4	2: 4	3: 4	4: 4	5: 4	6: 4	7: 4	8: 4	9: 4	T: 16	
+Dealer: T	Player1st: T 	Player2nd: T	

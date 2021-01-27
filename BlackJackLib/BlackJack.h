@@ -27,8 +27,8 @@ namespace nagisakuya {
 			std::unordered_map<List, bool> element;
 		public:
 			bool at(List input) const { return element.at(input); }
-			Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
-			Rule(std::istream&);
+			explicit Rule(bool Soft17Hit = false, bool Surrender = false, bool DoubleAfterSplit = false);
+			explicit Rule(std::istream&);
 			void set(List i, bool j) { element.at(i) = j; }
 			std::string print() const;
 			void import(std::istream&);
@@ -38,7 +38,7 @@ namespace nagisakuya {
 		private:
 			std::unordered_map<Result, double> element;
 		public:
-			Rate(double BlackJackRate = 1.5);
+			explicit Rate(double BlackJackRate = 1.5);
 			std::unordered_map<Result, double>& get_ref() { return element; };
 			double get(Result input)const { return element.at(input); }
 			double& at(Result input) { return element.at(input); }
@@ -50,30 +50,34 @@ namespace nagisakuya {
 			int suit;
 		public:
 			Card(int i) { suit = i; };
-			Card(std::string);
+			explicit Card(std::string);
 			int num() const { return suit + 1; };
-			operator int() const { return suit; }
-			//bool operator ==(Card c) const { return suit == c.suit; }
-			//bool operator >=(int i) const { return suit >= i; }
+			explicit operator int() const { return suit; }
+			bool operator ==(Card c) const { return suit == c.suit; }
+			bool operator <=(Card c) const { return suit <= c.suit; }
+			bool operator >=(Card c) const { return suit >= c.suit; }
+			//Hand operator +(Card c) const { return Hand({ *this , c }); }
 			std::string str() const;
 			static Card numtocard(int i) { return Card(i - 1); }
 		};
+		class Hand;
 		class Deck {
 		protected:
 			std::array<int, 10> content;
 		public:
-			Deck(int NumberofDeck = 8);
-			Deck(std::array<int, 10> input) { content = input; }
-			int count(Card c) const { return content[c]; }
+			explicit Deck(int NumberofDeck = 8);
+			explicit Deck(std::array<int, 10> input) { content = input; }
+			int count(Card c) const { return content[(int)c]; }
 			std::string print() const;
 			inline int size() const;
-			Deck Drow(Card c) { content[c]--; return *this; }
-			Deck IfDrow(Card c) const { return copy().Drow(c); };
-			Deck Drow(std::vector<Card> remlist);
-			Deck IfDrow(std::vector<Card> remlist) const { return copy().Drow(remlist); };
+			void Drow(Card c) { content[(int)c]--; }
+			void Drow(Hand);
 			Card DrowRandom();
-			Deck copy() const { return *this; }
-			//Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
+			//Deck copy() const { return *this; }
+			//Deck IfDrow(Card c) const { return copy().Drow(c); };
+			Deck operator - (Card c) const { Deck r = *this; r.Drow(c); return r; }
+			//Deck IfDrow(std::vector<Card> remlist) const { return copy().Drow(remlist); };
+			//Deck& operator - (Hand h) const { return copy().Drow(h); }
 			void import(std::istream&);
 		};
 		class Hand {
@@ -86,16 +90,16 @@ namespace nagisakuya {
 			/// <returns>tuple&lt;sum,issoft,isBJ&gt;</returns>
 			inline std::tuple<int, bool, bool> CheckHand() const;
 			virtual void print() const;
-			std::vector<Card> const& get() const { return cards; }
+			Card const& operator [](int i) const { return cards[i]; }
+			Hand operator +(Card c) const { Hand r = *this; r.add(c); return r; }
 		};
 		class DealerHand :public Hand {
 		public:
-			DealerHand(std::vector<Card> input = {}) :Hand(input) {};
+			explicit DealerHand(std::vector<Card> input = {}) :Hand(input) {};
 			void print() const;
 			void hituntil17(Deck& deck, Rule const& rule);
 			Card get_upcard() const { return cards[0]; }
-			DealerHand Ifhit(Card c) const { DealerHand r(cards); r.add(c); return r; }
-			//DealerHand operator + (int i) const { DealerHand r(content); r.add(i); return r; }
+			DealerHand Ifhit(Card c) const { DealerHand r = *this; r.add(c); return r; }
 		};
 		class PlayerHand :public Hand {
 		private:
@@ -105,7 +109,7 @@ namespace nagisakuya {
 			const static std::unordered_map< Result, std::string> ResulttoString;
 			static Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
 		public:
-			PlayerHand(std::vector<Card> input = {}, bool splitted = false, bool doubled = false) :Hand(input) { this->splitted = splitted; this->doubled = doubled; }
+			explicit PlayerHand(std::vector<Card> input = {}, bool splitted = false, bool doubled = false) :Hand(input) { this->splitted = splitted; this->doubled = doubled; }
 			inline bool splittable() const;
 			inline bool doubleble(bool DoubleafterSplit) const {
 				if (DoubleafterSplit == false) {
@@ -119,9 +123,9 @@ namespace nagisakuya {
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }
-			PlayerHand Ifhit (int i) const { PlayerHand r(cards, splitted, doubled); r.add(i); return r; }
-			PlayerHand Ifdouble (int i) const { PlayerHand r(cards, splitted, true); r.add(i); return r; }
-			PlayerHand Ifsplit (int i) const { PlayerHand r({ cards[0] }, true, false); r.add(i); return r; }
+			PlayerHand Ifhit(Card c) const { PlayerHand r(cards, splitted, doubled); r.add(c); return r; }
+			PlayerHand Ifdouble(Card c) const { PlayerHand r(cards, splitted, true); r.add(c); return r; }
+			PlayerHand Ifsplit(Card c) const { PlayerHand r({ cards[0] }, true, false); r.add(c); return r; }
 			//PlayerHand operator + (int i) const { PlayerHand r(content, splitted, doubled); r.add(i); return r; }//i‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
 			//PlayerHand operator * (int i) const { PlayerHand r(content, splitted, true); r.add(i); return r; }//Double‚µ‚Äi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
 			//PlayerHand operator / (int i) const { PlayerHand r({ content[0] }, true, false); r.add(i); return r; }//Split‚µ‚½‚ ‚Æi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
@@ -132,7 +136,7 @@ namespace nagisakuya {
 			int id;
 		public:
 			std::pair<PlayerHand, PlayerHand> hand;
-			Player(int ID, std::string name = "Player");
+			explicit Player(int ID, std::string name = "Player");
 			void play(Deck* deck, Rule const& rule);
 			int get_ID() const { return id; }
 			std::string get_name() const { return name; }
@@ -146,10 +150,10 @@ namespace nagisakuya {
 			class Splittable {
 			private:
 				std::array < std::array<Strategy::Option, 10>, 10> list;
-				Strategy::Option& get_ref(int dealer, int player) { return list[dealer][player]; }
+				Strategy::Option& get_ref(Card dealer, Card player) { return list[(int)dealer][(int)player]; }
 			public:
 				Splittable();
-				Strategy::Option get(int dealer, int player) const { return list[dealer][player]; }
+				Strategy::Option get(Card dealer, Card player) const { return list[(int)dealer][(int)player]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
@@ -157,10 +161,10 @@ namespace nagisakuya {
 			class Soft {
 			private:
 				std::array < std::array<Strategy::Option, 9>, 10> list;
-				Strategy::Option& get_ref(int dealer, int player_nonAcard) { return list[dealer][player_nonAcard - 1]; }
+				Strategy::Option& get_ref(Card dealer, Card player_nonAcard) { return list[(int)dealer][(int)player_nonAcard - 1]; }
 			public:
 				Soft();
-				Strategy::Option get(int dealer, int player_sum) const { return list[dealer][player_sum - 11 - 1 - 1]; }
+				Strategy::Option get(Card dealer, int player_sum) const { return list[(int)dealer][player_sum - 11 - 1 - 1]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
@@ -168,10 +172,10 @@ namespace nagisakuya {
 			class Hard {
 			private:
 				std::array < std::array<Strategy::Option, 10>, 10> list;
-				Strategy::Option& get_ref(int dealer, int player_sum) { if (player_sum >= 17)return list[dealer][9]; if (player_sum <= 8)return list[dealer][0]; return list[dealer][player_sum - 8]; }
+				Strategy::Option& get_ref(Card dealer, int player_sum) { if (player_sum >= 17)return list[(int)dealer][9]; if (player_sum <= 8)return list[(int)dealer][0]; return list[(int)dealer][player_sum - 8]; }
 			public:
 				Hard();
-				Strategy::Option get(int dealer, int player_sum) const { if (player_sum >= 17)return list[dealer][9]; if (player_sum <= 8)return list[dealer][0]; return list[dealer][player_sum - 8]; }
+				Strategy::Option get(Card dealer, int player_sum) const { if (player_sum >= 17)return list[(int)dealer][9]; if (player_sum <= 8)return list[(int)dealer][0]; return list[(int)dealer][player_sum - 8]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
@@ -193,7 +197,7 @@ namespace nagisakuya {
 			Rule rule;
 			Rate rate;
 		public:
-			Table(Deck = Deck(8), Rule = Rule(), Rate = Rate(1.5), DealerHand = DealerHand());
+			explicit Table(Deck = Deck(8), Rule = Rule(), Rate = Rate(1.5), DealerHand = DealerHand());
 			bool addplayer(Player);
 			void play();
 			void replay();
@@ -204,8 +208,5 @@ namespace nagisakuya {
 			std::string PrintStatus();
 			void import(std::istream&);
 		};
-		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
-		//std::string Translate(int input);
-		//int Translate(std::string input);
 	}
 }

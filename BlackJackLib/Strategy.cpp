@@ -246,7 +246,7 @@ namespace nagisakuya {
 			};
 			auto temp_tuple = player.CheckHand();
 			if (player.splittable() == true) {
-				if (OptiontoOption(splittable.get(dealer.get_upcard(), player.get()[0])) == BlackJack::Option::Split) {
+				if (OptiontoOption(splittable.get(dealer.get_upcard(), player[0])) == BlackJack::Option::Split) {
 					return BlackJack::Option::Split;
 				}
 			}

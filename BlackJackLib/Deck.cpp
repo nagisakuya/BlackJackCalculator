@@ -41,13 +41,12 @@ namespace nagisakuya {
 			return 0;
 		}
 
-		Deck Deck::Drow(std::vector<Card> remlist)
+		void Deck::Drow(Hand hand)
 		{
-			for (size_t i = 0; i < remlist.size(); i++)
+			for (size_t i = 0; i < hand.size(); i++)
 			{
-				content[remlist[i]]--;
+				content[(int)hand[i]]--;
 			}
-			return *this;
 		}
 
 		void Deck::import(istream& input)

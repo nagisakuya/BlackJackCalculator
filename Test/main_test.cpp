@@ -42,6 +42,8 @@ void test_dolambda(void(*lambda)()) {
 	lambda();
 }
 
+void bfunc(Rule b) {};
+
 void test_lambda1() {
 	auto lambda = [] {cout << "Hello World"; return; };
 	test_dolambda(lambda);
