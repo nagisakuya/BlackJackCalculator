@@ -13,17 +13,17 @@ namespace nagisakuya {
 			clock_t start = clock();
 			for (int i = 10; i-- > 0;)
 			{
-				int l = getdeck().count(i);
+				int l = deck.count(i);
 				if (l != 0) {
 					for (int j = 10; j-- > 0;)
 					{
-						int m = getdeck().Drow({ i }).count(j);
+						int m = deck.IfDrow({ Card(i) }).count(j);
 						if (m != 0) {
 							for (int k = 10; k-- > j; )
 							{
-								int n = (getdeck().Drow({ i,j })).count(k);
+								int n = (deck.IfDrow({ i,j })).count(k);
 								if (n != 0) {
-									sum += do_while(Calculator(getdeck().Drow({ i,j,k }), rule, rate, DealerHand({ i })), PlayerHand({ j,k })) * (i == j ? 1 : 2) * (l * m * n);
+									sum += do_while(Calculator(getdeck().Drow({ i,j,k }), rule, rate, DealerHand({ i })), PlayerHand({ j,k })) * (i == j ? 1 : 2) * (double)(l * m * n);
 								}
 							}
 						}
@@ -42,7 +42,7 @@ namespace nagisakuya {
 				//file << "Player:(Player 1stcard) (Player 2ndcard) Dealer:(Dealer upcard) Stand:(Ev(Expected value) if stand) Hit:(Ev if hit) Double:(Ev if double) Split:(Ev if split) WhattoDo:(BestOption) ExpectedValue:(Expected value)" << endl;
 			};
 			auto while_ = [&](Calculator table, PlayerHand player) {
-				cfout << "Dealer: " << Translate(table.getdealer().get_upcard()) << "\tPlayer1st: " << Translate(player.get()[0]) << " \tPlayer2nd: " << Translate(player.get()[1]) << "\t";
+				cfout << "Dealer: " << table.getdealer().get_upcard().str() << "\tPlayer1st: " << player.get()[0].str() << " \tPlayer2nd: " << player.get()[1].str() << "\t";
 				clock_t temp_clock = clock();
 				unordered_map<Option, double> temp_map = table.PlayerEV_all(player);
 				Option best = Option::Stand;
@@ -70,7 +70,7 @@ namespace nagisakuya {
 				cfout << PrintStatus();
 			};
 			auto while_ = [&](Calculator table, PlayerHand player) {
-				cfout << "Dealer: " << Translate(table.getdealer().get_upcard()) << "\tPlayer1st: " << Translate(player.get()[0]) << " \tPlayer2nd: " << Translate(player.get()[1]) << "\t";
+				cfout << "Dealer: " << table.getdealer().get_upcard().str() << "\tPlayer1st: " << player.get()[0].str() << " \tPlayer2nd: " << player.get()[1].str() << "\t";
 				clock_t temp_clock = clock();
 				double ev = table.If_onstrategy(deck, player);
 				cfout << "ExpectedValue: " << ev << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;

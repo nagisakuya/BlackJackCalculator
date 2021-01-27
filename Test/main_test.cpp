@@ -52,6 +52,9 @@ void test_lambda2() {
 	auto lambda = [&]()->void {cout << a;};
 }
 
+void test_card() {
+}
+
 int main() {
-	test_lambda1();
+	test_card();
 }

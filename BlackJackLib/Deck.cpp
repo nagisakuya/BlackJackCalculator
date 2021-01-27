@@ -15,7 +15,7 @@ namespace nagisakuya {
 			string r;
 			for (int i = 0; i < 10; i++)
 			{
-				r += Translate(i) + ": " + to_string(content[i]) + "\t";
+				r += Card(i).str() + ": " + to_string(count(Card(i))) + "\t";
 			}
 			return r;
 		}
@@ -27,21 +27,21 @@ namespace nagisakuya {
 			}
 			return sum;
 		}
-		int Deck::DrowRandom() {
+		Card Deck::DrowRandom() {
 			int temp = rand() % this->size();
 			int sum = 0;
 			for (size_t i = 0; i < 14; i++)
 			{
 				sum += content[i];
 				if (sum >= temp) {
-					Drow(i);
-					return i;
+					Drow(i);//
+					return Card(i);
 				}
 			}
 			return 0;
 		}
 
-		Deck Deck::Drow(std::vector<int> remlist)
+		Deck Deck::Drow(std::vector<Card> remlist)
 		{
 			for (size_t i = 0; i < remlist.size(); i++)
 			{

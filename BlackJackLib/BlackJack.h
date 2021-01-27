@@ -45,43 +45,56 @@ namespace nagisakuya {
 			std::string print() const;
 			double& operator[](Result i) { return element[i]; }
 		};
+		class Card {
+		private:
+			int suit;
+		public:
+			Card(int i) { suit = i; };
+			Card(std::string);
+			int num() const { return suit + 1; };
+			operator int() const { return suit; }
+			//bool operator ==(Card c) const { return suit == c.suit; }
+			//bool operator >=(int i) const { return suit >= i; }
+			std::string str() const;
+			static Card numtocard(int i) { return Card(i - 1); }
+		};
 		class Deck {
 		protected:
 			std::array<int, 10> content;
 		public:
 			Deck(int NumberofDeck = 8);
 			Deck(std::array<int, 10> input) { content = input; }
+			int count(Card c) const { return content[c]; }
 			std::string print() const;
 			inline int size() const;
-			int count(int i) const { return content[i]; }
-			Deck Drow(int input) { content[input]--; return *this; }
-			Deck IfDrow(int input) const { return copy().Drow(input); };
-			Deck Drow(std::vector<int> remlist);
-			Deck IfDrow(std::vector<int> remlist) const { return copy().Drow(remlist); };
-			int DrowRandom();
+			Deck Drow(Card c) { content[c]--; return *this; }
+			Deck IfDrow(Card c) const { return copy().Drow(c); };
+			Deck Drow(std::vector<Card> remlist);
+			Deck IfDrow(std::vector<Card> remlist) const { return copy().Drow(remlist); };
+			Card DrowRandom();
 			Deck copy() const { return *this; }
 			//Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
 			void import(std::istream&);
 		};
 		class Hand {
 		protected:
-			std::vector<int> content;
+			std::vector<Card> cards;
 		public:
-			Hand(std::vector<int> input = {}) { content = input; }
-			void add(int input) { content.emplace_back(input); }
-			virtual void print() const;
-			size_t size() const { return content.size(); }
+			Hand(std::vector<Card> input = {}) { cards = input; }
+			void add(Card input) { cards.emplace_back(input); }
+			size_t size() const { return cards.size(); }
 			/// <returns>tuple&lt;sum,issoft,isBJ&gt;</returns>
 			inline std::tuple<int, bool, bool> CheckHand() const;
-			std::vector<int> const& get() const { return content; }
+			virtual void print() const;
+			std::vector<Card> const& get() const { return cards; }
 		};
 		class DealerHand :public Hand {
 		public:
-			DealerHand(std::vector<int> input = {}) :Hand(input) {};
+			DealerHand(std::vector<Card> input = {}) :Hand(input) {};
 			void print() const;
 			void hituntil17(Deck& deck, Rule const& rule);
-			int get_upcard() const { return content[0]; }
-			DealerHand Ifhit(int i) const { DealerHand r(content); r.add(i); return r; }
+			Card get_upcard() const { return cards[0]; }
+			DealerHand Ifhit(Card c) const { DealerHand r(cards); r.add(c); return r; }
 			//DealerHand operator + (int i) const { DealerHand r(content); r.add(i); return r; }
 		};
 		class PlayerHand :public Hand {
@@ -92,7 +105,7 @@ namespace nagisakuya {
 			const static std::unordered_map< Result, std::string> ResulttoString;
 			static Option AskOption(bool Split_enable = false, bool DoubleDown_enable = false, bool Surrender_enable = false);
 		public:
-			PlayerHand(std::vector<int> input = {}, bool splitted = false, bool doubled = false) :Hand(input) { this->splitted = splitted; this->doubled = doubled; }
+			PlayerHand(std::vector<Card> input = {}, bool splitted = false, bool doubled = false) :Hand(input) { this->splitted = splitted; this->doubled = doubled; }
 			inline bool splittable() const;
 			inline bool doubleble(bool DoubleafterSplit) const {
 				if (DoubleafterSplit == false) {
@@ -106,9 +119,9 @@ namespace nagisakuya {
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }
-			PlayerHand Ifhit (int i) const { PlayerHand r(content, splitted, doubled); r.add(i); return r; }
-			PlayerHand Ifdouble (int i) const { PlayerHand r(content, splitted, true); r.add(i); return r; }
-			PlayerHand Ifsplit (int i) const { PlayerHand r({ content[0] }, true, false); r.add(i); return r; }
+			PlayerHand Ifhit (int i) const { PlayerHand r(cards, splitted, doubled); r.add(i); return r; }
+			PlayerHand Ifdouble (int i) const { PlayerHand r(cards, splitted, true); r.add(i); return r; }
+			PlayerHand Ifsplit (int i) const { PlayerHand r({ cards[0] }, true, false); r.add(i); return r; }
 			//PlayerHand operator + (int i) const { PlayerHand r(content, splitted, doubled); r.add(i); return r; }//i‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
 			//PlayerHand operator * (int i) const { PlayerHand r(content, splitted, true); r.add(i); return r; }//Double‚µ‚Äi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
 			//PlayerHand operator / (int i) const { PlayerHand r({ content[0] }, true, false); r.add(i); return r; }//Split‚µ‚½‚ ‚Æi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
@@ -192,7 +205,7 @@ namespace nagisakuya {
 			void import(std::istream&);
 		};
 		Result Judge(PlayerHand const& playerhand, DealerHand const& dealer);
-		std::string Translate(int input);
-		int Translate(std::string input);
+		//std::string Translate(int input);
+		//int Translate(std::string input);
 	}
 }

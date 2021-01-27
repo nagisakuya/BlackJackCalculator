@@ -27,42 +27,28 @@ namespace nagisakuya {
 		void Hand::print() const {
 			int sum = 0;
 			int AceCount = 0;
-			for (size_t i = 0; i < content.size(); i++)
+			for (size_t i = 0; i < cards.size(); i++)
 			{
-				cout << Translate(content[i]) << " ";
-				if (content[i] == 0) {
-					sum += 11;
-					AceCount++;
-				}
-				else if (content[i] >= 9) {
-					sum += 10;
-				}
-				else {
-					sum += content[i] + 1;
-				}
-				if (AceCount > 0 && sum > 21) {
-					sum -= 10;
-					AceCount--;
-				}
+				cout << cards[i].str() << " ";
 			}
-			cout << "sum is " << sum << endl;
+			cout << "sum is " << std::get<0>(CheckHand()) << endl;
 		}
 
 		tuple<int, bool, bool> Hand::CheckHand() const {
 			int sum = 0;
 			int AceCount = 0;
-			const size_t size = content.size();
+			const size_t size = cards.size();
 			for (size_t i = 0; i < size; i++)
 			{
-				if (content[i] == 0) {
+				if (cards[i] == 0) {
 					sum += 11;
 					AceCount++;
 				}
-				else if (content[i] >= 9) {
+				else if (cards[i] >= 9) {
 					sum += 10;
 				}
 				else {
-					sum += content[i] + 1;
+					sum += cards[i].num();
 				}
 				if (AceCount > 0 && sum > 21) {
 					sum -= 10;
@@ -76,8 +62,8 @@ namespace nagisakuya {
 
 		void DealerHand::print() const
 		{
-			if (content.size() == 1) {
-				cout << "Dealer up card is " << Translate(content[0]) << endl;
+			if (cards.size() == 1) {
+				cout << "Dealer up card is " << cards[0].str() << endl;
 			}
 			else {
 				cout << "Dealer hand is ";
@@ -109,15 +95,15 @@ namespace nagisakuya {
 		};
 
 		bool PlayerHand::splittable() const {
-			if (splitted == false && content.size() == 2 && (content[0] == content[1] || content[0] >= 9 && content[1] >= 9))return true;
+			if (splitted == false && cards.size() == 2 && (cards[0] == cards[1] || cards[0] >= 9 && cards[1] >= 9))return true;
 			else return false;
 		}
 
 		PlayerHand PlayerHand::split(Deck* deck)
 		{
 			splitted = true;
-			PlayerHand r = PlayerHand({ content[1] ,deck->DrowRandom() }, true);
-			content.pop_back();
+			PlayerHand r = PlayerHand({ cards[1] ,deck->DrowRandom() }, true);
+			cards.pop_back();
 			add(deck->DrowRandom());
 			return r;
 		}

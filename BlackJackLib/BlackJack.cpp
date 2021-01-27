@@ -205,5 +205,43 @@ namespace nagisakuya {
 			r += "BlackJack: " + to_string(element.at(Result::BlackJack)) + "\t";
 			return r;
 		}
-	}
+		Card::Card(std::string input)
+		{
+			if (input == "A") {
+				suit = 0;
+			}
+			else if (input == "T") {
+				suit = 9;
+			}
+			else if (input == "J") {
+				suit = 10;
+			}
+			else if (input == "Q") {
+				suit = 11;
+			}
+			else if (input == "K") {
+				suit = 12;
+			}
+			else {
+				suit = stoi(input) - 1;
+			}
+		}
+		std::string Card::str() const
+		{
+			switch (suit) {
+			case 0:
+				return "A";
+			case 9:
+				return "T";
+			case 10:
+				return "J";
+			case 11:
+				return "Q";
+			case 12:
+				return "K";
+			default:
+				return std::to_string(suit + 1);
+			}
+		}
+}
 }

@@ -38,12 +38,12 @@ namespace nagisakuya {
 			ss << "\t";
 			for (size_t i = 0; i < 10; i++)
 			{
-				ss << Translate(i) << "\t";
+				ss << Card(i).str() << "\t";
 			}
 			ss << endl;
 			for (size_t i = 0; i < 10; i++)
 			{
-				ss << Translate(i) << "," << Translate(i) << ":\t";
+				ss << Card(i).str() << "," << Card(i).str() << ":\t";
 				for (size_t j = 0; j < 10; j++)
 				{
 					ss << OptionandString.at(list[j][i]) << "\t";
@@ -102,15 +102,15 @@ namespace nagisakuya {
 			ss << "\t";
 			for (size_t i = 0; i < 10; i++)
 			{
-				ss << Translate(i) << "\t";
+				ss << Card(i).str() << "\t";
 			}
 			ss << endl;
-			for (size_t i = 0; i < 9; i++)
+			for (size_t i = 1; i < 10; i++)
 			{
-				ss << "A," << Translate(i + 1) << ":\t";
+				ss << "A," << Card(i).str() << ":\t";
 				for (size_t j = 0; j < 10; j++)
 				{
-					ss << OptionandString.at(list[j][i]) << "\t";
+					ss << OptionandString.at(list[j][i - 1]) << "\t";
 				}
 				ss << endl;
 			}
@@ -166,7 +166,7 @@ namespace nagisakuya {
 			ss << "\t";
 			for (size_t i = 0; i < 10; i++)
 			{
-				ss << Translate(i) << "\t";
+				ss << Card(i).str() << "\t";
 			}
 			ss << endl;
 			for (size_t i = 0; i < 10; i++)
