@@ -21,9 +21,9 @@ namespace nagisakuya {
 						if (m != 0) {
 							for (int k = 10; k-- > j; )
 							{
-								int n = (deck.IfDrow({ i,j })).count(k);
+								int n = (deck.IfDrow({ Card(i),Card(j) })).count(k);
 								if (n != 0) {
-									sum += do_while(Calculator(getdeck().Drow({ i,j,k }), rule, rate, DealerHand({ i })), PlayerHand({ j,k })) * (i == j ? 1 : 2) * (double)(l * m * n);
+									sum += do_while(Calculator(getdeck().Drow({ Card(i),Card(j),Card(k) }), rule, rate, DealerHand({ Card(i) })), PlayerHand({ Card(j),Card(k) })) * (i == j ? 1 : 2) * ((double)l * m * n);
 								}
 							}
 						}

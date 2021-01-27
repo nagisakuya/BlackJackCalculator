@@ -53,6 +53,7 @@ void test_lambda2() {
 }
 
 void test_card() {
+	 cout << ((Card)"T").str();
 }
 
 int main() {
