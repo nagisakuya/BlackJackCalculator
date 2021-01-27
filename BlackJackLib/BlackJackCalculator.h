@@ -19,10 +19,10 @@ namespace nagisakuya {
 		public:
 			Calculator() {};
 			Calculator(Deck, Rule = Rule(), Rate = Rate(), DealerHand = DealerHand());
-			double calculate(std::function<void()> do_before = []{}, std::function<double(Calculator, PlayerHand)> do_while = [](Calculator calculator, PlayerHand hand) -> double {return calculator.WhattoDo(hand).second; }, std::function<void(double,double)> do_after = [](double d,double c) {});
+			double calculate(std::function<void()> do_before = []{}, std::function<double(Calculator, PlayerHand)> do_while = [](Calculator calculator, PlayerHand hand) -> double {return calculator.WhattoDo(hand).second; }, std::function<void(double,double)> do_after = [](double,double) {});
 			double calculate_withoutput(Utility::cfstream&);
 			double calculate_onstrategy(Utility::cfstream&, Strategy = Strategy());
-			std::pair<Option, double> WhattoDo(PlayerHand const& playerhand);
+			std::pair<Option, double> WhattoDo(PlayerHand const&);
 		};
 
 	}

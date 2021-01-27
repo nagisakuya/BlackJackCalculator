@@ -34,11 +34,20 @@ namespace nagisakuya {
 			{
 				sum += content[i];
 				if (sum >= temp) {
-					content[i]--;
+					Drow(i);
 					return i;
 				}
 			}
 			return 0;
+		}
+
+		Deck Deck::Drow(std::vector<int> remlist)
+		{
+			for (size_t i = 0; i < remlist.size(); i++)
+			{
+				content[remlist[i]]--;
+			}
+			return *this;
 		}
 
 		void Deck::import(istream& input)

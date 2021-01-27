@@ -6,23 +6,24 @@ namespace nagisakuya {
 	using namespace Utility;
 	namespace BlackJack {
 		Calculator::Calculator(Deck deck, Rule rule, Rate rate, DealerHand dealer) :Table(deck, rule, rate, dealer) {}
-		double Calculator::calculate(std::function<void()> do_before, std::function<double(Calculator, PlayerHand)> do_while, std::function<void(double,double)> do_after)
+		double Calculator::calculate(std::function<void()> do_before, std::function<double(Calculator, PlayerHand)> do_while, std::function<void(double, double)> do_after)
 		{
 			double sum = 0;
 			do_before();
 			clock_t start = clock();
 			for (int i = 10; i-- > 0;)
 			{
-				if (deck.count(i) != 0) {
-					Deck temp_deck1 = deck - i;
+				int l = getdeck().count(i);
+				if (l != 0) {
 					for (int j = 10; j-- > 0;)
 					{
-						if (temp_deck1.count(j) != 0) {
-							Deck temp_deck2 = temp_deck1 - j;
+						int m = getdeck().Drow({ i }).count(j);
+						if (m != 0) {
 							for (int k = 10; k-- > j; )
 							{
-								if (temp_deck2.count(k) != 0) {
-									sum += do_while(Calculator(temp_deck2 - k, rule, rate, DealerHand({ i })), PlayerHand({ j,k })) * (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck1.count(j) * (double)temp_deck2.count(k));
+								int n = (getdeck().Drow({ i,j })).count(k);
+								if (n != 0) {
+									sum += do_while(Calculator(getdeck().Drow({ i,j,k }), rule, rate, DealerHand({ i })), PlayerHand({ j,k })) * (i == j ? 1 : 2) * (l * m * n);
 								}
 							}
 						}
@@ -30,7 +31,7 @@ namespace nagisakuya {
 				}
 			}
 			double r = sum / ((double)deck.size() * ((double)deck.size() - 1) * ((double)deck.size() - 2));
-			do_after(r,(double)clock() - start);
+			do_after(r, (double)clock() - start);
 			return r;
 		}
 		double Calculator::calculate_withoutput(cfstream& cfout)
@@ -56,10 +57,10 @@ namespace nagisakuya {
 				cfout << "WhattoDo: " << OptionandString.at((*temp_map.find(best)).first) << "\tExpectedValue: " << (*temp_map.find(best)).second << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
 				return (*temp_map.find(best)).second;
 			};
-			auto after = [&](double d,double clock) {
+			auto after = [&](double d, double clock) {
 				cfout << "TotalExpectedValue:" << d << "\t" << " TotalTime:" << clock / CLOCKS_PER_SEC << "sec" << endl;
 			};
-			return calculate(before, while_,after);
+			return calculate(before, while_, after);
 		}
 		double Calculator::calculate_onstrategy(Utility::cfstream& cfout, Strategy strategy)
 		{
@@ -71,7 +72,7 @@ namespace nagisakuya {
 			auto while_ = [&](Calculator table, PlayerHand player) {
 				cfout << "Dealer: " << Translate(table.getdealer().get_upcard()) << "\tPlayer1st: " << Translate(player.get()[0]) << " \tPlayer2nd: " << Translate(player.get()[1]) << "\t";
 				clock_t temp_clock = clock();
-				double ev =table.If_onstrategy(deck,player);
+				double ev = table.If_onstrategy(deck, player);
 				cfout << "ExpectedValue: " << ev << "\tTime: " << ((double)clock() - (double)temp_clock) / (double)CLOCKS_PER_SEC << endl;
 				return ev;
 			};
@@ -168,7 +169,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					r += deck.count(i) * PlayerEV(deck - i, player + i);
+					r += deck.count(i) * PlayerEV(deck.IfDrow(i), player.Ifhit(i));
 				}
 			}
 			r /= deck.size();
@@ -180,7 +181,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					r += deck.count(i) * If_stand(deck - i, player * i) * 2;
+					r += deck.count(i) * If_stand(deck.IfDrow(i), player.Ifdouble(i)) * 2;
 				}
 			}
 			r /= deck.size();
@@ -193,12 +194,12 @@ namespace nagisakuya {
 			for (int i = 10; i-- > 0;)
 			{
 				if (deck.count(i) != 0) {
-					temp_deck = deck - i;
+					temp_deck = deck.IfDrow(i);
 					for (int j = 10; j-- > i;)
 					{
 						if (temp_deck.count(j) != 0) {
 							r += (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck.count(j) *
-								(PlayerEV_afterP(temp_deck - j, player / i) + PlayerEV_afterP(temp_deck - j, player / j)));
+								(PlayerEV_afterP(temp_deck.IfDrow(i), player.Ifsplit(i)) + PlayerEV_afterP(temp_deck.IfDrow(i), player.Ifsplit(j))));
 						}
 					}
 				}
@@ -216,7 +217,7 @@ namespace nagisakuya {
 				for (size_t i = 0; i < 10; i++)
 				{
 					if (deck.count(i) != 0) {
-						sum += deck.count(i) * If_onstrategy(deck - i, player + i);
+						sum += deck.count(i) * If_onstrategy(deck.IfDrow(i), player.Ifhit(i));
 					}
 				}
 				return sum / deck.size();
@@ -226,7 +227,7 @@ namespace nagisakuya {
 				for (size_t i = 0; i < 10; i++)
 				{
 					if (deck.count(i) != 0) {
-						sum += deck.count(i) * If_stand(deck - i, player * i) * 2;
+						sum += deck.count(i) * If_stand(deck.IfDrow(i), player.Ifdouble(i)) * 2;
 					}
 				}
 				return sum / deck.size();
@@ -237,12 +238,12 @@ namespace nagisakuya {
 				for (int i = 10; i-- > 0;)
 				{
 					if (deck.count(i) != 0) {
-						temp_deck = deck - i;
+						temp_deck = deck.IfDrow(i);
 						for (int j = 10; j-- > i;)
 						{
 							if (temp_deck.count(j) != 0) {
 								sum += (i == j ? 1 : 2) * ((double)deck.count(i) * (double)temp_deck.count(j) *
-									(If_onstrategy(temp_deck - j, player / i) + If_onstrategy(temp_deck - j, player / j)));
+									(If_onstrategy(temp_deck.IfDrow(i), player.Ifsplit(i)) + If_onstrategy(temp_deck.IfDrow(i), player.Ifsplit(j))));
 							}
 						}
 					}
@@ -278,7 +279,7 @@ namespace nagisakuya {
 			for (size_t i = 0; i < 10; i++)
 			{
 				if (deck.count(i) != 0) {
-					r += deck.count(i) * DealerEV(deck - i, dealer + i);
+					r += deck.count(i) * DealerEV(deck.IfDrow(i), dealer.Ifhit(i));
 				}
 			}
 			return r / deck.size();

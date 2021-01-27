@@ -54,9 +54,13 @@ namespace nagisakuya {
 			std::string print() const;
 			inline int size() const;
 			int count(int i) const { return content[i]; }
+			Deck Drow(int input) { content[input]--; return *this; }
+			Deck IfDrow(int input) const { return copy().Drow(input); };
+			Deck Drow(std::vector<int> remlist);
+			Deck IfDrow(std::vector<int> remlist) const { return copy().Drow(remlist); };
 			int DrowRandom();
-			int Drow(int input) { content[input]--; return input; }
-			Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
+			Deck copy() const { return *this; }
+			//Deck operator - (int i) const { Deck r(content); r.Drow(i); return r; }
 			void import(std::istream&);
 		};
 		class Hand {
@@ -77,7 +81,8 @@ namespace nagisakuya {
 			void print() const;
 			void hituntil17(Deck& deck, Rule const& rule);
 			int get_upcard() const { return content[0]; }
-			DealerHand operator + (int i) const { DealerHand r(content); r.add(i); return r; }
+			DealerHand Ifhit(int i) const { DealerHand r(content); r.add(i); return r; }
+			//DealerHand operator + (int i) const { DealerHand r(content); r.add(i); return r; }
 		};
 		class PlayerHand :public Hand {
 		private:
@@ -101,9 +106,12 @@ namespace nagisakuya {
 			bool get_splitted() const { return splitted; }
 			bool get_doubled() const { return doubled; }
 			Result get_result() const { return result; }
-			PlayerHand operator + (int i) const { PlayerHand r(content, splitted, doubled); r.add(i); return r; }//i‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
-			PlayerHand operator * (int i) const { PlayerHand r(content, splitted, true); r.add(i); return r; }//Double‚µ‚Äi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
-			PlayerHand operator / (int i) const { PlayerHand r({ content[0] }, true, false); r.add(i); return r; }//Split‚µ‚½‚ ‚Æi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
+			PlayerHand Ifhit (int i) const { PlayerHand r(content, splitted, doubled); r.add(i); return r; }
+			PlayerHand Ifdouble (int i) const { PlayerHand r(content, splitted, true); r.add(i); return r; }
+			PlayerHand Ifsplit (int i) const { PlayerHand r({ content[0] }, true, false); r.add(i); return r; }
+			//PlayerHand operator + (int i) const { PlayerHand r(content, splitted, doubled); r.add(i); return r; }//i‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
+			//PlayerHand operator * (int i) const { PlayerHand r(content, splitted, true); r.add(i); return r; }//Double‚µ‚Äi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
+			//PlayerHand operator / (int i) const { PlayerHand r({ content[0] }, true, false); r.add(i); return r; }//Split‚µ‚½‚ ‚Æi‚ð‰Á‚¦‚½Œ‹‰Ê‚ð•Ô‚·
 		};
 		class Player {
 		protected:
