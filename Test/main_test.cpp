@@ -58,6 +58,30 @@ void test_card() {
 	 cout << ((Card)"T").str();
 }
 
+void func1(int i) {};
+void func2(Card const& i) {};
+
+void speed_test() {
+	const int times = 10000000;
+	clock_t start = clock();
+	for (int i = 0; i < times; i++)
+	{
+		func1(1);
+	}
+	cout << (clock() - start) << endl;
+	start = clock();
+	Card c(1);
+	for (int i = 0; i < times; i++)
+	{
+		func2(Card(1));
+	}
+	cout << (clock() - start) << endl;
+}
+
+void matrixtest() {
+	matrix<int, 2, 2> m({ {1,2},{3,4} });
+}
+
 int main() {
-	test_card();
+	speed_test();
 }

@@ -2,6 +2,7 @@
 #include "pch.h"
 #include <fstream>
 #include <unordered_map>
+#include <array>
 
 namespace nagisakuya {
 	namespace Utility {
@@ -94,6 +95,27 @@ namespace nagisakuya {
 			Iterator begin() { return Iterator(first_element.begin()); }
 			Iterator end() { return Iterator(first_element.end()); }
 		};
+		template <typename _Ty,size_t _column,size_t _row> class matrix{
+		private:
+			std::array<std::array<_Ty, _row>, _column> content;
+		public:
+			matrix(std::array<std::array<_Ty, _row>, _column> i) { content = i; }
+			size_t row() { return _row; }
+			size_t column() { return _column; }
+			std::array<_Ty, _row>& operator [](size_t t) { return content[t]; }
+		};
+		template <typename _Ty, size_t _column, size_t _row>
+		matrix<_Ty, _column, _row> operator +(matrix<_Ty, _column ,_row> f,matrix<_Ty, _column, _row> s) {
+			matrix<_Ty, _column, _row> re;
+			for (size_t i = 0; i < _column; i++)
+			{
+				for (size_t j = 0; j < _row; j++)
+				{
+					re[i][j] = f[i][j] + s[i][j];
+				}
+			}
+			return re;
+		}
 		/*class json {
 		public:
 			template<typename T>

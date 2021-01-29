@@ -41,12 +41,17 @@ namespace nagisakuya {
 			return 0;
 		}
 
-		void Deck::Drow(Hand hand)
+		void Deck::Drow(Hand const& hand)
 		{
 			for (size_t i = 0; i < hand.size(); i++)
 			{
 				content[(int)hand[i]]--;
 			}
+		}
+
+		Deck& Deck::operator-(Hand const& h) const
+		{
+			Deck r = *this; r.Drow(h); return r;
 		}
 
 		void Deck::import(istream& input)

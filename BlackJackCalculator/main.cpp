@@ -1,4 +1,4 @@
-﻿
+﻿#pragma once
 #include <iostream>
 #include "../BlackJackLib/BlackJackCalculator.h"
 #include <fstream>

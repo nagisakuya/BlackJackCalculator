@@ -5,7 +5,7 @@ using namespace std;
 
 namespace nagisakuya {
 	namespace BlackJack {
-		Table::Table(Deck deck,Rule rule,Rate rate, DealerHand dealer) : rule(rule),rate(rate)
+		Table::Table(Deck const& deck,Rule const& rule,Rate const& rate, DealerHand const& dealer) : rule(rule),rate(rate)
 		{
 			this->deck = deck;
 			this->dealer = dealer;
@@ -58,16 +58,16 @@ namespace nagisakuya {
 			input >> temp_s;
 			input >> rate.at(Result::BlackJack);
 		}
-		bool Table::addplayer(Player input)
+		bool Table::addplayer(Player const& player)
 		{
-			int input_id = input.get_ID();
+			int input_id = player.get_ID();
 			for (auto i : PlayerList) {
 				if (i.get_ID() == input_id) {
 					cout << "The player is already on This table" << endl;
 					return false;
 				}
 			}
-			PlayerList.emplace_back(input);
+			PlayerList.emplace_back(player);
 			return true;
 		}
 	}

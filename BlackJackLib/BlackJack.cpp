@@ -171,5 +171,17 @@ namespace nagisakuya {
 				return std::to_string(suit + 1);
 			}
 		}
+		Hand operator+(Card const& f, Card const& l)
+		{
+			return Hand({ f , l });
+		}
+		Hand operator+(Hand const& h, Card const& c)
+		{
+			return Hand(h) += c;
+		}
+		Hand operator+(Card const& c, Hand const& h)
+		{
+			return Hand(h) += c;
+		}
 }
 }
