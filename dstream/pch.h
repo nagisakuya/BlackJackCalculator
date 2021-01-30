@@ -9,5 +9,7 @@
 
 // プリコンパイルするヘッダーをここに追加します
 #include "framework.h"
+#include <fstream>
+#include <iostream>
 
 #endif //PCH_H

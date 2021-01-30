@@ -8,7 +8,8 @@
 #define PCH_H
 
 // プリコンパイルするヘッダーをここに追加します
-#include "framework.h"
+#include "../Bijection/Bijection.h"
+#include "../dstream/dstream.h"
 #include <tuple>
 #include <unordered_map>
 #include <string>

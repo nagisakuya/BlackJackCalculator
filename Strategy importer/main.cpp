@@ -28,10 +28,10 @@ int main()
 		if (inputfile.eof()) {
 			break;
 		}
-		temp_int[0] = Translate(temp_string);
+		temp_int[0] = (int)Card(temp_string);
 		inputfile >> temp_string;
-		temp_int[1] = Translate(temp_string.substr(0, temp_string.find(",")));
-		temp_int[2] = Translate(temp_string.substr(temp_string.find(",") + 1));
+		temp_int[1] = (int)Card(temp_string.substr(0, temp_string.find(",")));
+		temp_int[2] = (int)Card(temp_string.substr(temp_string.find(",") + 1));
 		inputfile >> (*regular)[temp_int[0]][temp_int[1]][temp_int[2]][0];
 		inputfile >> (*regular)[temp_int[0]][temp_int[1]][temp_int[2]][1];
 		inputfile >> (*regular)[temp_int[0]][temp_int[1]][temp_int[2]][2];
@@ -45,9 +45,9 @@ int main()
 		if (inputfile.eof()) {
 			break;
 		}
-		temp_int[0] = Translate(temp_string);
+		temp_int[0] = (int)Card(temp_string);
 		inputfile >> temp_string;
-		temp_int[1] = Translate(temp_string.substr(0, temp_string.find(",")));
+		temp_int[1] = (int)Card(temp_string.substr(0, temp_string.find(",")));
 		inputfile >> (*splittable)[temp_int[0]][temp_int[1]][0];
 		inputfile >> (*splittable)[temp_int[0]][temp_int[1]][1];
 		inputfile >> (*splittable)[temp_int[0]][temp_int[1]][2];

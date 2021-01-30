@@ -148,8 +148,8 @@
     <ProjectReference Include="..\BlackJackLib\BlackJackLib.vcxproj">
       <Project>{a1fab05f-dd49-495e-b9b1-05cb53929818}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Utility\Utility.vcxproj">
-      <Project>{2e81c78c-f69b-4166-bfa1-1bb492cc15f2}</Project>
+    <ProjectReference Include="..\matrix\matrix.vcxproj">
+      <Project>{c73b6525-98fe-493c-a832-256c82f780cf}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

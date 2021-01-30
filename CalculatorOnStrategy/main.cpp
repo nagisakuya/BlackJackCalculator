@@ -1,6 +1,7 @@
 ﻿
-#include <iostream>
+
 #include "../BlackJackLib/BlackJackCalculator.h"
+#include <iostream>
 #include <fstream>
 
 using namespace nagisakuya::BlackJack;

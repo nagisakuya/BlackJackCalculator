@@ -10,6 +10,7 @@
 #include <sstream>
 #include <map>
 #include <algorithm>
+#include "../matrix/matrix.h"
 using namespace nagisakuya::BlackJack;
 using namespace nagisakuya::Utility;
 using namespace std;
@@ -51,11 +52,11 @@ void test_lambda1() {
 
 void test_lambda2() {
 	int a = 1;
-	auto lambda = [&]()->void {cout << a;};
+	auto lambda = [&]()->void {cout << a; };
 }
 
 void test_card() {
-	 cout << ((Card)"T").str();
+	cout << ((Card)"T").str();
 }
 
 void func1(int i) {};
@@ -79,9 +80,12 @@ void speed_test() {
 }
 
 void matrixtest() {
-	matrix<int, 2, 2> m({ {1,2},{3,4} });
+	matrix<int, 2, 3> m({ { {1,2,3},{3,4,5} } });
+	matrix<int, 3, 2> n({ { {4,3},{2,1},{3,3} } });
+	cout << m.str()<< endl;
+	cout << m.transpose().str() << endl;
 }
 
 int main() {
-	speed_test();
+	matrixtest();
 }

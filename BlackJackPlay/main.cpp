@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <ctime>
 #include "../BlackJackLib/BlackJack.h"
@@ -9,7 +8,7 @@ using namespace std;
 int main()
 {
 	srand((unsigned int)time(NULL));
-	Table test(8, Rule());
+	Table test(Deck(8), Rule());
 	string temp_s;
 	test.addplayer(Player(1));
 	test.replay();
