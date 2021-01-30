@@ -1,5 +1,8 @@
 #pragma once
 #include "pch.h"
+#include <sstream>
+#include <array>
+#include <functional>
 
 namespace nagisakuya {
 	namespace Utility {
@@ -25,11 +28,11 @@ namespace nagisakuya {
 			std::array<_Ty, _row> const& operator [](size_t t) const { return content[t]; }
 			std::array<_Ty, _row>& operator [](size_t t) { return content[t]; }
 			matrix<_Ty, _column, _row>& operator +=(matrix<_Ty, _column, _row> const& m) {
-				matrix<_Ty, _column, _row>::foreach([&](size_t i, size_t j) {content[i][j] = content[i][j] + m[i][j]; });
+				foreach([&](size_t i, size_t j) {content[i][j] = content[i][j] + m[i][j]; });
 				return *this;
 			}
 			matrix<_Ty, _column, _row>& operator -=(matrix<_Ty, _column, _row> const& m) {
-				matrix<_Ty, _column, _row>::foreach([&](size_t i, size_t j) {content[i][j] = content[i][j] - m[i][j]; });
+				foreach([&](size_t i, size_t j) {content[i][j] = content[i][j] - m[i][j]; });
 				return *this;
 			}
 			matrix<_Ty, _column, _row>& operator *=(size_t i) {

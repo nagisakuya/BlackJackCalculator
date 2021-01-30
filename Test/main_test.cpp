@@ -9,10 +9,13 @@
 #include <ctime>
 #include <sstream>
 #include <map>
+#include <random>
 #include <algorithm>
 #include "../matrix/matrix.h"
+#include "../neural network/neuralnetwork.h"
 using namespace nagisakuya::BlackJack;
 using namespace nagisakuya::Utility;
+using namespace nagisakuya::neural;
 using namespace std;
 
 void test_strategy1() {
@@ -87,5 +90,28 @@ void matrixtest() {
 }
 
 int main() {
-	matrixtest();
+	NeuralNetwork<2, 100, 1> XOR;
+	array<double, 1> result;
+	result = XOR.calculate({ {1,1} });
+	std::cout << result[0] << endl;
+	result = XOR.calculate({ {1,0} });
+	std::cout << result[0] << endl;
+	result = XOR.calculate({ {0,1} });
+	std::cout << result[0] << endl;
+	result = XOR.calculate({ {0,0} });
+	std::cout << result[0] << endl;
+	for (size_t i = 0; i < 17; i++)
+	{
+		double input1 = rand() % 2;
+		double input2 = rand() % 2;
+		XOR.study({ {input1,input2} }, { {(double)((bool)input1^(bool)input2)} });
+	}
+	result = XOR.calculate({ {1,1} });
+	std::cout << result[0] << endl;
+	result = XOR.calculate({ {1,0} });
+	std::cout << result[0] << endl;
+	result = XOR.calculate({ {0,1} });
+	std::cout << result[0] << endl;
+	result = XOR.calculate({ {0,0} });
+	std::cout << result[0] << endl;
 }

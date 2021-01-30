@@ -75,13 +75,14 @@ namespace nagisakuya {
 		class Hand {
 		protected:
 			std::vector<Card> cards;
-		public:
+		public: 
 			Hand(std::vector<Card> const& input = {}) { cards = input; }
 			void add(Card const& input) { cards.emplace_back(input); }
 			size_t size() const { return cards.size(); }
 			/// <returns>tuple&lt;sum,issoft,isBJ&gt;</returns>
 			inline std::tuple<int, bool, bool> CheckHand() const;
 			virtual void print() const;
+			Card & operator [](int i) { return cards[i]; }
 			Card const& operator [](int i) const { return cards[i]; }
 			Hand& operator +=(Card const& c) { add(c); return *this; }
 		};
@@ -148,7 +149,7 @@ namespace nagisakuya {
 				Strategy::Option& get_ref(Card const& dealer, Card const& player) { return list[(int)dealer][(int)player]; }
 			public:
 				Splittable();
-				Strategy::Option get(Card const& dealer, Card const& player) const { return list[(int)dealer][(int)player]; }
+				Strategy::Option const& get(Card const& dealer, Card const& player) const { return list[(int)dealer][(int)player]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
@@ -159,7 +160,7 @@ namespace nagisakuya {
 				Strategy::Option& get_ref(Card const& dealer, Card const& player_nonAcard) { return list[(int)dealer][(int)player_nonAcard - 1]; }
 			public:
 				Soft();
-				Strategy::Option get(Card const& dealer, int player_sum) const { return list[(int)dealer][player_sum - 11 - 1 - 1]; }
+				Strategy::Option const& get(Card const& dealer, int player_sum) const { return list[(int)dealer][player_sum - 11 - 1 - 1]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
@@ -170,7 +171,7 @@ namespace nagisakuya {
 				Strategy::Option& get_ref(Card const& dealer, int player_sum) { if (player_sum >= 17)return list[(int)dealer][9]; if (player_sum <= 8)return list[(int)dealer][0]; return list[(int)dealer][player_sum - 8]; }
 			public:
 				Hard();
-				Strategy::Option get(Card const& dealer, int player_sum) const { if (player_sum >= 17)return list[(int)dealer][9]; if (player_sum <= 8)return list[(int)dealer][0]; return list[(int)dealer][player_sum - 8]; }
+				Strategy::Option const& get(Card const& dealer, int player_sum) const { if (player_sum >= 17)return list[(int)dealer][9]; if (player_sum <= 8)return list[(int)dealer][0]; return list[(int)dealer][player_sum - 8]; }
 				void import(std::istream&);
 				std::string print();
 				std::string print_initializer_list();
