@@ -41,7 +41,11 @@ namespace nagisakuya {
 			}
 			template<typename _nTy>
 			operator _nTy() const { matrix<_nTy, _column, _row> re; foreach([&](size_t i, size_t j) {re[i][j] = (_nTy)content[i][j]; }); return re; }
-			std::string str() const { std::stringstream ss; foreach([&](size_t i, size_t j) {ss << content[i][j] << ",\t"; }, [&](size_t) { ss << "\n"; }); return ss.str(); }
+			std::string str() const { 
+				std::stringstream ss; 
+				foreach([&](size_t i, size_t j) {ss << content[i][j] << ",\t"; }, [&](size_t) { ss << "\n"; }); 
+				return ss.str(); 
+			}
 		};
 		template <typename _Ty, size_t _column, size_t _row>
 		const matrix<_Ty, _column, _row> operator +(matrix<_Ty, _column ,_row> const& f,matrix<_Ty, _column, _row> const& s) {

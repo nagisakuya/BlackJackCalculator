@@ -90,8 +90,9 @@ void matrixtest() {
 }
 
 int main() {
-	NeuralNetwork<2, 100, 1> XOR;
+	NeuralNetwork<2, 30, 1> logic(0.03);
 	array<double, 1> result;
+	/*
 	result = XOR.calculate({ {1,1} });
 	std::cout << result[0] << endl;
 	result = XOR.calculate({ {1,0} });
@@ -100,18 +101,20 @@ int main() {
 	std::cout << result[0] << endl;
 	result = XOR.calculate({ {0,0} });
 	std::cout << result[0] << endl;
-	for (size_t i = 0; i < 17; i++)
+	*/
+	for (size_t i = 0; i < 1000; i++)
 	{
-		double input1 = rand() % 2;
-		double input2 = rand() % 2;
-		XOR.study({ {input1,input2} }, { {(double)((bool)input1^(bool)input2)} });
+		logic.study({ {1,1} }, { {0} });
+		logic.study({ {1,0} }, { {1} });
+		logic.study({ {0,1} }, { {1} });
+		logic.study({ {0,0} }, { {0} });
 	}
-	result = XOR.calculate({ {1,1} });
-	std::cout << result[0] << endl;
-	result = XOR.calculate({ {1,0} });
-	std::cout << result[0] << endl;
-	result = XOR.calculate({ {0,1} });
-	std::cout << result[0] << endl;
-	result = XOR.calculate({ {0,0} });
-	std::cout << result[0] << endl;
+	result = logic.calculate({ {1,1} });
+	std::cout << "(1,1) = " << result[0] << endl;
+	result = logic.calculate({ {1,0} });
+	std::cout << "(1,0) = " << result[0] << endl;
+	result = logic.calculate({ {0,1} });
+	std::cout << "(0,1) = " << result[0] << endl;
+	result = logic.calculate({ {0,0} });
+	std::cout << "(0,0) = " << result[0] << endl;
 }
