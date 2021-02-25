@@ -89,32 +89,76 @@ void matrixtest() {
 	cout << m.transpose().str() << endl;
 }
 
-int main() {
-	NeuralNetwork<2, 30, 1> logic(0.03);
-	array<double, 1> result;
-	/*
-	result = XOR.calculate({ {1,1} });
-	std::cout << result[0] << endl;
-	result = XOR.calculate({ {1,0} });
-	std::cout << result[0] << endl;
-	result = XOR.calculate({ {0,1} });
-	std::cout << result[0] << endl;
-	result = XOR.calculate({ {0,0} });
-	std::cout << result[0] << endl;
-	*/
-	for (size_t i = 0; i < 1000; i++)
-	{
-		logic.study({ {1,1} }, { {0} });
-		logic.study({ {1,0} }, { {1} });
-		logic.study({ {0,1} }, { {1} });
-		logic.study({ {0,0} }, { {0} });
+string split(const string& src, const char* delim = ",") {
+	stringstream ss;
+	string::size_type len = src.length();
+	for (string::size_type i = 0, n; i < len; i = n + 1) {
+		n = src.find_first_of(delim, i);
+		if (n == string::npos) {
+			n = len;
+		}
+		ss << src.substr(i, n - i) << " ";
 	}
-	result = logic.calculate({ {1,1} });
-	std::cout << "(1,1) = " << result[0] << endl;
-	result = logic.calculate({ {1,0} });
-	std::cout << "(1,0) = " << result[0] << endl;
-	result = logic.calculate({ {0,1} });
-	std::cout << "(0,1) = " << result[0] << endl;
-	result = logic.calculate({ {0,0} });
-	std::cout << "(0,0) = " << result[0] << endl;
+	return ss.str();
+}
+
+int main() {
+	auto* mnist = new ThreeLayersNeural<784, 70, 10>(0.01);
+	ifstream file;
+	file.open("mnist_train.csv" , ios_base::in);
+	for (size_t i = 0; i < 60000; i++)
+	{
+		string buffer;
+		file >> buffer;
+		stringstream ss(split(buffer));
+		int answer;
+		ss >> answer;
+		array<double, 10> teacher;
+		teacher.fill(0);
+		teacher[answer] = 1.0;
+		array<double, 784> input;
+		for (size_t i = 0; i < 784; i++)
+		{
+			ss >> input[i];
+			input[i] = (input[i] + 1) / 256 ;
+		}
+		mnist->study(input, teacher);
+		if (i % 6000 == 0)
+		{
+			cout << i / 600 << "% of studies compleated" << endl;
+		}
+	}
+	file.close();
+	file.open("mnist_test.csv" , ios_base::in);
+	int correct_count = 0;
+	for (size_t i = 0; i < 10000; i++)
+	{
+		string buffer;
+		file >> buffer;
+		stringstream ss(split(buffer));
+		int answer;
+		ss >> answer;
+		array<double, 784> input;
+		for (size_t i = 0; i < 28 * 28; i++)
+		{
+			ss >> input[i];
+			input[i] = (input[i] + 1) / 256;
+		}
+		array<double, 10> temp = mnist->calculate(input);
+		double max = 0;
+		double number;
+		for (size_t i = 0; i < 10; i++)
+		{
+			if (temp[i] > max) {
+				max = temp[i];
+				number = i;
+			}
+		}
+		if (number == answer) {
+			correct_count++;
+		}
+		cout << number << " " << answer << (number == answer ? "correct" : "incorrect") << endl;
+	}
+	file.close();
+	cout << "CorrectRate " << correct_count / 10000.0;
 }
