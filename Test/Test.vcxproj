@@ -152,6 +152,10 @@
       <Project>{c73b6525-98fe-493c-a832-256c82f780cf}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\neural network\mnist_test.csv" />
+    <None Include="..\neural network\mnist_train.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

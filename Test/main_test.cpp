@@ -106,6 +106,9 @@ int main() {
 	auto* mnist = new ThreeLayersNeural<784, 70, 10>(0.01);
 	ifstream file;
 	file.open("mnist_train.csv" , ios_base::in);
+	if (!file.is_open()) {
+		exit(0);
+	}
 	for (size_t i = 0; i < 60000; i++)
 	{
 		string buffer;
@@ -139,7 +142,7 @@ int main() {
 		int answer;
 		ss >> answer;
 		array<double, 784> input;
-		for (size_t i = 0; i < 28 * 28; i++)
+		for (size_t i = 0; i < 784; i++)
 		{
 			ss >> input[i];
 			input[i] = (input[i] + 1) / 256;

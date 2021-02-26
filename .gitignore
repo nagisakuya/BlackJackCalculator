@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/neural network/mnist_test.csv
+/neural network/mnist_train.csv
+/Test/mnist_test.csv
+/Test/mnist_train.csv

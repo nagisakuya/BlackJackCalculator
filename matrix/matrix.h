@@ -27,6 +27,16 @@ namespace nagisakuya {
 			matrix<_Ty, _row, _column> transpose() const { matrix<_Ty, _row, _column>re; foreach([&](size_t i, size_t j) {re[j][i] = content[i][j]; }); return re; }
 			std::array<_Ty, _row> const& operator [](size_t t) const { return content[t]; }
 			std::array<_Ty, _row>& operator [](size_t t) { return content[t]; }
+			/*template <size_t _srow>
+			const matrix<_Ty, _column, _srow> operator *(matrix<_Ty, _row, _srow> const& s) {
+				matrix<_Ty, _column, _srow> re;
+				foreach([&](size_t i, size_t j) {
+					for (size_t k = 0; k < _srow; k++) {
+						re[i][k] += this->operator[](i)[j] * s[j][k];//配列を横に動いてから縦に動くのでメモリアクセス的に高速なはず
+					}
+					});
+				return re;
+			}*/
 			matrix<_Ty, _column, _row>& operator +=(matrix<_Ty, _column, _row> const& m) {
 				foreach([&](size_t i, size_t j) {content[i][j] = content[i][j] + m[i][j]; });
 				return *this;
@@ -63,7 +73,6 @@ namespace nagisakuya {
 					re[i][k] += f[i][j] * s[j][k];//配列を横に動いてから縦に動くのでメモリアクセス的に高速なはず
 				}
 				});
-
 			return re;
 		}
 		template <typename _Ty, size_t _column, size_t _row>
@@ -72,7 +81,7 @@ namespace nagisakuya {
 		}
 		template <typename _Ty, size_t _column, size_t _row>
 		const matrix<_Ty, _column, _row> operator *( matrix<_Ty, _column, _row> const& m , size_t i) {
-			return m * i;
+			return matrix<_Ty, _column, _row>(m) *= i;
 		}
 	}
 }

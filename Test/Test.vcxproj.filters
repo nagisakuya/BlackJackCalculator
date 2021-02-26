@@ -24,4 +24,12 @@
       <Filter>リソース ファイル</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\neural network\mnist_train.csv">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="..\neural network\mnist_test.csv">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
 </Project>
