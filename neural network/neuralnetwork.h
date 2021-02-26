@@ -31,6 +31,9 @@ namespace nagisakuya {
 		double softmax( double d) {
 
 		}
+		double softmax_dif(double d) {
+
+		}
 		const std::unordered_map<Activator, std::pair<std::function<double(double)>, std::function<double(double)>>> activator_to_func = { {Activator::sigmoid,std::make_pair(*sigmoid , *sigmoid_dif)},{Activator::ReLU,std::make_pair(*ReLU,*ReLU_dif)} };
 		void avoid_flow(double& d, double upper_range = 1.0e300, double under_range = 1.0e-300) {
 			if (d < -upper_range) d = -upper_range;
@@ -38,59 +41,50 @@ namespace nagisakuya {
 			if (d > upper_range) d = upper_range;
 		}
 		template<size_t _Size>
-		class Layer {
-		private:
-			matrix<double, _Size, 1> nodes;
+		class Layer : public matrix<double, _Size, 1>{
 		public:
 			Layer() {};
-			Layer(matrix<double, _Size, 1> m) { nodes = m; }
-			operator matrix<double, _Size, 1>() { return nodes; }
+			Layer(matrix<double, _Size, 1> const& matrix) { this->contents = matrix.get_contents(); }
 			Layer(std::array<double, _Size> ar) {
 				for (size_t i = 0; i < _Size; i++)
 				{
-					nodes[i][0] = ar[i];
+					this->operator[](i) = ar[i];
 				}
 			}
 			operator std::array<double, _Size>() {
 				std::array<double, _Size> re;
 				for (size_t i = 0; i < _Size; i++) {
-					re[i] = nodes[i][0];
+					re[i] = this->operator[](i);
 				}
 				return re;
 			}
-			double& operator[](size_t i) { return nodes[i][0]; }
+			double& operator[](size_t i) { return this->contents[i][0]; }
 			void activate(Activator activator) {
 				for (size_t i = 0; i < _Size; i++) {
 					{
-						nodes[i][0] = activator_to_func.at(activator).first(nodes[i][0]);
+						this->operator[](i) = activator_to_func.at(activator).first(this->operator[](i));
 					}
 				}
 			}
 		};
 		template<size_t _In, size_t _Out>
-		class Weight {
-		private:
-			matrix<double, _Out, _In> weight;
+		class Weight : public matrix<double, _Out, _In> {
 		public:
 			Weight() {};
-			Weight(matrix<double, _Out, _In> const& m) { weight = m; };
+			Weight(matrix<double, _Out, _In> const& matrix) {this->contents= matrix.get_contents(); };
 			void renew(Layer<_In> input, Layer<_Out> delta, double learning_rate) {
-				weight.foreach([&](size_t i, size_t j) {weight[i][j] -= learning_rate * delta[i] * input[j];  avoid_flow(weight[i][j]); });
+				this->foreach([&](size_t i, size_t j) {this->contents[i][j] -= learning_rate * delta[i] * input[j];  avoid_flow(this->contents[i][j]); });
 			}
-			Weight<_Out, _In> transpose() { return weight.transpose(); };
-			operator matrix<double, _Out, _In>() { return weight; }
-			std::array<double, _In> operator[](size_t i) { return weight[i]; }
+			std::array<double, _In> operator[](size_t i) { return this->contents[i]; }
 			void randamize(double range = 1.0) {
 				std::uniform_real_distribution<> rnd(-range, range);
-				weight.foreach([&](size_t i, size_t j) {weight[i][j] = rnd(engine); });
+				this->foreach([&](size_t i, size_t j) {this->contents[i][j] = rnd(engine); });
 			}
 			void distribution(double deviation = 1.0) {
 				std::normal_distribution<> dist(0.0, 1.0);
-				weight.foreach([&](size_t i, size_t j) {weight[i][j] = dist(engine); });
+				this->foreach([&](size_t i, size_t j) {this->contents[i][j] = dist(engine); });
 			}
 		};
-		template<size_t _In, size_t _Out>
-		Layer<_Out> const operator*(Weight<_In, _Out> weight, Layer<_In> layer) { return (matrix<double, _Out, _In>)weight * (matrix<double, _In, 1>)layer; }
 		template<size_t _In, size_t _Hid, size_t _Out>
 		class ThreeLayersNeural {
 		private:

@@ -103,7 +103,7 @@ string split(const string& src, const char* delim = ",") {
 }
 
 int main() {
-	auto* mnist = new ThreeLayersNeural<784, 70, 10>(0.01);
+	auto* mnist = new ThreeLayersNeural<784, 100, 10>(0.01);
 	ifstream file;
 	file.open("mnist_train.csv" , ios_base::in);
 	if (!file.is_open()) {
