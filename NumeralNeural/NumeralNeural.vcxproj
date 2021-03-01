@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{faa17cde-3b9e-45f9-8d17-6d1a480227d8}</ProjectGuid>
-    <RootNamespace>Test</RootNamespace>
+    <ProjectGuid>{a6074279-5f19-4e61-8efb-bc75669e34cd}</ProjectGuid>
+    <RootNamespace>NumeralNeural</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,21 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main_test.cpp" />
+    <ClCompile Include="NumeralNeural.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="BasicStrategy.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BlackJackLib\BlackJackLib.vcxproj">
-      <Project>{a1fab05f-dd49-495e-b9b1-05cb53929818}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\matrix\matrix.vcxproj">
       <Project>{c73b6525-98fe-493c-a832-256c82f780cf}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="test.h" />
+    <ProjectReference Include="..\neural network\neural network.vcxproj">
+      <Project>{25238bed-2e0c-45de-a4e0-fc8ca7103160}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

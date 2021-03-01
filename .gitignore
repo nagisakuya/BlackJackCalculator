@@ -342,3 +342,5 @@ healthchecksdb
 /neural network/mnist_train.csv
 /Test/mnist_test.csv
 /Test/mnist_train.csv
+/NumeralNeural/mnist_test.csv
+/NumeralNeural/mnist_train.csv
